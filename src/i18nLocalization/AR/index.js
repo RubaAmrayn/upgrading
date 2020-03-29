@@ -1,4 +1,5 @@
 const Login = require("./loginText");
+const Sign = require("./signText");
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -46,5 +47,6 @@ export default {
     am: "صباحاً",
     pm: "مساءً"
   },
-  Login
+  Login,
+  Sign
 };
