@@ -6,7 +6,7 @@ module.exports = {
   nameHint: "يرجى كتابة الاسم الثلاثي",
   nameError: "يجب كتابة الاسم الثلاثي",
   dateLabel: "تاريخ ميلادك",
-  dateHint: "يوم - شهر - سنة",
+  dateHint: "قم باختيار السنه ثم الشهر ثم اليوم",
   dateError: "يجب اختيار تاريخ الميلاد",
   genderLabel: "الجنس",
   genderError: "يجب اختيار الجنس",

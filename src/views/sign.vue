@@ -39,7 +39,7 @@
                         v-model="menu"
                         :close-on-content-click="false"
                         :nudge-right="40"
-                        transition="scale-transition"
+                        transition="slide-y-transition"
                         offset-y
                         min-width="290px"
                       >
@@ -50,13 +50,21 @@
                             :label="DateLabel"
                             outlined
                             :hint="DateHint"
+                            persistent-hint
                             readonly
                             v-on="on"
+                            @focus="menu = true"
                           ></v-text-field>
                         </template>
                         <v-date-picker
+                          ref="picker"
                           v-model="date"
+                          year-icon="mdi-calendar-outline"
+                          :max="new Date().toISOString().substr(0, 10)"
+                          min="1950-01-01"
+                          show-current="2013-07"
                           @input="menu = false"
+                          @change="save"
                         ></v-date-picker>
                       </v-menu>
 
@@ -144,9 +152,15 @@ export default {
       steps: 1,
       editable: false,
       menu: false,
+      date: null,
       select: null,
       items: ["ذكر", "انثى"]
     };
+  },
+  watch: {
+    menu(val) {
+      val && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
+    }
   },
   computed: {
     FirstStep() {
@@ -229,7 +243,9 @@ export default {
     onInput(val) {
       this.steps = parseInt(val);
     },
-
+    save(date) {
+      this.$refs.menu.save(date);
+    },
     register() {}
   }
 };
