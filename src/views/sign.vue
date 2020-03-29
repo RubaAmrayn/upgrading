@@ -22,12 +22,12 @@
 
             <v-stepper-items>
               <v-stepper-content step="1">
-                <v-card class="mb-5" color=" lighten-1" height="320px">
+                <v-card class="mb-5" height="320px">
                   <v-card-title>
                     <span>{{ CreateAccount }}</span>
                   </v-card-title>
                   <v-card-text class="pb-0">
-                    <v-form ref="LoginForm" lazy-validation>
+                    <v-form ref="SignForm" lazy-validation>
                       <v-text-field
                         prepend-inner-icon="mdi-account"
                         :label="NameLabel"
@@ -79,9 +79,13 @@
                     </v-form>
                   </v-card-text>
                 </v-card>
-                <v-btn color="primary" @click="steps = 2">{{
-                  BtnFirstStep
-                }}</v-btn>
+                <v-row justify="end">
+                  <v-col cols="4">
+                    <v-btn block color="primary" @click="steps = 2">
+                      {{ BtnFirstStep }}
+                    </v-btn>
+                  </v-col>
+                </v-row>
               </v-stepper-content>
 
               <v-divider></v-divider>
@@ -131,9 +135,18 @@
                   </v-card-text>
                 </v-card>
 
-                <v-btn color="primary" @click="register">{{ RegsBtn }}</v-btn>
-
-                <v-btn text @click="steps = 1">{{ BtnSecondStep }}</v-btn>
+                <v-row justify="end">
+                  <v-col cols="3">
+                    <v-btn block text @click="steps = 1">{{
+                      BtnSecondStep
+                    }}</v-btn>
+                  </v-col>
+                  <v-col cols="4">
+                    <v-btn block color="primary" @click="register">{{
+                      RegsBtn
+                    }}</v-btn>
+                  </v-col>
+                </v-row>
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
