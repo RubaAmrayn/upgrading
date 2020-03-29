@@ -9,14 +9,14 @@
         >
           <v-stepper v-model="steps" alt-labels non-linear>
             <v-stepper-header>
-              <v-stepper-step complete step="1" :editable="steps == 1"
-                >البيانات الشخصية</v-stepper-step
-              >
+              <v-stepper-step complete step="1" :editable="steps == 1">{{
+                FirstStep
+              }}</v-stepper-step>
               <v-stepper-step
                 :complete="steps == 2"
                 step="2"
                 :editable="steps === 2"
-                >بيانات الدخول</v-stepper-step
+                >{{ SecondStep }}</v-stepper-step
               >
             </v-stepper-header>
 
@@ -24,15 +24,15 @@
               <v-stepper-content step="1">
                 <v-card class="mb-5" color=" lighten-1" height="320px">
                   <v-card-title>
-                    <span>انشئ حسابك</span>
+                    <span>{{ CreateAccount }}</span>
                   </v-card-title>
                   <v-card-text class="pb-0">
                     <v-form ref="LoginForm" lazy-validation>
                       <v-text-field
                         prepend-inner-icon="mdi-account"
-                        label="اسمك الكامل"
+                        :label="NameLable"
                         outlined
-                        hint="يرجى كتابة الاسم الثلاثي"
+                        :hint="NameHint"
                         required
                       ></v-text-field>
                       <v-menu
@@ -47,9 +47,9 @@
                           <v-text-field
                             prepend-inner-icon="mdi-calendar-month"
                             v-model="date"
-                            label="تاريخ ميلادك"
+                            :label="DateLabel"
                             outlined
-                            hint="يوم - شهر - سنة"
+                            :hint="DateHint"
                             readonly
                             v-on="on"
                           ></v-text-field>
@@ -64,14 +64,16 @@
                         prepend-inner-icon="mdi-gender-female"
                         v-model="select"
                         :items="items"
-                        label="الجنس"
+                        :label="GenderLabel"
                         outlined
                         required
                       ></v-select>
                     </v-form>
                   </v-card-text>
                 </v-card>
-                <v-btn color="primary" @click="steps = 2">Continue</v-btn>
+                <v-btn color="primary" @click="steps = 2">{{
+                  BtnFirstStep
+                }}</v-btn>
               </v-stepper-content>
 
               <v-divider></v-divider>
@@ -79,7 +81,7 @@
               <v-stepper-content step="2">
                 <v-card class="mb-5" color=" lighten-1" height="400px">
                   <v-card-title>
-                    <span>انشئ حسابك</span>
+                    <span>{{ CreateAccount }}</span>
                   </v-card-title>
                   <v-card-text class="pb-0">
                     <v-form ref="LoginForm" lazy-validation>
@@ -94,16 +96,16 @@
 
                       <v-text-field
                         prepend-inner-icon="mdi-lock"
-                        label="كلمة المرور"
+                        :label="PasswordLabel"
                         outlined
                         type="password"
-                        hint="لا تقل عن ستة حروف وارقام"
+                        :hint="PasswordHint"
                         required
                       ></v-text-field>
                       <v-text-field
                         class="bt:1px"
                         prepend-inner-icon="mdi-at"
-                        label="الايميل"
+                        :label="EmailLable"
                         outlined
                         type="email"
                         hint="yy@gmail.com"
@@ -111,7 +113,7 @@
                       ></v-text-field>
                       <v-text-field
                         prepend-inner-icon="mdi-phone"
-                        label="رقم جوالك"
+                        :label="PhoneLabel"
                         outlined
                         type="text"
                         hint="050XXXXXXX"
@@ -121,9 +123,9 @@
                   </v-card-text>
                 </v-card>
 
-                <v-btn color="primary" @click="register">register</v-btn>
+                <v-btn color="primary" @click="register">{{ RegsBtn }}</v-btn>
 
-                <v-btn text @click="steps = 1">Back</v-btn>
+                <v-btn text @click="steps = 1">{{ BtnSecondStep }}</v-btn>
               </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
@@ -146,7 +148,83 @@ export default {
       items: ["ذكر", "انثى"]
     };
   },
-  computed: {},
+  computed: {
+    firstStep() {
+      return this.$vuetify.lang.t("$vuetify.Sign.FirstStep");
+    },
+    SecondStep() {
+      return this.$vuetify.lang.t("$vuetify.Sign.SecondStep");
+    },
+    CreateAccount() {
+      return this.$vuetify.lang.t("$vuetify.Sign.CreateAccount");
+    },
+    NameLable() {
+      return this.$vuetify.lang.t("$vuetify.Sign.NameLable");
+    },
+    NameHint() {
+      return this.$vuetify.lang.t("$vuetify.Sign.NameHint");
+    },
+    NameError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.NameError");
+    },
+    DateLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.DateLabel");
+    },
+    DateHint() {
+      return this.$vuetify.lang.t("$vuetify.Sign.DateHint");
+    },
+    DateError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.DateError");
+    },
+    GenderLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.GenderLabel");
+    },
+    GenderError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.GenderError");
+    },
+    BtnFirstStep() {
+      return this.$vuetify.lang.t("$vuetify.Sign.BtnFirstStep");
+    },
+    UsernameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Login.username");
+    },
+    UsernameHint() {
+      return this.$vuetify.lang.t("$vuetify.Login.usernameHint");
+    },
+    UsernameError() {
+      return this.$vuetify.lang.t("$vuetify.Login.usernameError");
+    },
+    PasswordLabel() {
+      return this.$vuetify.lang.t("$vuetify.Login.password");
+    },
+    PasswordHint() {
+      return this.$vuetify.lang.t("$vuetify.Login.passwordHint");
+    },
+    PasswordError() {
+      return this.$vuetify.lang.t("$vuetify.Login.passwordError");
+    },
+    PasswordLengthError() {
+      return this.$vuetify.lang.t("$vuetify.Login.passwordLengthError");
+    },
+    EmailLable() {
+      return this.$vuetify.lang.t("$vuetify.Sign.EmailLable");
+    },
+    EmailError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.EmailError");
+    },
+    PhoneLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.PhoneLabel");
+    },
+    PhonError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.PhonError");
+    },
+    RegsBtn() {
+      return this.$vuetify.lang.t("$vuetify.Sign.RegsBtn");
+    },
+    BtnSecondStep() {
+      return this.$vuetify.lang.t("$vuetify.Sign.BtnSecondStep");
+    }
+  },
   methods: {
     onInput(val) {
       this.steps = parseInt(val);

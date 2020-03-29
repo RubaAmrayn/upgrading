@@ -1,0 +1,20 @@
+module.exports = {
+  FirstStep: "البيانات الشخصية",
+  SecondStep: "بيانات الدخول",
+  CreateAccount: "أنشئ حسابك",
+  NameLable: "اسمك الكامل",
+  NameHint: "يرجى كتابة الاسم الثلاثي",
+  NameError: "يجب كتابة الاسم الثلاثي",
+  DateLabel: "تاريخ ميلادك",
+  DateHint: "يوم - شهر - سنة",
+  DateError: "يجب اختيار تاريخ الميلاد",
+  GenderLabel: "الجنس",
+  GenderError: "يجب اختيار الجنس",
+  BtnFirstStep: "التالي",
+  EmailLable: "الايميل",
+  EmailError: "الايميل غير صحيح",
+  PhoneLabel: "رقم الجوال",
+  PhonError: "رقم الجوال غير صحيح",
+  RegsBtn: "تسجيل",
+  BtnSecondStep: "الخلف"
+};
