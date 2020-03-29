@@ -10,7 +10,7 @@
           <v-card-title class="pramiry-title">
             <v-img
               class="align-end"
-              src="../../img/upgrad.jpg"
+              src="@/assets/upgrad.jpg"
               contain
               aspect-ratio="3.14"
             ></v-img>
@@ -53,7 +53,7 @@
                   </v-btn>
                 </v-col>
                 <v-col cols="12" sm="12" md="12" lg="12" xl="12" class="py-1">
-                  <router-link to="/account">
+                  <router-link to="/sign">
                     {{ CreateAccount }}
                   </router-link>
                 </v-col>
