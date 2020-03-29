@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center" align="center" style="height:100vh">
-      <v-col cols="4">
+      <v-col cols="12" sm="10" md="5" lg="4" xl="4">
         <v-card
           loader-height="10"
           :loading="connectionState"
