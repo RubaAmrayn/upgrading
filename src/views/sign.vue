@@ -30,7 +30,7 @@
                     <v-form ref="LoginForm" lazy-validation>
                       <v-text-field
                         prepend-inner-icon="mdi-account"
-                        :label="NameLable"
+                        :label="NameLabel"
                         outlined
                         :hint="NameHint"
                         required
@@ -105,7 +105,7 @@
                       <v-text-field
                         class="bt:1px"
                         prepend-inner-icon="mdi-at"
-                        :label="EmailLable"
+                        :label="EmailLabel"
                         outlined
                         type="email"
                         hint="yy@gmail.com"
@@ -149,41 +149,41 @@ export default {
     };
   },
   computed: {
-    firstStep() {
-      return this.$vuetify.lang.t("$vuetify.Sign.FirstStep");
+    FirstStep() {
+      return this.$vuetify.lang.t("$vuetify.Sign.firstStep");
     },
     SecondStep() {
-      return this.$vuetify.lang.t("$vuetify.Sign.SecondStep");
+      return this.$vuetify.lang.t("$vuetify.Sign.secondStep");
     },
     CreateAccount() {
-      return this.$vuetify.lang.t("$vuetify.Sign.CreateAccount");
+      return this.$vuetify.lang.t("$vuetify.Sign.createAccount");
     },
-    NameLable() {
-      return this.$vuetify.lang.t("$vuetify.Sign.NameLable");
+    NameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.nameLabel");
     },
     NameHint() {
-      return this.$vuetify.lang.t("$vuetify.Sign.NameHint");
+      return this.$vuetify.lang.t("$vuetify.Sign.nameHint");
     },
     NameError() {
-      return this.$vuetify.lang.t("$vuetify.Sign.NameError");
+      return this.$vuetify.lang.t("$vuetify.Sign.nameError");
     },
     DateLabel() {
-      return this.$vuetify.lang.t("$vuetify.Sign.DateLabel");
+      return this.$vuetify.lang.t("$vuetify.Sign.dateLabel");
     },
     DateHint() {
-      return this.$vuetify.lang.t("$vuetify.Sign.DateHint");
+      return this.$vuetify.lang.t("$vuetify.Sign.dateHint");
     },
     DateError() {
-      return this.$vuetify.lang.t("$vuetify.Sign.DateError");
+      return this.$vuetify.lang.t("$vuetify.Sign.dateError");
     },
     GenderLabel() {
-      return this.$vuetify.lang.t("$vuetify.Sign.GenderLabel");
+      return this.$vuetify.lang.t("$vuetify.Sign.genderLabel");
     },
     GenderError() {
-      return this.$vuetify.lang.t("$vuetify.Sign.GenderError");
+      return this.$vuetify.lang.t("$vuetify.Sign.genderError");
     },
     BtnFirstStep() {
-      return this.$vuetify.lang.t("$vuetify.Sign.BtnFirstStep");
+      return this.$vuetify.lang.t("$vuetify.Sign.btnFirstStep");
     },
     UsernameLabel() {
       return this.$vuetify.lang.t("$vuetify.Login.username");
@@ -206,23 +206,23 @@ export default {
     PasswordLengthError() {
       return this.$vuetify.lang.t("$vuetify.Login.passwordLengthError");
     },
-    EmailLable() {
-      return this.$vuetify.lang.t("$vuetify.Sign.EmailLable");
+    EmailLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.emailLabel");
     },
     EmailError() {
-      return this.$vuetify.lang.t("$vuetify.Sign.EmailError");
+      return this.$vuetify.lang.t("$vuetify.Sign.emailError");
     },
     PhoneLabel() {
-      return this.$vuetify.lang.t("$vuetify.Sign.PhoneLabel");
+      return this.$vuetify.lang.t("$vuetify.Sign.phoneLabel");
     },
     PhonError() {
-      return this.$vuetify.lang.t("$vuetify.Sign.PhonError");
+      return this.$vuetify.lang.t("$vuetify.Sign.phonError");
     },
     RegsBtn() {
-      return this.$vuetify.lang.t("$vuetify.Sign.RegsBtn");
+      return this.$vuetify.lang.t("$vuetify.Sign.regsBtn");
     },
     BtnSecondStep() {
-      return this.$vuetify.lang.t("$vuetify.Sign.BtnSecondStep");
+      return this.$vuetify.lang.t("$vuetify.Sign.btnSecondStep");
     }
   },
   methods: {

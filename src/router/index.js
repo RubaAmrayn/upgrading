@@ -28,7 +28,7 @@ const routes = [
   },
   {
     path: "/Sign",
-    name: "Sign",
+    name: "sign",
     component: function() {
       return import("../views/sign");
     }
