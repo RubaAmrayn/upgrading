@@ -2,7 +2,6 @@ import Vue from "vue";
 import Vuetify from "vuetify/lib";
 import "@mdi/font/css/materialdesignicons.css";
 import ar from "../i18nLocalization/AR/index";
-
 Vue.use(Vuetify);
 
 export default new Vuetify({

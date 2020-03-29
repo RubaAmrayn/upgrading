@@ -150,16 +150,16 @@ export default {
   },
   computed: {
     FirstStep() {
-      return this.$vuetify.lang.t("$vuetify.sign.firstStep");
+      return this.$vuetify.lang.t("$vuetify.Sign.firstStep");
     },
     SecondStep() {
-      return this.$vuetify.lang.t("$vuetify.sign.secondStep");
+      return this.$vuetify.lang.t("$vuetify.Sign.secondStep");
     },
     CreateAccount() {
-      return this.$vuetify.lang.t("$vuetify.sign.createAccount");
+      return this.$vuetify.lang.t("$vuetify.Sign.createAccount");
     },
     NameLabel() {
-      return this.$vuetify.lang.t("$vuetify.sign.nameLabel");
+      return this.$vuetify.lang.t("$vuetify.Sign.nameLabel");
     },
     NameHint() {
       return this.$vuetify.lang.t("$vuetify.Sign.nameHint");
