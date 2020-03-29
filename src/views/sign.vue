@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center" align="center" style="height:100vh">
-      <v-col cols="4">
+      <v-col cols="12" sm="10" md="5" lg="4" xl="4">
         <v-card
           loader-height="10"
           :loading="connectionState"
@@ -150,16 +150,16 @@ export default {
   },
   computed: {
     FirstStep() {
-      return this.$vuetify.lang.t("$vuetify.Sign.firstStep");
+      return this.$vuetify.lang.t("$vuetify.sign.firstStep");
     },
     SecondStep() {
-      return this.$vuetify.lang.t("$vuetify.Sign.secondStep");
+      return this.$vuetify.lang.t("$vuetify.sign.secondStep");
     },
     CreateAccount() {
-      return this.$vuetify.lang.t("$vuetify.Sign.createAccount");
+      return this.$vuetify.lang.t("$vuetify.sign.createAccount");
     },
     NameLabel() {
-      return this.$vuetify.lang.t("$vuetify.Sign.nameLabel");
+      return this.$vuetify.lang.t("$vuetify.sign.nameLabel");
     },
     NameHint() {
       return this.$vuetify.lang.t("$vuetify.Sign.nameHint");
