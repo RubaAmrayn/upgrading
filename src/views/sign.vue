@@ -12,6 +12,7 @@
               <v-stepper-step complete step="1" :editable="steps == 1">{{
                 FirstStep
               }}</v-stepper-step>
+              <v-divider></v-divider>
               <v-stepper-step
                 :complete="steps == 2"
                 step="2"
@@ -21,19 +22,36 @@
             </v-stepper-header>
 
             <v-stepper-items>
-              <v-stepper-content step="1">
-                <v-card class="mb-5" height="320px">
+              <v-stepper-content class="pb-1" step="1">
+                <v-card flat>
                   <v-card-title>
                     <span>{{ CreateAccount }}</span>
                   </v-card-title>
                   <v-card-text class="pb-0">
-                    <v-form ref="SignForm" lazy-validation>
+                    <v-form ref="step1Form" lazy-validation>
                       <v-text-field
                         prepend-inner-icon="mdi-account"
-                        :label="NameLabel"
+                        :label="FirstNameLabel"
                         outlined
-                        :hint="NameHint"
+                        clearable
                         required
+                        :rules="[v => !!v || FirstNameError]"
+                      ></v-text-field>
+                      <v-text-field
+                        prepend-inner-icon="mdi-account"
+                        :label="MiddleNameLabel"
+                        outlined
+                        clearable
+                        required
+                        :rules="[v => !!v || MiddleNameError]"
+                      ></v-text-field>
+                      <v-text-field
+                        prepend-inner-icon="mdi-account"
+                        :label="LastNameLabel"
+                        outlined
+                        clearable
+                        required
+                        :rules="[v => !!v || LastNameError]"
                       ></v-text-field>
                       <v-menu
                         v-model="menu"
@@ -52,6 +70,7 @@
                             :hint="DateHint"
                             persistent-hint
                             readonly
+                            :rules="[v => !!v || DateError]"
                             v-on="on"
                             @focus="menu = true"
                           ></v-text-field>
@@ -75,28 +94,27 @@
                         :label="GenderLabel"
                         outlined
                         required
+                        :rules="[v => !!v || GenderError]"
                       ></v-select>
                     </v-form>
                   </v-card-text>
                 </v-card>
                 <v-row justify="end">
                   <v-col cols="4">
-                    <v-btn block color="primary" @click="steps = 2">
+                    <v-btn block color="primary" @click="validateStep1()">
                       {{ BtnFirstStep }}
+                      <v-icon>mdi-arrow-left</v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>
               </v-stepper-content>
-
-              <v-divider></v-divider>
-
-              <v-stepper-content step="2">
-                <v-card class="mb-5" color=" lighten-1" height="400px">
+              <v-stepper-content class="pb-1" step="2">
+                <v-card flat>
                   <v-card-title>
                     <span>{{ CreateAccount }}</span>
                   </v-card-title>
                   <v-card-text class="pb-0">
-                    <v-form ref="LoginForm" lazy-validation>
+                    <v-form ref="step2Form" lazy-validation>
                       <v-text-field
                         prepend-inner-icon="mdi-account"
                         :label="UsernameLabel"
@@ -113,14 +131,22 @@
                         type="password"
                         :hint="PasswordHint"
                         required
+                        :rules="[v => !!v || PasswordError]"
                       ></v-text-field>
                       <v-text-field
                         class="bt:1px"
                         prepend-inner-icon="mdi-at"
                         :label="EmailLabel"
+                        :rules="[
+                          v =>
+                            /^([A-Za-z0-9_\.-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,3})+$/.test(
+                              v
+                            ) || EmailError,
+                          v => !!v || EmailRequired
+                        ]"
                         outlined
                         type="email"
-                        hint="yy@gmail.com"
+                        hint="exmple@gmail.com"
                         required
                       ></v-text-field>
                       <v-text-field
@@ -128,7 +154,12 @@
                         :label="PhoneLabel"
                         outlined
                         type="text"
-                        hint="050XXXXXXX"
+                        hint="9665XXXXXXXX"
+                        :rules="[
+                          v => !!v || PhoneRequired,
+                          v =>
+                            /^(9665)([0-9]{1})([0-9]{7})$/.test(v) || PhonError
+                        ]"
                         required
                       ></v-text-field>
                     </v-form>
@@ -137,12 +168,13 @@
 
                 <v-row justify="end">
                   <v-col cols="3">
-                    <v-btn block text @click="steps = 1">{{
-                      BtnSecondStep
-                    }}</v-btn>
+                    <v-btn block text @click="steps = 1">
+                      <v-icon>mdi-arrow-right</v-icon>
+                      {{ BtnSecondStep }}
+                    </v-btn>
                   </v-col>
                   <v-col cols="4">
-                    <v-btn block color="primary" @click="register">{{
+                    <v-btn block color="primary" @click="validateStep2">{{
                       RegsBtn
                     }}</v-btn>
                   </v-col>
@@ -185,14 +217,23 @@ export default {
     CreateAccount() {
       return this.$vuetify.lang.t("$vuetify.Sign.createAccount");
     },
-    NameLabel() {
-      return this.$vuetify.lang.t("$vuetify.Sign.nameLabel");
+    FirstNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.firstNameLabel");
     },
-    NameHint() {
-      return this.$vuetify.lang.t("$vuetify.Sign.nameHint");
+    MiddleNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.middleNameLabel");
     },
-    NameError() {
-      return this.$vuetify.lang.t("$vuetify.Sign.nameError");
+    LastNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.lastNameLabel");
+    },
+    FirstNameError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.firstNameError");
+    },
+    MiddleNameError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.middleNameError");
+    },
+    LastNameError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.lastNameError");
     },
     DateLabel() {
       return this.$vuetify.lang.t("$vuetify.Sign.dateLabel");
@@ -239,11 +280,18 @@ export default {
     EmailError() {
       return this.$vuetify.lang.t("$vuetify.Sign.emailError");
     },
+    EmailRequired() {
+      return this.$vuetify.lang.t("$vuetify.Sign.emailRequired");
+    },
+
     PhoneLabel() {
       return this.$vuetify.lang.t("$vuetify.Sign.phoneLabel");
     },
     PhonError() {
       return this.$vuetify.lang.t("$vuetify.Sign.phonError");
+    },
+    PhoneRequired() {
+      return this.$vuetify.lang.t("$vuetify.Sign.phoneRequired");
     },
     RegsBtn() {
       return this.$vuetify.lang.t("$vuetify.Sign.regsBtn");
@@ -258,6 +306,16 @@ export default {
     },
     save(date) {
       this.$refs.menu.save(date);
+    },
+    validateStep1() {
+      if (this.$refs.step1Form.validate()) {
+        this.steps = 2;
+      }
+    },
+    validateStep2() {
+      if (this.$refs.step2Form.validate()) {
+        this.register();
+      }
     },
     register() {}
   }
