@@ -317,9 +317,7 @@ export default {
         this.register();
       }
     },
-    register() {
-      alert("after validation success api call");
-    }
+    register() {}
   }
 };
 </script>
