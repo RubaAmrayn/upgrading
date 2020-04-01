@@ -12,7 +12,9 @@
             outlined
             :hint="UsernameHint"
             required
+            clearable
             :rules="[v => !!v || UsernameError]"
+            validate-on-blur
           ></v-text-field>
 
           <v-text-field
@@ -22,12 +24,15 @@
             type="password"
             :hint="PasswordHint"
             required
+            clearable
             :rules="[v => !!v || PasswordError]"
+            validate-on-blur
           ></v-text-field>
           <v-text-field
             class="bt:1px"
             prepend-inner-icon="mdi-at"
             :label="EmailLabel"
+            clearable
             :rules="[
               v =>
                 /^([A-Za-z0-9_\.-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,3})+$/.test(
@@ -35,6 +40,7 @@
                 ) || EmailError,
               v => !!v || EmailRequired
             ]"
+            validate-on-blur
             outlined
             type="email"
             hint="exmple@gmail.com"
@@ -46,6 +52,7 @@
             outlined
             type="text"
             hint="9665XXXXXXXX"
+            clearable
             :rules="[
               v => !!v || PhoneRequired,
               v => /^(9665)([0-9]{1})([0-9]{7})$/.test(v) || PhonError

@@ -12,7 +12,7 @@
             outlined
             clearable
             required
-            :rules="[v => !!v || FirstNameError]"
+            :rules="[v => !!v || FirstNameError, ...nameRules]"
           ></v-text-field>
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -20,7 +20,7 @@
             outlined
             clearable
             required
-            :rules="[v => !!v || MiddleNameError]"
+            :rules="[v => !!v || MiddleNameError, ...nameRules]"
           ></v-text-field>
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -28,7 +28,7 @@
             outlined
             clearable
             required
-            :rules="[v => !!v || LastNameError]"
+            :rules="[v => !!v || LastNameError, ...nameRules]"
           ></v-text-field>
           <v-menu
             v-model="menu"
@@ -46,8 +46,10 @@
                 outlined
                 :hint="DateHint"
                 persistent-hint
+                clearable
                 readonly
                 :rules="[v => !!v || DateError]"
+                validate-on-blur
                 v-on="on"
                 @focus="menu = true"
               ></v-text-field>
@@ -89,8 +91,16 @@
 <script>
 export default {
   name: "first-step",
-  data() {
+  data(vm) {
+    let specialsRegex = /[^*|\\:.,،÷×+=-\\-_*~<>[\]{}`\\()'";@&$#%!]+$/;
+    let numbersRegex = /^[^0-9]+$/;
     return {
+      nameSpecialRules: specialsRegex,
+      nameNumberRules: numbersRegex,
+      nameRules: [
+        v => vm.nameSpecialRules.test(v) || vm.SpecialsNotAllowed,
+        v => vm.nameNumberRules.test(v) || vm.NumbersNotAllowed
+      ],
       menu: false,
       date: null,
       select: null,
@@ -118,6 +128,12 @@ export default {
     },
     LastNameError() {
       return this.$vuetify.lang.t("$vuetify.Sign.lastNameError");
+    },
+    SpecialsNotAllowed() {
+      return this.$vuetify.lang.t("$vuetify.Sign.specialsNotAllowed");
+    },
+    NumbersNotAllowed() {
+      return this.$vuetify.lang.t("$vuetify.Sign.numbersNotAllowed");
     },
     DateLabel() {
       return this.$vuetify.lang.t("$vuetify.Sign.dateLabel");

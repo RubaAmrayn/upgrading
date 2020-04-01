@@ -8,6 +8,8 @@ module.exports = {
   firstNameError: "يجب كتابة اسمك الأول",
   middleNameError: "يجب كتابة الاسم الثاني",
   lastNameError: "يجب كتابة الاسم الاخير",
+  specialsNotAllowed: "الرموز الخاصة غير مسموح فيها",
+  numbersNotAllowed: "الارقام غير مسموح فيها",
   dateLabel: "تاريخ الميلاد",
   dateHint: "قم باختيار السنه ثم الشهر ثم اليوم",
   dateError: "يجب اختيار تاريخ الميلاد",
