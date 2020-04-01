@@ -1,15 +1,23 @@
 <template>
   <v-app>
-    <router-view></router-view>
+    <navigation-view></navigation-view>
+    <v-content>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+    <footer-view></footer-view>
   </v-app>
 </template>
 
 <script>
 export default {
   name: "App",
-  data: () => ({
-    //
-  })
+  components: {
+    "navigation-view": () =>
+      import("./components/main/navigationComponents/index"),
+    "footer-view": () => import("./components/main/footerComponents/index")
+  }
 };
 </script>
 <style>
