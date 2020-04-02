@@ -13,6 +13,7 @@
             clearable
             required
             :rules="[v => !!v || FirstNameError, ...nameRules]"
+            v-model="firstStepData.first_name"
           ></v-text-field>
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -21,6 +22,7 @@
             clearable
             required
             :rules="[v => !!v || MiddleNameError, ...nameRules]"
+            v-model="firstStepData.middle_name"
           ></v-text-field>
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -29,6 +31,7 @@
             clearable
             required
             :rules="[v => !!v || LastNameError, ...nameRules]"
+            v-model="firstStepData.last_name"
           ></v-text-field>
           <v-menu
             v-model="menu"
@@ -41,7 +44,7 @@
             <template v-slot:activator="{ on }">
               <v-text-field
                 prepend-inner-icon="mdi-calendar-month"
-                v-model="date"
+                v-model="firstStepData.date_of_birth"
                 :label="DateLabel"
                 outlined
                 :hint="DateHint"
@@ -56,7 +59,7 @@
             </template>
             <v-date-picker
               ref="picker"
-              v-model="date"
+              v-model="firstStepData.date_of_birth"
               year-icon="mdi-calendar-outline"
               :max="new Date().toISOString().substr(0, 10)"
               min="1950-01-01"
@@ -67,12 +70,15 @@
 
           <v-select
             prepend-inner-icon="mdi-gender-female"
-            v-model="select"
             :items="items"
             :label="GenderLabel"
+            return-object
+            item-text="name"
+            item-value="id"
             outlined
             required
             :rules="[v => !!v || GenderError]"
+            v-model="firstStepData.gender"
           ></v-select>
         </v-form>
       </v-card-text>
@@ -96,9 +102,18 @@ export default {
   data() {
     return {
       menu: false,
-      date: null,
       select: null,
-      items: ["ذكر", "انثى"]
+      items: [
+        { id: 1, name: "ذكر" },
+        { id: 2, name: "انثى" }
+      ],
+      firstStepData: {
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        date_of_birth: null,
+        gender: ""
+      }
     };
   },
   computed: {
@@ -150,7 +165,7 @@ export default {
   methods: {
     validateStep1() {
       if (this.$refs.step1Form.validate()) {
-        this.$root.$emit("next");
+        this.$root.$emit("next", this.firstStepData);
       }
     }
   }

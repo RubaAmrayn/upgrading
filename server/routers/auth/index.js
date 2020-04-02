@@ -8,7 +8,7 @@ module.exports = [
     handler: auth.login
   },
   {
-    method: "GET",
+    method: "POST",
     url: "/api/auth/register",
     handler: auth.register
   }

@@ -1,6 +1,5 @@
 import axios from "axios";
 export default {
-  namespaced: true,
   state: {
     user: {}
   },
@@ -11,12 +10,15 @@ export default {
   },
   actions: {
     register(context, newUser) {
-      axios
-        .post("/api/auth/register", newUser)
-        .then(respone => {
-          context.commit("SET_USER", respone.data.result);
-        })
-        .catch();
+      return new Promise(resolve => {
+        axios
+          .post("/api/auth/register", newUser)
+          .then(respone => {
+            context.commit("SET_USER", respone.data.user);
+            resolve(respone.data.user);
+          })
+          .catch();
+      });
     }
   },
   getters: {

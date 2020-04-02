@@ -15,6 +15,7 @@
             clearable
             :rules="[v => !!v || UsernameError]"
             validate-on-blur
+            v-model="user.username"
           ></v-text-field>
 
           <v-text-field
@@ -27,6 +28,7 @@
             clearable
             :rules="[v => !!v || PasswordError]"
             validate-on-blur
+            v-model="user.password"
           ></v-text-field>
           <v-text-field
             class="bt:1px"
@@ -45,6 +47,7 @@
             type="email"
             hint="exmple@gmail.com"
             required
+            v-model="user.email"
           ></v-text-field>
           <v-text-field
             prepend-inner-icon="mdi-phone"
@@ -58,6 +61,7 @@
               v => /^(9665)([0-9]{1})([0-9]{7})$/.test(v) || PhonError
             ]"
             required
+            v-model="user.phone"
           ></v-text-field>
         </v-form>
       </v-card-text>
@@ -82,6 +86,16 @@
 <script>
 export default {
   name: "second-step",
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+        email: "",
+        phone: ""
+      }
+    };
+  },
   computed: {
     CreateAccount() {
       return this.$vuetify.lang.t("$vuetify.Sign.createAccount");
@@ -136,12 +150,25 @@ export default {
   methods: {
     validateStep2() {
       if (this.$refs.step2Form.validate()) {
-        alert("register");
+        this.$root.$emit("connection");
+        this.$store.dispatch("register", this.user).then(res => {
+          console.log(res);
+          this.$root.$emit("connection");
+        });
       }
     },
     back() {
       this.$root.$emit("back");
     }
+  },
+  mounted() {
+    this.$root.$on("next", data => {
+      (this.user.first_name = data.first_name),
+        (this.user.middle_name = data.middle_name),
+        (this.user.last_name = data.last_name),
+        (this.user.date_of_birth = data.date_of_birth),
+        (this.user.gender = data.gender.id);
+    });
   }
 };
 </script>

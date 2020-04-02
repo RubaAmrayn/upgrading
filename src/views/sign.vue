@@ -71,10 +71,15 @@ export default {
     this.$root.$on("back", () => {
       this.steps = 1;
     });
+    this.$root.$on(
+      "connection",
+      () => (this.connectionState = !this.connectionState)
+    );
   },
   destroyed() {
     this.$root.$off("next");
     this.$root.$off("back");
+    this.$root.$off("connection");
   }
 };
 </script>

@@ -38,7 +38,26 @@ exports.register = async (req, reply) => {
       if (err) {
         reply.send(err);
       } else {
-        reply.send(result);
+        let user_id = result.insertId;
+        mysql.query(
+          `
+          INSERT INTO upgrading.roles_has_users
+          (
+          roles_role_id,
+          users_user_id)
+          VALUES
+          (?,?);
+        `,
+          [1, user_id],
+          error => {
+            if (error) {
+              reply.send(error);
+            } else {
+              let user = Object.assign({}, req.body, { user_id: user_id });
+              reply.send(user);
+            }
+          }
+        );
       }
     }
   );
