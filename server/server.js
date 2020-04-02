@@ -1,6 +1,6 @@
 const server = require("fastify")();
 
-const routers = require("./routers/auth/index");
+const routers = require("./routers/main");
 console.log(routers);
 routers.forEach(route => {
   server.route(route);
