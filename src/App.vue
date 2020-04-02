@@ -1,12 +1,12 @@
 <template>
   <v-app>
-    <navigation-view></navigation-view>
+    <!-- <navigation-view></navigation-view> -->
     <v-content>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
-    <footer-view></footer-view>
+    <!-- <footer-view></footer-view> -->
   </v-app>
 </template>
 
@@ -14,9 +14,9 @@
 export default {
   name: "App",
   components: {
-    "navigation-view": () =>
-      import("./components/main/navigationComponents/index"),
-    "footer-view": () => import("./components/main/footerComponents/index")
+    // "navigation-view": () =>
+    //   import("./components/main/navigationComponents/index"),
+    // "footer-view": () => import("./components/main/footerComponents/index")
   }
 };
 </script>
