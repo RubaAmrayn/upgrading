@@ -3,7 +3,7 @@
 const auth = require("../../controllers/auth/index");
 module.exports = [
   {
-    method: "GET",
+    method: "POST",
     url: "/api/auth/login",
     handler: auth.login
   },

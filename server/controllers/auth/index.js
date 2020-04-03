@@ -4,8 +4,41 @@
 const mysql = require("../../connection");
 
 exports.login = async (req, reply) => {
-  reply.send("login");
+  mysql.query(
+    `
+  SELECT 
+    u.user_id,
+    u.first_name,
+    u.middle_name,
+    u.last_name,
+    u.date_of_birth,
+    u.gender,
+    u.username,
+    u.phone,
+    u.email,
+    r.ar_role_name,
+    r.en_role_name,
+    r.role_id
+FROM
+    upgrading.users u
+        LEFT JOIN
+    roles_has_users rhu ON rhu.users_user_id = u.user_id
+        LEFT JOIN
+    roles r ON r.role_id = rhu.roles_role_id
+WHERE
+    u.username = ?
+        AND password = ?
+  `,
+    [req.body.username, req.body.password],
+    (err, result) => {
+      if (err) reply.send(err);
+      else {
+        reply.send(result);
+      }
+    }
+  );
 };
+
 exports.register = async (req, reply) => {
   mysql.query(
     `

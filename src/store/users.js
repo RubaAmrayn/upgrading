@@ -20,6 +20,17 @@ export default {
           })
           .catch();
       });
+    },
+    login(context, user) {
+      return new Promise((resolve, reject) => {
+        axios
+          .post("/api/auth/login", user)
+          .then(response => {
+            context.commit("SET_USER", response.data);
+            resolve(response.data);
+          })
+          .catch(error => reject(error));
+      });
     }
   },
   getters: {

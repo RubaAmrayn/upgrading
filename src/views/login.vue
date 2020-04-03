@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center" align="center" style="height:100vh">
-      <v-col cols="4">
+      <v-col cols="12" sm="10" md="5" lg="4" xl="4">
         <v-card
           loader-height="10"
           :loading="connectionState"
@@ -24,6 +24,7 @@
                 :hint="UsernameHint"
                 required
                 :rules="[v => !!v || UsernameError]"
+                v-model="user.username"
               ></v-text-field>
 
               <v-text-field
@@ -37,6 +38,7 @@
                   v => !!v || PasswordError,
                   v => (!!v && v.length > 5) || PasswordLengthError
                 ]"
+                v-model="user.password"
               ></v-text-field>
             </v-form>
             <router-link to="/forgotPass">
@@ -71,7 +73,11 @@ export default {
   name: "Login",
   data() {
     return {
-      connectionState: false
+      connectionState: false,
+      user: {
+        username: "",
+        password: ""
+      }
     };
   },
   computed: {
@@ -110,10 +116,8 @@ export default {
     Login() {
       if (this.$refs.LoginForm.validate()) {
         this.connectionState = true;
-        //
-        setTimeout(() => {
-          this.connectionState = false;
-        }, 4000);
+        //استدعاء ال action من ال vuex
+        this.$store.dispatch("login", this.user);
       }
     }
   }
