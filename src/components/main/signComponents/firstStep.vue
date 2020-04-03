@@ -52,7 +52,6 @@
                 clearable
                 readonly
                 :rules="[v => !!v || DateError]"
-                validate-on-blur
                 v-on="on"
                 @focus="menu = true"
               ></v-text-field>

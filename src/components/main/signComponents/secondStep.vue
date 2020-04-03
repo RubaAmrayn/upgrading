@@ -151,10 +151,25 @@ export default {
     validateStep2() {
       if (this.$refs.step2Form.validate()) {
         this.$root.$emit("connection");
-        this.$store.dispatch("register", this.user).then(res => {
-          console.log(res);
-          this.$root.$emit("connection");
-        });
+        this.$store
+          .dispatch("register", this.user)
+          .then(res => {
+            this.$root.$emit("connection");
+            if (res) {
+              this.$root.$emit("show-alert", {
+                status: "success",
+                title: "تم انشاء حسابك بنجاح",
+                body: "رقم المستخدم الخاص فيك  " + res.user_id
+              });
+            }
+          })
+          .catch(err => {
+            this.$root.$emit("show-alert", {
+              status: "error",
+              title: "حصل خطأ في انشاء الحساب",
+              body: err
+            });
+          });
       }
     },
     back() {

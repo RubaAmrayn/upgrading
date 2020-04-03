@@ -10,15 +10,16 @@ export default {
   },
   actions: {
     register(context, newUser) {
-      return new Promise(resolve => {
+      return new Promise((resolve, reject) => {
         axios
           .post("/api/auth/register", newUser)
           .then(response => {
-            console.log(response);
             context.commit("SET_USER", response.data);
             resolve(response.data);
           })
-          .catch();
+          .catch(err => {
+            reject(err);
+          });
       });
     },
     login(context, user) {
