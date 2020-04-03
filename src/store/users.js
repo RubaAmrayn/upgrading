@@ -26,8 +26,12 @@ export default {
         axios
           .post("/api/auth/login", user)
           .then(response => {
-            context.commit("SET_USER", response.data);
-            resolve(response.data);
+            if (response.data.length > 0) {
+              context.commit("SET_USER", response.data[0]);
+              resolve(response.data);
+            } else {
+              reject("no data");
+            }
           })
           .catch(error => reject(error));
       });

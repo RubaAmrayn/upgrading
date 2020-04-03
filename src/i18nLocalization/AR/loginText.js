@@ -8,5 +8,7 @@ module.exports = {
   passwordLengthError: "كلمة المرور يجب ان تكون 6 خانات فأكثر",
   resetPassword: "نسيت كلمة المرور؟",
   LoginBtn: "دخول",
-  CreateAccount: "إنشاء حساب؟"
+  CreateAccount: "إنشاء حساب؟",
+  LoginErrorTitle: "فشل تسجيل الدخول",
+  LoginErrorBody: "تأكد من اسم المستخدم او كلمة المرور"
 };

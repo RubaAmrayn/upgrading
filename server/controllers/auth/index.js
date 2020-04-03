@@ -2,6 +2,7 @@
 //   reply.send(req.params);
 // };
 const mysql = require("../../connection");
+const secure = require("../../secure");
 
 exports.login = async (req, reply) => {
   mysql.query(
@@ -29,7 +30,7 @@ WHERE
     u.username = ?
         AND password = ?
   `,
-    [req.body.username, req.body.password],
+    [req.body.username, secure.encrypt(req.body.password)],
     (err, result) => {
       if (err) reply.send(err);
       else {
@@ -64,7 +65,7 @@ exports.register = async (req, reply) => {
       req.body.phone,
       req.body.email,
       req.body.username,
-      req.body.password,
+      secure.encrypt(req.body.password),
       req.body.gender
     ],
     (err, result) => {
@@ -125,3 +126,4 @@ exports.register = async (req, reply) => {
     }
   );
 };
+console.log("c: ", secure.encrypt("123456"));

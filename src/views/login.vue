@@ -117,7 +117,24 @@ export default {
       if (this.$refs.LoginForm.validate()) {
         this.connectionState = true;
         //استدعاء ال action من ال vuex
-        this.$store.dispatch("login", this.user);
+        this.$store
+          .dispatch("login", this.user)
+          .then(() => {
+            this.connectionState = false;
+            this.$root.$emit("show-alert", {
+              status: "success",
+              title: "تم تسجيل الدخول",
+              body: ""
+            });
+          })
+          .catch(() => {
+            this.connectionState = false;
+            this.$root.$emit("show-alert", {
+              status: "error",
+              title: this.$vuetify.lang.t("$vuetify.Login.LoginErrorTitle"),
+              body: this.$vuetify.lang.t("$vuetify.Login.LoginErrorBody")
+            });
+          });
       }
     }
   }
