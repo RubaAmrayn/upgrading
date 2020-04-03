@@ -13,15 +13,19 @@ export default {
       return new Promise(resolve => {
         axios
           .post("/api/auth/register", newUser)
-          .then(respone => {
-            context.commit("SET_USER", respone.data.user);
-            resolve(respone.data.user);
+          .then(response => {
+            console.log(response);
+            context.commit("SET_USER", response.data);
+            resolve(response.data);
           })
           .catch();
       });
     }
   },
   getters: {
-    getUser: state => state.user
+    getUser: state => state.user,
+    isTrainer: state => state.user.role.role_id == 1,
+    isTrainee: state => state.user.role.role_id == 2,
+    isManager: state => state.user.role.role_id == 3
   }
 };

@@ -53,7 +53,37 @@ exports.register = async (req, reply) => {
             if (error) {
               reply.send(error);
             } else {
-              let user = Object.assign({}, req.body, { user_id: user_id });
+              let {
+                first_name,
+                middle_name,
+                last_name,
+                date_of_birth,
+                gender,
+                username,
+                email,
+                phone
+              } = req.body;
+              let user = Object.assign(
+                {},
+                {
+                  first_name,
+                  middle_name,
+                  last_name,
+                  date_of_birth,
+                  gender,
+                  username,
+                  email,
+                  phone
+                },
+                {
+                  user_id: user_id,
+                  role: {
+                    role_id: 1,
+                    ar_role_name: "متدرب",
+                    en_role_name: "trainer"
+                  }
+                }
+              );
               reply.send(user);
             }
           }
