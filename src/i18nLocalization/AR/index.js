@@ -1,6 +1,7 @@
 const Login = require("./loginText");
 const Sign = require("./signText");
 const Pages = require("./pagesText");
+const About = require("./aboutText");
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -50,5 +51,6 @@ export default {
   },
   Login,
   Sign,
-  Pages
+  Pages,
+  About
 };

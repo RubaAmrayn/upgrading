@@ -1,13 +1,13 @@
 <template>
   <v-app>
     <alert-view v-if="showAlert" :payload="payload"></alert-view>
-    <!-- <navigation-view></navigation-view> -->
+    <navigation-view></navigation-view>
     <v-content>
       <v-container fluid>
         <router-view></router-view>
       </v-container>
     </v-content>
-    <!-- <footer-view></footer-view> -->
+    <footer-view></footer-view>
   </v-app>
 </template>
 
@@ -21,10 +21,10 @@ export default {
     };
   },
   components: {
-    "alert-view": () => import("@/components/main/alert")
-    // "navigation-view": () =>
-    //   import("./components/main/navigationComponents/index"),
-    // "footer-view": () => import("./components/main/footerComponents/index")
+    "alert-view": () => import("@/components/main/alert"),
+    "navigation-view": () =>
+      import("./components/main/navigationComponents/index"),
+    "footer-view": () => import("./components/main/footerComponents/index")
   },
   mounted() {
     this.$root.$on("show-alert", payload => {
