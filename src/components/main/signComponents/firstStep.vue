@@ -82,7 +82,12 @@
         </v-form>
       </v-card-text>
     </v-card>
-    <v-row justify="end">
+    <v-row justify="space-between">
+      <v-col cols="12" sm="12" md="4" lg="4" xl="4">
+        <v-btn text @click="$router.push('/login')">
+          {{ BtnLogIn }}
+        </v-btn>
+      </v-col>
       <v-col cols="4">
         <v-btn block color="primary" @click="validateStep1()">
           {{ BtnFirstStep }}
@@ -151,6 +156,9 @@ export default {
     },
     GenderError() {
       return this.$vuetify.lang.t("$vuetify.Sign.genderError");
+    },
+    BtnLogIn() {
+      return this.$vuetify.lang.t("$vuetify.Sign.btnLogIn");
     },
     BtnFirstStep() {
       return this.$vuetify.lang.t("$vuetify.Sign.btnFirstStep");

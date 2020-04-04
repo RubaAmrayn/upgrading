@@ -15,6 +15,7 @@ module.exports = {
   dateError: "يجب اختيار تاريخ الميلاد",
   genderLabel: "الجنس",
   genderError: "يجب اختيار الجنس",
+  btnLogIn: "تسجيل الدخول",
   btnFirstStep: "التالي",
   emailLabel: "البريد الالكتروني",
   emailError: "البريد الالكتروني غير صحيح",

@@ -39,6 +39,7 @@
                   v => (!!v && v.length > 5) || PasswordLengthError
                 ]"
                 v-model="user.password"
+                @keydown.enter="Login"
               ></v-text-field>
             </v-form>
             <router-link to="/forgotPass">
@@ -121,11 +122,12 @@ export default {
           .dispatch("login", this.user)
           .then(() => {
             this.connectionState = false;
-            this.$root.$emit("show-alert", {
-              status: "success",
-              title: "تم تسجيل الدخول",
-              body: ""
-            });
+            // this.$root.$emit("show-alert", {
+            //   status: "success",
+            //   title: "تم تسجيل الدخول",
+            //   body: ""
+            // });
+            this.$router.push("/");
           })
           .catch(() => {
             this.connectionState = false;

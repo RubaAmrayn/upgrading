@@ -6,15 +6,18 @@ export default {
   mutations: {
     SET_USER(state, payload) {
       state.user = payload;
+    },
+    LOG_OUT(state) {
+      state.user = {};
     }
   },
   actions: {
-    register(context, newUser) {
+    register({ commit }, newUser) {
       return new Promise((resolve, reject) => {
         axios
           .post("/api/auth/register", newUser)
           .then(response => {
-            context.commit("SET_USER", response.data);
+            commit("SET_USER", response.data);
             resolve(response.data);
           })
           .catch(err => {
@@ -22,13 +25,13 @@ export default {
           });
       });
     },
-    login(context, user) {
+    login({ commit }, user) {
       return new Promise((resolve, reject) => {
         axios
           .post("/api/auth/login", user)
           .then(response => {
             if (response.data.length > 0) {
-              context.commit("SET_USER", response.data[0]);
+              commit("SET_USER", response.data[0]);
               resolve(response.data);
             } else {
               reject("no data");
@@ -36,12 +39,16 @@ export default {
           })
           .catch(error => reject(error));
       });
+    },
+    logOut({ commit }) {
+      commit("LOG_OUT");
     }
   },
   getters: {
     getUser: state => state.user,
-    isTrainer: state => state.user.role.role_id == 1,
-    isTrainee: state => state.user.role.role_id == 2,
-    isManager: state => state.user.role.role_id == 3
+    isLoggedIn: state => !!Object.keys(state.user).includes("role_id"),
+    isTrainer: state => state.user.role_id == 1,
+    isTrainee: state => state.user.role_id == 2,
+    isManager: state => state.user.role_id == 3
   }
 };

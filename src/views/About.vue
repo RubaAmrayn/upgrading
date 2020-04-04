@@ -1,15 +1,12 @@
 <template>
   <div>
-    <v-row justify="space-around">
-      <v-icon @click="model--">mdi-minus</v-icon>
-      {{ model }}
-      <v-icon @click="model++">mdi-plus</v-icon>
-    </v-row>
     <v-carousel v-model="model">
       <v-carousel-item v-for="(slide, i) in slides" :key="i">
         <v-sheet :color="colors[i]" height="100%" tile>
-          <v-row class="fill-height" align="center" justify="center">
-            <h3 class="slid">{{ slide }}</h3>
+          <v-row class="fill-height px-2" align="center" justify="center">
+            <v-col cols="12">
+              <div class="display-1 text-center">{{ slide }}</div>
+            </v-col>
           </v-row>
         </v-sheet>
       </v-carousel-item>
@@ -18,9 +15,12 @@
 </template>
 <script>
 export default {
-  data() {
+  data(vm) {
+    vm.$nextTick(() => {
+      vm.slides = [vm.fristSlide, vm.secondSlide, vm.thirdSlide];
+    });
     return {
-      slides: [this.fristSlide, this.secondSlide, this.thirdSlide],
+      slides: [],
       colors: ["primary", "secondary", "yellow darken-2", "red", "orange"],
       model: 0
     };

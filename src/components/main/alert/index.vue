@@ -2,7 +2,7 @@
   <v-dialog transition="scroll-y-transition" v-model="dialog" width="350">
     <v-card>
       <div class="text-center pa-3">
-        <v-icon
+        <!-- <v-icon
           size="90"
           :color="payload.status"
           v-if="payload.status == 'success'"
@@ -15,7 +15,8 @@
           v-else-if="payload.status == 'error'"
         >
           mdi-close-circle-outline
-        </v-icon>
+        </v-icon> -->
+        <sweetalert-icon :icon="payload.status"></sweetalert-icon>
       </div>
       <v-card-title class="headline justify-center pt-2">
         {{ payload.title }}
@@ -47,8 +48,12 @@
 </template>
 
 <script>
+import SweetAlertIcon from "vue-sweetalert-icons";
 export default {
   name: "alert-view",
+  components: {
+    "sweetalert-icon": SweetAlertIcon
+  },
   props: {
     payload: {
       type: Object,

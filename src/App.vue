@@ -1,17 +1,19 @@
 <template>
   <v-app>
     <alert-view v-if="showAlert" :payload="payload"></alert-view>
-    <navigation-view></navigation-view>
+    <navigation-view v-if="isLoggedIn"></navigation-view>
     <v-content>
-      <v-container fluid>
+      <v-container fluid v-if="isLoggedIn">
         <router-view></router-view>
       </v-container>
+      <router-view v-else></router-view>
     </v-content>
-    <footer-view></footer-view>
+    <footer-view v-if="isLoggedIn"></footer-view>
   </v-app>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "App",
   data() {
@@ -25,6 +27,9 @@ export default {
     "navigation-view": () =>
       import("./components/main/navigationComponents/index"),
     "footer-view": () => import("./components/main/footerComponents/index")
+  },
+  computed: {
+    ...mapGetters(["isLoggedIn"])
   },
   mounted() {
     this.$root.$on("show-alert", payload => {

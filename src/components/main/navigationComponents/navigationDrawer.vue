@@ -2,12 +2,18 @@
   <v-navigation-drawer app right v-model="drawer" width="200">
     <v-list-item>
       <v-list-item-content>
-        <v-list-item-title class="title">
-          Application
+        <v-list-item-title class="title text-center">
+          {{ $vuetify.lang.t("$vuetify.Pages.AppName") }}
+          <!-- <v-img
+            class="align-end"
+            src="@/assets/upgrad.jpg"
+            contain
+            aspect-ratio="3.14"
+          ></v-img> -->
         </v-list-item-title>
-        <v-list-item-subtitle>
+        <!-- <v-list-item-subtitle>
           subtext
-        </v-list-item-subtitle>
+        </v-list-item-subtitle> -->
       </v-list-item-content>
     </v-list-item>
 
