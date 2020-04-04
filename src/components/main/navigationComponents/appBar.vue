@@ -4,7 +4,7 @@
       @click="$root.$emit('navigationDrawer')"
     ></v-app-bar-nav-icon>
 
-    <v-toolbar-title class="display-1 d-none d-sm-flex and-down">{{
+    <v-toolbar-title class="title d-none d-sm-flex and-down">{{
       PageTitle
     }}</v-toolbar-title>
 

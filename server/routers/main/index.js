@@ -1,2 +1,3 @@
 const authRouter = require("../auth/");
-module.exports = authRouter;
+const profileRouter = require("../profile");
+module.exports = [...authRouter, ...profileRouter];

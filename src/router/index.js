@@ -39,6 +39,14 @@ const routes = [
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.sign")
     }
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    component: () => import("../views/profile"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.profile")
+    }
   }
 ];
 

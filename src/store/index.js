@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import users from "./users";
+import profile from "./profile";
 import VuexPersist from "vuex-persist";
 
 const VuexPersistStorage = new VuexPersist({
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   actions: {}, // اضافة دوال لاستخدامها على مستوى ال vuex
   getters: {}, // computed vuex => استرجاع قيم ال state
   modules: {
-    users
+    users,
+    profile
   }
 });

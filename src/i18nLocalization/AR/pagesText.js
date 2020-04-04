@@ -3,5 +3,6 @@ module.exports = {
   Home: "الرئيسية",
   About: "من نحن",
   login: "تسجيل دخول",
-  sign: "انشاء حساب"
+  sign: "انشاء حساب",
+  profile: "الملف الشخصي"
 };
