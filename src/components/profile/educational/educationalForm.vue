@@ -14,6 +14,7 @@
               item-value="title_id"
               outlined
               :label="selectQualification"
+              :rules="[v => !!v || qualificationsError]"
               v-model="qualification.qualification_title"
             ></v-autocomplete>
             <v-text-field
@@ -21,6 +22,7 @@
               :label="eduPlace"
               outlined
               hint=""
+              :rules="[v => !!v || eduPlaceError, ...nameRules]"
               v-model="qualification.universty_name"
             ></v-text-field>
             <v-menu
@@ -38,7 +40,9 @@
                   :label="gradYear"
                   outlined
                   hint=""
+                  :rules="[v => !!v || dateError]"
                   v-on="on"
+                  readonly
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -72,9 +76,11 @@
 </template>
 
 <script>
+import nameValidations from "@/mixins/nameValidations";
 import { mapGetters } from "vuex";
 export default {
   name: "educational-form",
+  mixins: [nameValidations],
   data() {
     return {
       showDialog: true,
@@ -101,6 +107,15 @@ export default {
     },
     eduAdd() {
       return this.$vuetify.lang.t("$vuetify.Educational.eduAdd");
+    },
+    dateError() {
+      return this.$vuetify.lang.t("$vuetify.Educational.dateError");
+    },
+    qualificationsError() {
+      return this.$vuetify.lang.t("$vuetify.Educational.qualificationsError");
+    },
+    eduPlaceError() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduPlaceError");
     },
     ...mapGetters(["Educational_titles"])
   },

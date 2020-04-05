@@ -35,6 +35,7 @@
           <v-card flat>
             <v-card-text>
               <!-- user information -->
+              <info-person></info-person>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -46,6 +47,7 @@
           <v-card flat>
             <v-card-text>
               <!-- experinces card -->
+              <experience></experience>
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -58,7 +60,9 @@
 export default {
   name: "profile-view",
   components: {
-    "educational-qualification": () => import("./educationalQualification")
+    "info-person": () => import("./infoPerson"),
+    "educational-qualification": () => import("./educationalQualification"),
+    experience: () => import("./experience")
   },
   computed: {
     addAlert() {

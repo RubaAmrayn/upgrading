@@ -12,5 +12,8 @@ module.exports = {
   eduAdd: "إضافة",
   qualifTitle: "المؤهل",
   qualificationNo: "لا يوجد لديك مؤهلات",
-  qualificationEvents: "الاحداث"
+  qualificationEvents: "الاحداث",
+  dateError: "يجب اختيار تاريخ سنة التخرج",
+  qualificationsError: "يجب اختيار المؤهل التعليمي",
+  eduPlaceError: "يجب كتابة الجهة التعليمية"
 };
