@@ -126,4 +126,3 @@ exports.register = async (req, reply) => {
     }
   );
 };
-console.log("c: ", secure.encrypt("123456"));
