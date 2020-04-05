@@ -24,8 +24,10 @@
 export default {
   name: "educational-qualification",
   components: {
-    "educational-form": () => import("@/components/profile/educationalForm"),
-    "educational-list": () => import("@/components/profile/educationalList")
+    "educational-form": () =>
+      import("@/components/profile/educational/educationalForm"),
+    "educational-list": () =>
+      import("@/components/profile/educational/educationalList")
   },
   data() {
     return {};
