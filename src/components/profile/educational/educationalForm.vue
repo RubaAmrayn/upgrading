@@ -3,7 +3,7 @@
     <v-col cols="12" sm="12" md="12" lg="12" xl="12" class="pa-0">
       <v-card>
         <v-card-title class="primary-title justify-center">
-          إضافة مؤهل
+          {{ cardTitle }}
         </v-card-title>
         <v-card-text class="pb-2">
           <v-form lazy-validation ref="form">
@@ -13,12 +13,12 @@
               :item-text="`${$vuetify.lang.current}_title`"
               item-value="title_id"
               outlined
-              label="اختر المؤهل العلمي"
+              :label="selectQualification"
               v-model="qualification.qualification_title"
             ></v-autocomplete>
             <v-text-field
               prepend-inner-icon="mdi-account"
-              label="الجهة التعليمية"
+              :label="eduPlace"
               outlined
               hint=""
               v-model="qualification.universty_name"
@@ -35,7 +35,7 @@
                 <v-text-field
                   v-model="qualification.graduation_year"
                   prepend-inner-icon="mdi-school"
-                  label="سنة التخرج"
+                  :label="gradYear"
                   outlined
                   hint=""
                   v-on="on"
@@ -87,6 +87,21 @@ export default {
     };
   },
   computed: {
+    cardTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.cardTitle");
+    },
+    selectQualification() {
+      return this.$vuetify.lang.t("$vuetify.Educational.selectQualification");
+    },
+    eduPlace() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduPlace");
+    },
+    gradYear() {
+      return this.$vuetify.lang.t("$vuetify.Educational.gradYear");
+    },
+    eduAdd() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduAdd");
+    },
     ...mapGetters(["Educational_titles"])
   },
   watch: {

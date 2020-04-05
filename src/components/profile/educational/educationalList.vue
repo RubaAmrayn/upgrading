@@ -7,7 +7,7 @@
       flat
     >
       <div class="title text-center">
-        لا يوجد لديك مؤهلات
+        {{ qualificationNo }}
       </div>
     </v-card>
     <v-card
@@ -23,7 +23,7 @@
         <v-row justify="center" class="px-2">
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
             <div class="title justify-center">
-              المؤهل
+              {{ qualifTitle }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ qualification.ar_title }}
@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
             <div class="title center-text">
-              سنة التخرج
+              {{ gradYear }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ qualification.graduation_year }}
@@ -39,7 +39,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
             <div class="title justify-center">
-              الجهة التعليمية
+              {{ eduPlace }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ qualification.universty_name }}
@@ -47,7 +47,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
             <div class="title justify-center">
-              الأحداث
+              {{ qualificationEvents }}
             </div>
             <div class="subtitle-1 justify-center">
               <v-btn icon>
@@ -78,6 +78,21 @@ export default {
     return {};
   },
   computed: {
+    qualificationNo() {
+      return this.$vuetify.lang.t("$vuetify.Educational.qualificationNo");
+    },
+    qualifTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.qualifTitle");
+    },
+    eduPlace() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduPlace");
+    },
+    gradYear() {
+      return this.$vuetify.lang.t("$vuetify.Educational.gradYear");
+    },
+    qualificationEvents() {
+      return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
+    },
     ...mapGetters(["getQualifications"])
   },
   methods: {
