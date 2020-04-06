@@ -48,7 +48,6 @@ export default {
     upload() {
       if (this.files.length > 0) {
         this.connectionState = true;
-        console.log(this.files);
         setTimeout(() => {
           this.connectionState = false;
         }, 4000);
