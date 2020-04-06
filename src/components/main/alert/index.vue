@@ -2,21 +2,11 @@
   <v-dialog transition="scroll-y-transition" v-model="dialog" width="350">
     <v-card>
       <div class="text-center pa-3">
-        <!-- <v-icon
-          size="90"
-          :color="payload.status"
-          v-if="payload.status == 'success'"
-        >
-          mdi-checkbox-marked-circle-outline
-        </v-icon>
-        <v-icon
-          size="90"
-          :color="payload.status"
-          v-else-if="payload.status == 'error'"
-        >
-          mdi-close-circle-outline
-        </v-icon> -->
-        <sweetalert-icon :icon="payload.status"></sweetalert-icon>
+        <sweetalert-icon
+          :icon="payload.status"
+          v-if="payload.status != 'confirm'"
+        ></sweetalert-icon>
+        <sweetalert-icon icon="warning" v-else></sweetalert-icon>
       </div>
       <v-card-title class="headline justify-center pt-2">
         {{ payload.title }}
@@ -29,7 +19,19 @@
 
       <v-card-actions>
         <v-container fluid class="pb-0 pt-2">
-          <v-row justify="center">
+          <v-row justify="space-between" v-if="payload.status == 'confirm'">
+            <v-col cols="4">
+              <v-btn depressed block color="warning" @click="doConfirm">
+                OK
+              </v-btn>
+            </v-col>
+            <v-col cols="4">
+              <v-btn depressed text @click="$root.$emit('close-alert')">
+                No
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row justify="center" v-else>
             <v-col cols="4">
               <v-btn
                 depressed
@@ -64,6 +66,25 @@ export default {
     return {
       dialog: true
     };
+  },
+  methods: {
+    doConfirm() {
+      let action = this.payload.action;
+      let payload = this.payload.data;
+      this.$store.dispatch(action, payload).then(res => {
+        this.$root.$emit("close-alert");
+        // eslint-disable-next-line no-prototype-builtins
+        if (this.payload.hasOwnProperty("onSuccess")) {
+          this.payload.onSuccess(res);
+        }
+      });
+      // .catch(err => {
+      //   // eslint-disable-next-line no-prototype-builtins
+      //   if (this.payload.hasOwnProperty("onError")) {
+      //     this.payload.onError(err);
+      //   }
+      // });
+    }
   }
 };
 </script>

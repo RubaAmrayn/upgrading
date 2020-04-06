@@ -59,9 +59,8 @@
               >
                 <v-icon>mdi-delete-circle-outline</v-icon>
               </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-folder-outline</v-icon>
-              </v-btn>
+              <!-- attachement container -->
+              <edu-attachement-container></edu-attachement-container>
             </div>
           </v-col>
         </v-row>
@@ -74,6 +73,9 @@
 import { mapGetters } from "vuex";
 export default {
   name: "educational-list",
+  components: {
+    "edu-attachement-container": () => import("./eduAttachementContainer")
+  },
   data() {
     return {};
   },
@@ -97,17 +99,28 @@ export default {
   },
   methods: {
     deleteQualification(qualification_id) {
-      this.$store
-        .dispatch("deletEducationalOneQualifications", qualification_id)
-        .then(res => {
-          if (res == "deleted") {
-            this.$root.$emit("show-alert", {
-              status: "success",
-              title: "تم الحذف",
-              body: "تم حذف المؤهل مع المرفقات التابعة له"
-            });
-          }
-        });
+      let self = this;
+      self.$root.$emit("show-alert", {
+        status: "confirm",
+        title: "تأكيد الحذف!",
+        body: "هل انت متأكد من حذف المؤهل و مرفقاته؟",
+        action: "deletEducationalOneQualifications",
+        data: qualification_id,
+        onSuccess() {
+          self.$root.$emit("show-alert", {
+            status: "success",
+            title: "تم الحذف",
+            body: "تم حذف المؤهل مع المرفقات التابعة له"
+          });
+        },
+        onError(err) {
+          self.$root.$emit("show-alert", {
+            status: "error",
+            title: "حصل خطأ اثناء الحذف",
+            body: err
+          });
+        }
+      });
     }
   },
   mounted() {

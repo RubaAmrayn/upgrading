@@ -1,104 +1,146 @@
 <template>
-  <v-row justify="center">
-    <v-col cols="12" sm="10" md="8" lg="6">
-      <v-card ref="form">
-        <v-card-text>
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            :label="FirstNameLabel"
-            outlined
-            clearable
-            required
-            :rules="[v => !!v || FirstNameError, ...nameRules]"
-            v-model="first_name"
-            ref="first_name"
-          ></v-text-field>
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            :label="MiddleNameLabel"
-            outlined
-            clearable
-            required
-            :rules="[v => !!v || MiddleNameError, ...nameRules]"
-            v-model="middle_name"
-            ref="middle_name"
-          ></v-text-field>
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            :label="LastNameLabel"
-            outlined
-            clearable
-            required
-            :rules="[v => !!v || LastNameError, ...nameRules]"
-            v-model="last_name"
-            ref="last_name"
-          ></v-text-field>
-          <v-text-field
-            class="bt:1px"
-            prepend-inner-icon="mdi-at"
-            :label="EmailLabel"
-            clearable
-            :rules="[
-              v =>
-                /^([A-Za-z0-9_\.-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,3})+$/.test(
-                  v
-                ) || EmailError,
-              v => !!v || EmailRequired
-            ]"
-            validate-on-blur
-            outlined
-            type="email"
-            required
-            v-model="email"
-            ref="email"
-          ></v-text-field>
-          <v-text-field
-            prepend-inner-icon="mdi-phone"
-            :label="PhoneLabel"
-            outlined
-            type="text"
-            clearable
-            :rules="[
-              v => !!v || PhoneRequired,
-              v => /^(9665)([0-9]{1})([0-9]{7})$/.test(v) || PhonError
-            ]"
-            required
-            v-model="phone"
-            ref="phone"
-          ></v-text-field>
-        </v-card-text>
-        <v-divider class="mt-12"></v-divider>
-        <v-card-actions>
-          <v-btn text>Cancel</v-btn>
-          <v-spacer></v-spacer>
-          <v-slide-x-reverse-transition>
-            <v-tooltip v-if="formHasErrors" left>
+  <v-row justify="center" class="pa-0 ma-0">
+    <v-col cols="12" sm="12" md="12" lg="12" xl="12" class="pa-0">
+      <v-card>
+        <v-card-title class="primary-title justify-center">
+          تعديل البيانات الشخصية
+        </v-card-title>
+        <v-card-text class="pb-2">
+          <v-form ref="form" lazy-validation>
+            <v-text-field
+              prepend-inner-icon="mdi-account"
+              :label="FirstNameLabel"
+              outlined
+              clearable
+              required
+              :rules="[v => !!v || FirstNameError, ...nameRules]"
+              v-model="user.first_name"
+            ></v-text-field>
+            <v-text-field
+              prepend-inner-icon="mdi-account"
+              :label="MiddleNameLabel"
+              outlined
+              clearable
+              required
+              :rules="[v => !!v || MiddleNameError, ...nameRules]"
+              v-model="user.middle_name"
+            ></v-text-field>
+            <v-text-field
+              prepend-inner-icon="mdi-account"
+              :label="LastNameLabel"
+              outlined
+              clearable
+              required
+              :rules="[v => !!v || LastNameError, ...nameRules]"
+              v-model="user.last_name"
+            ></v-text-field>
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="slide-y-transition"
+              offset-y
+              min-width="290px"
+            >
               <template v-slot:activator="{ on }">
-                <v-btn icon class="my-0" @click="resetForm" v-on="on">
-                  <v-icon>mdi-refresh</v-icon>
-                </v-btn>
+                <v-text-field
+                  prepend-inner-icon="mdi-calendar-month"
+                  v-model="user.date_of_birth"
+                  :label="DateLabel"
+                  outlined
+                  :hint="DateHint"
+                  persistent-hint
+                  clearable
+                  readonly
+                  :rules="[v => !!v || DateError]"
+                  v-on="on"
+                  @focus="menu = true"
+                ></v-text-field>
               </template>
-              <span>Refresh form</span>
-            </v-tooltip>
-          </v-slide-x-reverse-transition>
-          <v-btn color="primary" text @click="submit">Submit</v-btn>
+              <v-date-picker
+                ref="picker"
+                v-model="user.date_of_birth"
+                year-icon="mdi-calendar-outline"
+                :max="new Date().toISOString().substr(0, 10)"
+                min="1950-01-01"
+                show-current="2013-07"
+                @input="menu = false"
+              ></v-date-picker>
+            </v-menu>
+            <v-text-field
+              class="bt:1px"
+              prepend-inner-icon="mdi-at"
+              :label="EmailLabel"
+              clearable
+              :rules="[
+                v =>
+                  /^([A-Za-z0-9_\.-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,3})+$/.test(
+                    v
+                  ) || EmailError,
+                v => !!v || EmailRequired
+              ]"
+              validate-on-blur
+              outlined
+              type="email"
+              required
+              v-model="user.email"
+            ></v-text-field>
+            <v-text-field
+              prepend-inner-icon="mdi-phone"
+              :label="PhoneLabel"
+              outlined
+              type="text"
+              clearable
+              :rules="[
+                v => !!v || PhoneRequired,
+                v => /^(9665)([0-9]{1})([0-9]{7})$/.test(v) || PhonError
+              ]"
+              required
+              v-model="user.phone"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="py-0 px-1">
+          <v-container fluid class="py-0">
+            <v-row justify="space-between">
+              <v-col cols="4">
+                <v-btn color="primary" block depressed @click="Update()"
+                  >Submit</v-btn
+                >
+              </v-col>
+              <v-col cols="4">
+                <v-btn text block @click="closeDialog">Cancel</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
 </template>
 <script>
+import nameValidation from "@/mixins/nameValidations";
+import { mapGetters } from "vuex";
+import { formatDate } from "@/mixins/date";
 export default {
-  data: () => ({
-    first_name: "",
-    middle_name: "",
-    last_name: "",
-    phone: "",
-    email: "",
-    formHasErrors: false
-  }),
+  name: "infoPerson-form",
+  mixins: [nameValidation, formatDate],
+  data() {
+    return {
+      menu: false,
+      user: {
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        date_of_birth: "",
+        phone: "",
+        email: ""
+      }
+    };
+  },
 
   computed: {
+    ...mapGetters(["getUser"]),
     FirstNameLabel() {
       return this.$vuetify.lang.t("$vuetify.Sign.firstNameLabel");
     },
@@ -116,6 +158,15 @@ export default {
     },
     LastNameError() {
       return this.$vuetify.lang.t("$vuetify.Sign.lastNameError");
+    },
+    DateLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.dateLabel");
+    },
+    DateHint() {
+      return this.$vuetify.lang.t("$vuetify.Sign.dateHint");
+    },
+    DateError() {
+      return this.$vuetify.lang.t("$vuetify.Sign.dateError");
     },
     EmailLabel() {
       return this.$vuetify.lang.t("$vuetify.Sign.emailLabel");
@@ -135,16 +186,40 @@ export default {
     },
     PhoneRequired() {
       return this.$vuetify.lang.t("$vuetify.Sign.phoneRequired");
-    },
-    form() {
-      return {
-        first_name: this.first_name,
-        middle_name: this.middle_name,
-        last_name: this.last_name,
-        email: this.email,
-        phone: this.phone
-      };
     }
+  },
+  methods: {
+    closeDialog() {
+      this.$refs.form.reset();
+      this.$root.$emit("info-Dialog");
+    },
+    Update() {
+      this.$store.dispatch("updateUser", this.user).then(res => {
+        if (res == "Updated") {
+          this.$root.$emit("show-alert", {
+            status: "success",
+            title: "تم التحديث",
+            body: "تم تحديث بياناتك الشخصية"
+          });
+        } else if (res == "nothing_new") {
+          this.$root.$emit("show-alert", {
+            status: "info",
+            title: "تم ارسال الطلب",
+            body: "لم يتم تغيير شيء لانه لايوجد قيمة تختلف عن الموجودة"
+          });
+        }
+      });
+    }
+  },
+  mounted() {
+    this.user = {
+      first_name: this.getUser.first_name,
+      middle_name: this.getUser.middle_name,
+      last_name: this.getUser.last_name,
+      date_of_birth: this.Formater(this.getUser.date_of_birth),
+      phone: this.getUser.phone,
+      email: this.getUser.email
+    };
   }
 };
 </script>

@@ -21,7 +21,7 @@ module.exports = {
   emailError: "البريد الالكتروني غير صحيح",
   emailRequired: "يجب كتابة البريد الالكتروني",
   phoneLabel: "رقم الجوال",
-  phonError: "رقم الجوال غير صحيح",
+  phonError: "رقم الجوال غير صحيح تأكد من النمط 9665XXXXXXX",
   phoneRequired: "يجب كتابة رقم الجوال",
   regsBtn: "تسجيل",
   btnSecondStep: "السابق"

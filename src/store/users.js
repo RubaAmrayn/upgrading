@@ -9,6 +9,14 @@ export default {
     },
     LOG_OUT(state) {
       state.user = {};
+    },
+    UPDATE_USER(state, payload) {
+      state.user.first_name = payload.first_name;
+      state.user.middle_name = payload.middle_name;
+      state.user.last_name = payload.last_name;
+      state.user.date_of_birth = payload.date_of_birth;
+      state.user.phone = payload.phone;
+      state.user.email = payload.email;
     }
   },
   actions: {
@@ -42,6 +50,26 @@ export default {
     },
     logOut({ commit }) {
       commit("LOG_OUT");
+    },
+    updateUser({ commit, state }, user) {
+      let user_id = state.user.user_id;
+      let data = Object.assign({}, user, { user_id });
+      return new Promise((resolve, reject) => {
+        axios
+          .patch("/api/profile/updateOnePersonInfo", data)
+          .then(response => {
+            if (
+              response.data.changedRows == 0 &&
+              response.data.affectedRows > 0
+            ) {
+              resolve("nothing_new");
+            } else if (response.data.changedRows > 0) {
+              resolve("Updated");
+              commit("UPDATE_USER", data);
+            }
+          })
+          .catch(error => reject(error));
+      });
     }
   },
   getters: {

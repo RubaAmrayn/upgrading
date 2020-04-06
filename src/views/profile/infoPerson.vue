@@ -1,18 +1,9 @@
 <template>
   <div>
     <v-card flat>
-      <v-card-title class="justify-end">
-        <v-dialog
-          max-width="650"
-          transition="slide-y-transition"
-          origin="top bottom"
-        >
-          <template #activator="{ on }">
-            <v-btn color="info" depressed v-on="on">تعديل</v-btn>
-          </template>
-          <infoPerson-form></infoPerson-form>
-        </v-dialog>
-      </v-card-title>
+      <v-card-text>
+        <infoPerson-details></infoPerson-details>
+      </v-card-text>
     </v-card>
   </div>
 </template>
@@ -20,11 +11,13 @@
 export default {
   name: "info-person",
   components: {
-    "infoPerson-form": () =>
-      import("@/components/profile/infoPerson/infoPersonForm")
+    "infoPerson-details": () =>
+      import("@/components/profile/infoPerson/infoPersonDetails")
   },
   data() {
-    return {};
+    return {
+      infoDialog: false
+    };
   }
 };
 </script>

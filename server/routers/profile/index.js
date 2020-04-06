@@ -19,5 +19,10 @@ module.exports = [
     method: "DELETE",
     url: "/api/profile/deleteOneEducaionalQualifications/:qualification_id",
     handler: profileController.deleteOneEducaionalQualifications
+  },
+  {
+    method: "PATCH",
+    url: "/api/profile/updateOnePersonInfo",
+    handler: profileController.updatePersonInfo
   }
 ];

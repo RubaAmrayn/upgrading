@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="start">
-      <v-col cols="12" sm="8" md="6" lg="6">
+      <v-col cols="12" sm="12" md="12" lg="12">
         <v-alert type="info" border="top" colored-border>
           {{ addAlert }}
         </v-alert>
