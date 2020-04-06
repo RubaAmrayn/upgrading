@@ -69,16 +69,16 @@ export default {
       return this.$vuetify.lang.t("$vuetify.Educational.addAlert");
     },
     eduTitle() {
-      return this.$vuetify.lang.t("$vuetify.Educational.eduTitle");
+      return this.$vuetify.lang.t("$vuetify.Info.eduTitle");
     },
     infoPerson() {
-      return this.$vuetify.lang.t("$vuetify.Educational.infoPerson");
+      return this.$vuetify.lang.t("$vuetify.Info.infoPerson");
     },
     qualifications() {
-      return this.$vuetify.lang.t("$vuetify.Educational.qualifications");
+      return this.$vuetify.lang.t("$vuetify.Info.qualifications");
     },
     experiencePersonal() {
-      return this.$vuetify.lang.t("$vuetify.Educational.experiencePersonal");
+      return this.$vuetify.lang.t("$vuetify.Info.experiencePersonal");
     }
   }
 };

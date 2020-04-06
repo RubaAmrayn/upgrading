@@ -2,7 +2,9 @@ const Login = require("./loginText");
 const Sign = require("./signText");
 const Pages = require("./pagesText");
 const About = require("./aboutText");
-const Educational = require("./educationalText");
+const Educational = require("./profile/educationalText");
+const Info = require("./profile/infoText");
+const Personal = require("./profile/personalText");
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -54,5 +56,7 @@ export default {
   Sign,
   Pages,
   About,
-  Educational
+  Educational,
+  Info,
+  Personal
 };

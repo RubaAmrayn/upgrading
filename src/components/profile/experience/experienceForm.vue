@@ -9,12 +9,20 @@
           <v-form lazy-validation ref="form">
             <v-autocomplete
               return-object
-              items=""
+              items="عملية, مهنيه"
               :item-text="`${$vuetify.lang.current}_title`"
               item-value="title_id"
               outlined
               label="اختر نوع الخبرة"
-              :rules="[v => !!v || qualificationsError]"
+              v-model="qualification.qualification_title"
+            ></v-autocomplete>
+            <v-autocomplete
+              return-object
+              items="مبتدئ متوسط خبير"
+              :item-text="`${$vuetify.lang.current}_title`"
+              item-value="title_id"
+              outlined
+              label="مستوى الخبرة"
               v-model="qualification.qualification_title"
             ></v-autocomplete>
             <v-text-field
@@ -22,7 +30,6 @@
               label="مكان الخبرة"
               outlined
               hint=""
-              :rules="[v => !!v || eduPlaceError, ...nameRules]"
               v-model="qualification.universty_name"
             ></v-text-field>
             <v-menu
@@ -40,7 +47,6 @@
                   label="سنة انتهاء الخبرة"
                   outlined
                   hint=""
-                  :rules="[v => !!v || dateError]"
                   v-on="on"
                   readonly
                 ></v-text-field>
@@ -92,30 +98,6 @@ export default {
     };
   },
   computed: {
-    cardTitle() {
-      return this.$vuetify.lang.t("$vuetify.Educational.cardTitle");
-    },
-    selectQualification() {
-      return this.$vuetify.lang.t("$vuetify.Educational.selectQualification");
-    },
-    eduPlace() {
-      return this.$vuetify.lang.t("$vuetify.Educational.eduPlace");
-    },
-    gradYear() {
-      return this.$vuetify.lang.t("$vuetify.Educational.gradYear");
-    },
-    eduAdd() {
-      return this.$vuetify.lang.t("$vuetify.Educational.eduAdd");
-    },
-    dateError() {
-      return this.$vuetify.lang.t("$vuetify.Educational.dateError");
-    },
-    qualificationsError() {
-      return this.$vuetify.lang.t("$vuetify.Educational.qualificationsError");
-    },
-    eduPlaceError() {
-      return this.$vuetify.lang.t("$vuetify.Educational.eduPlaceError");
-    },
     ...mapGetters(["Educational_titles"])
   }
 };

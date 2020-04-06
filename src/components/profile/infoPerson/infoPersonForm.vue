@@ -3,7 +3,7 @@
     <v-col cols="12" sm="12" md="12" lg="12" xl="12" class="pa-0">
       <v-card>
         <v-card-title class="primary-title justify-center">
-          تعديل البيانات الشخصية
+          {{ editInfo }}
         </v-card-title>
         <v-card-text class="pb-2">
           <v-form ref="form" lazy-validation>
@@ -104,12 +104,12 @@
           <v-container fluid class="py-0">
             <v-row justify="space-between">
               <v-col cols="4">
-                <v-btn color="primary" block depressed @click="Update()"
-                  >Submit</v-btn
-                >
+                <v-btn color="primary" block depressed @click="Update()">{{
+                  sendInfo
+                }}</v-btn>
               </v-col>
               <v-col cols="4">
-                <v-btn text block @click="closeDialog">Cancel</v-btn>
+                <v-btn text block @click="closeDialog">{{ exitForm }}</v-btn>
               </v-col>
             </v-row>
           </v-container>
@@ -140,6 +140,15 @@ export default {
   },
 
   computed: {
+    editInfo() {
+      return this.$vuetify.lang.t("$vuetify.Personal.editInfo");
+    },
+    sendInfo() {
+      return this.$vuetify.lang.t("$vuetify.Personal.sendInfo");
+    },
+    exitForm() {
+      return this.$vuetify.lang.t("$vuetify.Personal.exitForm");
+    },
     ...mapGetters(["getUser"]),
     FirstNameLabel() {
       return this.$vuetify.lang.t("$vuetify.Sign.firstNameLabel");

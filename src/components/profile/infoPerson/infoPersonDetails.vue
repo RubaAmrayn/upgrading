@@ -6,7 +6,7 @@
         class="title grey--text text--lighten-1 font-weight-light"
         style="align-self: center;"
       >
-        Error No Data
+        {{ erroData }}
       </div>
       <v-card v-else class="" flat>
         <v-card-text>
@@ -34,7 +34,7 @@
         <v-row justify="center">
           <v-col cols="2">
             <div class="text-start">
-              اسم المستخدم:
+              {{ UsernameLabel }}
             </div>
           </v-col>
           <v-col cols="2">
@@ -46,7 +46,7 @@
         <v-row justify="center">
           <v-col cols="2">
             <div class="text-start">
-              تاريخ الميلاد:
+              {{ DateLabel }}
             </div>
           </v-col>
           <v-col cols="2">
@@ -58,7 +58,7 @@
         <v-row justify="center">
           <v-col cols="2">
             <div class="text-start">
-              رقم الجوال:
+              {{ PhoneLabel }}
             </div>
           </v-col>
           <v-col cols="2">
@@ -86,6 +86,18 @@ export default {
     };
   },
   computed: {
+    erroData() {
+      return this.$vuetify.lang.t("$vuetify.Personal.errorData");
+    },
+    UsernameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Login.username");
+    },
+    DateLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.dateLabel");
+    },
+    PhoneLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.phoneLabel");
+    },
     ...mapGetters(["getUser"])
   },
   mounted() {
