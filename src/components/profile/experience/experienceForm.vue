@@ -9,28 +9,28 @@
           <v-form lazy-validation ref="form">
             <v-autocomplete
               return-object
-              items="عملية, مهنيه"
-              :item-text="`${$vuetify.lang.current}_title`"
-              item-value="title_id"
+              :items="getExpTypes"
+              :item-text="`${$vuetify.lang.current}_experince_type`"
+              item-value="type_id"
               outlined
               label="اختر نوع الخبرة"
-              v-model="qualification.qualification_title"
+              v-model="experience.experience_type"
             ></v-autocomplete>
             <v-autocomplete
               return-object
-              items="مبتدئ متوسط خبير"
-              :item-text="`${$vuetify.lang.current}_title`"
-              item-value="title_id"
+              :items="getExpLevels"
+              :item-text="`${$vuetify.lang.current}_exp_level`"
+              item-value="exp_level_id"
               outlined
               label="مستوى الخبرة"
-              v-model="qualification.qualification_title"
+              v-model="experience.experience_level"
             ></v-autocomplete>
             <v-text-field
               prepend-inner-icon="mdi-account"
-              label="مكان الخبرة"
+              label="اسم الخبرة"
               outlined
               hint=""
-              v-model="qualification.universty_name"
+              v-model="experience.experience_name"
             ></v-text-field>
             <v-menu
               v-model="menu"
@@ -42,20 +42,20 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="qualification.graduation_year"
+                  v-model="dateRangeText"
                   prepend-inner-icon="mdi-school"
                   label="سنة انتهاء الخبرة"
                   outlined
-                  hint=""
                   v-on="on"
                   readonly
+                  :messages="checkForDate"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="qualification.graduation_year"
+                v-model="experience.experience_dates"
                 ref="picker"
                 @input="menu = false"
-                type="month"
+                range
                 year-icon="mdi-calendar-outline"
                 :max="new Date().toISOString().substr(0, 10)"
                 min="1950-01-01"
@@ -90,15 +90,66 @@ export default {
     return {
       showDialog: true,
       menu: false,
-      qualification: {
-        universty_name: "",
-        graduation_year: null,
-        qualification_title: null
+      experience: {
+        experience_name: "",
+        experience_dates: [],
+        experience_type: {},
+        experience_level: {}
       }
     };
   },
   computed: {
-    ...mapGetters(["Educational_titles"])
+    dateRangeText() {
+      return this.experience.experience_dates.join(" ~ ");
+    },
+    checkForDate() {
+      let dates = this.experience.experience_dates;
+      if (dates.lenght == 0) {
+        return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
+      } else if (dates.length == 1) {
+        return "تم اختيار تاريخ البداية اللآن اختر تاريخ النهاية";
+      } else if (dates.length == 2) {
+        return "تم اختيار التاريخين";
+      } else {
+        return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
+      }
+    },
+    ...mapGetters(["getExpTypes", "getExpLevels"])
+  },
+  watch: {
+    menu(newValue) {
+      newValue && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
+    }
+  },
+  methods: {
+    insert() {
+      console.log(this.experience);
+      this.$store.dispatch("insertExperience", this.experience).then(res => {
+        if (res == "inserted") {
+          this.$root.$emit("show-alert", {
+            status: "success",
+            title: "تمت الاضافة ",
+            body: "تمت إضافة الخبرة، تابع الإضافة  اذا كان لديك مزيد!"
+          });
+        }
+      });
+      this.$refs.form.reset();
+    }
+  },
+  mounted() {
+    this.$store.dispatch("getExpTypes");
+    this.$store.dispatch("getExpLevels");
   }
 };
 </script>
+<style>
+form
+  > div
+  > div.v-input__control
+  > div.v-text-field__details
+  > div.v-messages
+  > div {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+}
+</style>

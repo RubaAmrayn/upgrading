@@ -60,7 +60,9 @@
                 <v-icon>mdi-delete-circle-outline</v-icon>
               </v-btn>
               <!-- attachement container -->
-              <edu-attachement-container></edu-attachement-container>
+              <edu-attachement-container
+                :qualification_id="qualification.qualification_id"
+              ></edu-attachement-container>
             </div>
           </v-col>
         </v-row>

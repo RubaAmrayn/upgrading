@@ -7,7 +7,7 @@
         counter
         label="File input"
         multiple
-        placeholder="Select your files"
+        placeholder=""
         outlined
         :show-size="1000"
         :loading="connectionState"
@@ -29,6 +29,12 @@
 <script>
 export default {
   name: "edu-attachement-form",
+  props: {
+    qualification_id: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
       files: [],
@@ -47,12 +53,19 @@ export default {
     },
     upload() {
       if (this.files.length > 0) {
-        this.connectionState = true;
-        setTimeout(() => {
-          this.connectionState = false;
-        }, 4000);
+        // this.connectionState = true;
+        // setTimeout(() => {
+        //   this.connectionState = false;
+        // }, 4000);
+        this.$store.dispatch("uplaodEducationalAttachement", {
+          files: this.files,
+          qualification_id: this.qualification_id
+        });
       }
     }
+  },
+  mounted() {
+    alert(this.qualification_id);
   }
 };
 </script>

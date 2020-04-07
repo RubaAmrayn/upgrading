@@ -11,9 +11,13 @@
       </v-card-title>
       <v-card-text>
         <!-- edu attach form -->
-        <edu-attachement-form></edu-attachement-form>
+        <edu-attachement-form
+          :qualification_id="qualification_id"
+        ></edu-attachement-form>
         <!-- edu attach list -->
-        <edu-attachement-list></edu-attachement-list>
+        <edu-attachement-list
+          :qualification_id="qualification_id"
+        ></edu-attachement-list>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -24,6 +28,12 @@ import eduAttachementForm from "./eduAttachementForm";
 import eduAttachementList from "./eduAttachementList";
 export default {
   name: "edu-attachement-vue",
+  props: {
+    qualification_id: {
+      type: Number,
+      required: true
+    }
+  },
   components: {
     "edu-attachement-form": eduAttachementForm,
     "edu-attachement-list": eduAttachementList

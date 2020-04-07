@@ -125,3 +125,136 @@ exports.updatePersonInfo = async (req, reply) => {
     }
   );
 };
+exports.uplaodEducationalAttachement = async (req, reply) => {
+  let qualification_id = req.params.qualification_id;
+  let files = req.files.map(file => {
+    return [
+      file.originalname,
+      file.filename,
+      file.mimetype,
+      file.path,
+      qualification_id
+    ];
+  });
+  mysql.query(
+    `
+  INSERT INTO upgrading.educational_attachements
+  (
+  original_attachement_name,
+  attachement_name,
+  mime_type,
+  attachement_path,
+  educational_qualifications_id)
+  VALUES ?;
+  `,
+    [files],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+/***
+ * Experinces Controllers
+ */
+exports.getEXperincesTypes = async (req, reply) => {
+  mysql.query(
+    `
+  SELECT * FROM upgrading.experince_types;
+  `,
+    [],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.getEXperincesLevels = async (req, reply) => {
+  mysql.query(
+    `
+  SELECT * FROM upgrading.experince_levels;`,
+    [],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+exports.insertExperience = async (req, reply) => {
+  mysql.query(
+    `INSERT INTO upgrading.experinces
+    (
+    experince_name,
+    start_date,
+    end_date,
+    Experince_types_id,
+    users_user_id,
+    experince_level)
+    VALUES
+    (?,?,?,?,?,?);`,
+    [
+      req.body.experience_name,
+      req.body.start_date,
+      req.body.end_date,
+      req.body.Experience_types_id,
+      req.body.user_id,
+      req.body.experience_level
+    ],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.getOneUserExperience = async (req, reply) => {
+  mysql.query(
+    `
+  SELECT 
+    e.experince_id,
+    e.experince_name,
+    e.start_date,
+    e.end_date,
+    et.type_id,
+    et.ar_experince_type,
+    et.en_experince_type,
+    el.exp_level_id,
+    el.ar_exp_level,
+    el.en_exp_level,
+    u.user_id,
+    u.first_name,
+    u.middle_name,
+    u.last_name
+FROM
+    upgrading.experinces e
+        LEFT JOIN
+    experince_types et ON et.type_id = e.Experince_types_id
+        LEFT JOIN
+    experince_levels el ON el.exp_level_id = e.experince_level
+        LEFT JOIN
+    users u ON u.user_id = e.users_user_id
+    where e.users_user_id = ?
+  `,
+    [req.params.user_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};

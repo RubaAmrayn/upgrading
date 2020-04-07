@@ -12,6 +12,7 @@
   "dependencies": {
     "cryptr": "^6.0.2",
     "fastify": "^2.13.0",
+    "fastify-multer": "^1.5.2",
     "mysql2": "^2.1.0"
   },
   "devDependencies": {
