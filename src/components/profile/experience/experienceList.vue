@@ -7,7 +7,7 @@
       flat
     >
       <div class="title text-center">
-        لا يوجد لديك خبرات للسف
+        {{ experNo }}
       </div>
     </v-card>
     <v-card
@@ -23,7 +23,7 @@
         <v-row justify="center" class="px-2">
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
             <div class="title justify-center">
-              الخبرة
+              {{ experience }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ experience.experince_name }}
@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
             <div class="title center-text">
-              تاريخ البداية
+              {{ experStart }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ new Date(experience.start_date).toLocaleDateString("en-sa") }}
@@ -39,7 +39,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
             <div class="title center-text">
-              تاريخ النهاية
+              {{ experEnd }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ new Date(experience.end_date).toLocaleDateString("en-sa") }}
@@ -47,7 +47,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
             <div class="title justify-center">
-              نوع الخبرة
+              {{ experType }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ experience.ar_experince_type }}
@@ -55,7 +55,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
             <div class="title justify-center">
-              مستوى الخبرة
+              {{ experLevel }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ experience.ar_exp_level }}
@@ -63,7 +63,7 @@
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
             <div class="title justify-center">
-              الاحداث
+              {{ qualificationEvents }}
             </div>
             <div class="subtitle-1 justify-center">
               <v-btn icon>
@@ -91,6 +91,27 @@ export default {
     return {};
   },
   computed: {
+    experNo() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experNo");
+    },
+    experience() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experience");
+    },
+    experStart() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experStart");
+    },
+    experEnd() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experEnd");
+    },
+    experType() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experType");
+    },
+    experLevel() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experLevel");
+    },
+    qualificationEvents() {
+      return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
+    },
     ...mapGetters(["getExperinces"])
   },
   methods: {

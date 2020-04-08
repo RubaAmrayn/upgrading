@@ -6,7 +6,7 @@
           {{ cardTitle }}
         </v-card-title>
         <v-card-text class="pb-2">
-          <v-form lazy-validation ref="form">
+          <v-form lazy-validation ref="eduForm">
             <v-autocomplete
               return-object
               :items="Educational_titles"
@@ -62,8 +62,13 @@
           <v-container class="pa-1">
             <v-row justify="center">
               <v-col cols="6" class="py-1">
-                <v-btn color="success" depressed block @click="insert">
-                  إضافة
+                <v-btn
+                  color="success"
+                  depressed
+                  block
+                  @click="educational_form"
+                >
+                  {{ eduAdd }}
                   <v-icon>mdi-pencil-plus-outline</v-icon>
                 </v-btn>
               </v-col>
@@ -139,6 +144,19 @@ export default {
             this.$refs.form.reset();
           }
         });
+    },
+    educational_form() {
+      if (this.$refs.eduForm.validate()) {
+        this.connectionState = true;
+        //استدعاء ال action من ال vuex
+        this.$store
+          .dispatch("insert", this.qualification)
+          .then(() => {
+            this.connectionState = false;
+            this.$router.push("/");
+          })
+          .catch(() => {});
+      }
     }
   },
   mounted() {

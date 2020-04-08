@@ -8,7 +8,7 @@
           origin="top bottom"
         >
           <template #activator="{ on }">
-            <v-btn color="info" depressed v-on="on">اضافة خبرة؟</v-btn>
+            <v-btn color="info" depressed v-on="on">{{ experienceAdd }}</v-btn>
           </template>
           <experience-form></experience-form>
         </v-dialog>
@@ -22,6 +22,11 @@
 <script>
 export default {
   name: "experience",
+  computed: {
+    experienceAdd() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experienceAdd");
+    }
+  },
   components: {
     "experience-form": () =>
       import("@/components/profile/experience/experienceForm"),

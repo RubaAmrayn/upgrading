@@ -3,17 +3,18 @@
     <v-col cols="12" sm="12" md="12" lg="12" xl="12" class="pa-0">
       <v-card>
         <v-card-title class="primary-title justify-center">
-          اضافة خبرة
+          {{ experAdd }}
         </v-card-title>
         <v-card-text class="pb-2">
-          <v-form lazy-validation ref="form">
+          <v-form lazy-validation ref="experForm">
             <v-autocomplete
               return-object
               :items="getExpTypes"
               :item-text="`${$vuetify.lang.current}_experince_type`"
               item-value="type_id"
               outlined
-              label="اختر نوع الخبرة"
+              :label="experSelect"
+              :rules="[v => !!v || experSelectError]"
               v-model="experience.experience_type"
             ></v-autocomplete>
             <v-autocomplete
@@ -22,14 +23,16 @@
               :item-text="`${$vuetify.lang.current}_exp_level`"
               item-value="exp_level_id"
               outlined
-              label="مستوى الخبرة"
+              :label="experLevel"
+              :rules="[v => !!v || experLevelError]"
               v-model="experience.experience_level"
             ></v-autocomplete>
             <v-text-field
               prepend-inner-icon="mdi-account"
-              label="اسم الخبرة"
+              :label="experName"
               outlined
               hint=""
+              :rules="[v => !!v || experNameError]"
               v-model="experience.experience_name"
             ></v-text-field>
             <v-menu
@@ -44,7 +47,8 @@
                 <v-text-field
                   v-model="dateRangeText"
                   prepend-inner-icon="mdi-school"
-                  label="سنة انتهاء الخبرة"
+                  :label="experDate"
+                  :rules="[v => !!v || experDateError]"
                   outlined
                   v-on="on"
                   readonly
@@ -68,8 +72,8 @@
           <v-container class="pa-1">
             <v-row justify="center">
               <v-col cols="6" class="py-1">
-                <v-btn color="success" depressed block @click="insert">
-                  إضافة
+                <v-btn color="success" depressed block @click="experience_form">
+                  {{ eduAdd }}
                   <v-icon>mdi-pencil-plus-outline</v-icon>
                 </v-btn>
               </v-col>
@@ -99,21 +103,55 @@ export default {
     };
   },
   computed: {
+    experAdd() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experAdd");
+    },
+    experSelect() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experSelect");
+    },
+    experLevel() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experLevel");
+    },
+    experName() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experName");
+    },
+    experDate() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experDate");
+    },
+    eduAdd() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduAdd");
+    },
+    experSelectError() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experSelectError");
+    },
+    experLevelError() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experLevelError");
+    },
+    experNameError() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experNameError");
+    },
+    experDateError() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experDateError");
+    },
+    experDateTwoError() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experDateTwoError");
+    },
     dateRangeText() {
       return this.experience.experience_dates.join(" ~ ");
     },
-    checkForDate() {
-      let dates = this.experience.experience_dates;
-      if (dates.lenght == 0) {
-        return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
-      } else if (dates.length == 1) {
-        return "تم اختيار تاريخ البداية اللآن اختر تاريخ النهاية";
-      } else if (dates.length == 2) {
-        return "تم اختيار التاريخين";
-      } else {
-        return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
-      }
-    },
+    // checkForDate() {
+    //   let dates = this.experience.experience_dates;
+    //   if (dates.lenght == 0) {
+    //     return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
+    //   } else if (dates.length == 1) {
+    //     return "تم اختيار تاريخ البداية اللآن اختر تاريخ النهاية";
+    //   } else if (dates.length == 2) {
+    //     return "تم اختيار التاريخين";
+    //   } else {
+    //     return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
+    //   }
+    // },
+
     ...mapGetters(["getExpTypes", "getExpLevels"])
   },
   watch: {
@@ -134,6 +172,15 @@ export default {
         }
       });
       this.$refs.form.reset();
+    },
+    experience_form() {
+      if (this.$refs.experForm.validate()) {
+        this.connectionState = true;
+        //استدعاء ال action من ال vuex
+        this.$store.dispatch("insert", this.experience).then(() => {
+          this.connectionState = false;
+        });
+      }
     }
   },
   mounted() {
