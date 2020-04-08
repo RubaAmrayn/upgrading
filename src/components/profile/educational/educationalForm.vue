@@ -148,12 +148,18 @@ export default {
     educational_form() {
       if (this.$refs.eduForm.validate()) {
         this.connectionState = true;
-        //استدعاء ال action من ال vuex
         this.$store
-          .dispatch("insert", this.qualification)
-          .then(() => {
+          .dispatch("insertQualification", this.qualification)
+          .then(res => {
             this.connectionState = false;
-            this.$router.push("/");
+            if (res == "inserted") {
+              this.$root.$emit("show-alert", {
+                status: "success",
+                title: "تمت الإضافة",
+                body: "تمت إضافة المؤهل بنجاح"
+              });
+              this.$refs.eduForm.reset();
+            }
           })
           .catch(() => {});
       }

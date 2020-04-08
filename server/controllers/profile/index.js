@@ -128,11 +128,12 @@ exports.updatePersonInfo = async (req, reply) => {
 exports.uplaodEducationalAttachement = async (req, reply) => {
   let qualification_id = req.params.qualification_id;
   let files = req.files.map(file => {
+    let newPath = file.path.replace(/\\/g, "/");
     return [
       file.originalname,
       file.filename,
       file.mimetype,
-      file.path,
+      newPath,
       qualification_id
     ];
   });
@@ -157,6 +158,39 @@ exports.uplaodEducationalAttachement = async (req, reply) => {
     }
   );
 };
+
+exports.getAllEducationalAttchements = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT * FROM upgrading.educational_attachements where educational_qualifications_id = ?;  
+  `,
+    [req.params.qualification_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.deleteOneEducaionalAttachements = async (req, reply) => {
+  mysql.query(
+    `DELETE FROM upgrading.educational_attachements where educational_attachement_id = ?;`,
+    [req.params.educational_attachement_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+// exports.serveEducationalAttchements = async (req, reply) => {
+//   reply.send("uploads/" + req.params.path);
+// };
 /***
  * Experinces Controllers
  */

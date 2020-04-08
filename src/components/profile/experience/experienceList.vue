@@ -23,7 +23,7 @@
         <v-row justify="center" class="px-2">
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
             <div class="title justify-center">
-              {{ experience }}
+              {{ experience_name }}
             </div>
             <div class="subtitle-1 justify-center">
               {{ experience.experince_name }}
@@ -94,8 +94,8 @@ export default {
     experNo() {
       return this.$vuetify.lang.t("$vuetify.Experience.experNo");
     },
-    experience() {
-      return this.$vuetify.lang.t("$vuetify.Experience.experience");
+    experience_name() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experience_name");
     },
     experStart() {
       return this.$vuetify.lang.t("$vuetify.Experience.experStart");

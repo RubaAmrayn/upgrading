@@ -1,15 +1,26 @@
 <template>
   <v-list two-line flat>
     <v-subheader inset>المرفقات</v-subheader>
-    <v-list-item-group color="primary" append-icon="mdi-folder">
-      <v-list-item v-for="item in items" :key="item.title">
+    <v-list-item-group
+      color="primary"
+      append-icon="mdi-folder"
+      v-if="getQualification_attachements.length > 0"
+    >
+      <v-list-item
+        v-for="file in getQualification_attachements"
+        :key="file.educational_attachement_id"
+      >
         <v-list-item-icon>
-          <v-icon :class="[item.iconClass || '']">mdi-{{ item.icon }}</v-icon>
+          <v-icon>{{ getIcon(file.mime_type) }}</v-icon>
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title v-text="item.title"></v-list-item-title>
-          <v-list-item-subtitle v-text="item.subtitle"></v-list-item-subtitle>
+          <v-list-item-title
+            v-text="file.original_attachement_name"
+          ></v-list-item-title>
+          <v-list-item-subtitle
+            v-text="file.upload_date"
+          ></v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-action>
@@ -18,41 +29,76 @@
           </v-btn>
         </v-list-item-action>
         <v-list-item-action>
-          <v-btn icon>
+          <v-btn
+            icon
+            @click="delete_attachement(file.educational_attachement_id)"
+          >
             <v-icon>mdi-trash-can-outline</v-icon>
           </v-btn>
         </v-list-item-action>
       </v-list-item>
     </v-list-item-group>
+    <v-card flat v-else>
+      <v-card-text>
+        <h3 class="text-center">
+          لا يوجد لديك مرفقات
+        </h3>
+      </v-card-text>
+    </v-card>
   </v-list>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "edu-attachement-list",
+  props: ["qualification_id"],
   data() {
-    return {
-      items: [
-        {
-          icon: "file-pdf-outline",
-          // iconClass: "primary lighten-1 white--text",
-          title: "Photos",
-          subtitle: "Jan 9, 2014"
-        },
-        {
-          icon: "file-pdf-outline",
-          // iconClass: "primary lighten-1 white--text",
-          title: "Recipes",
-          subtitle: "Jan 17, 2014"
-        },
-        {
-          icon: "file-image-outline",
-          // iconClass: "primary lighten-1 white--text",
-          title: "Work",
-          subtitle: "Jan 28, 2014"
+    return {};
+  },
+  computed: {
+    ...mapGetters(["getQualification_attachements"])
+  },
+  methods: {
+    getIcon(mime_type) {
+      console.log(mime_type);
+      if (mime_type.startsWith("image")) {
+        return "mdi-file-image-outline";
+      } else if (mime_type == "application/pdf") {
+        return "mdi-file-pdf-outline";
+      } else {
+        return "mdi-file";
+      }
+    },
+    delete_attachement(attachement_id) {
+      let self = this;
+      let data = {
+        attachement_id,
+        qualification_id: this.qualification_id
+      };
+      this.$root.$emit("show-alert", {
+        status: "confirm",
+        title: "هل أنت متأكد؟",
+        body: "هل تريد حذف المرفق؟",
+        data: data,
+        action: "deleteOneEducationalAttachements",
+        onSuccess(res) {
+          if (res == "deleted") {
+            self.$root.$emit("show-alert", {
+              status: "success",
+              title: "تم الحذف",
+              body: "تم حذف المرفق بنجاح"
+            });
+          }
         }
-      ]
-    };
+      });
+    }
+  },
+  mounted() {
+    this.$store.dispatch(
+      "getOneEducationalAttachements",
+      this.qualification_id
+    );
   }
 };
 </script>

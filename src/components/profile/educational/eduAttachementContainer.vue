@@ -1,5 +1,10 @@
 <template>
-  <v-dialog max-width="650" transition="slide-y-transition" origin="top bottom">
+  <v-dialog
+    max-width="650"
+    transition="slide-y-transition"
+    origin="top bottom"
+    v-model="dialog"
+  >
     <template #activator="{ on }">
       <v-btn icon v-on="on">
         <v-icon>mdi-folder-outline</v-icon>
@@ -13,10 +18,12 @@
         <!-- edu attach form -->
         <edu-attachement-form
           :qualification_id="qualification_id"
+          v-if="dialog"
         ></edu-attachement-form>
         <!-- edu attach list -->
         <edu-attachement-list
           :qualification_id="qualification_id"
+          v-if="dialog"
         ></edu-attachement-list>
       </v-card-text>
     </v-card>
@@ -24,8 +31,6 @@
 </template>
 
 <script>
-import eduAttachementForm from "./eduAttachementForm";
-import eduAttachementList from "./eduAttachementList";
 export default {
   name: "edu-attachement-vue",
   props: {
@@ -34,9 +39,14 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      dialog: false
+    };
+  },
   components: {
-    "edu-attachement-form": eduAttachementForm,
-    "edu-attachement-list": eduAttachementList
+    "edu-attachement-form": () => import("./eduAttachementForm"),
+    "edu-attachement-list": () => import("./eduAttachementList")
   }
 };
 </script>

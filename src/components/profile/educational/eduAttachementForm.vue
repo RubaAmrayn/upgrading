@@ -53,19 +53,25 @@ export default {
     },
     upload() {
       if (this.files.length > 0) {
-        // this.connectionState = true;
-        // setTimeout(() => {
-        //   this.connectionState = false;
-        // }, 4000);
-        this.$store.dispatch("uplaodEducationalAttachement", {
-          files: this.files,
-          qualification_id: this.qualification_id
-        });
+        this.connectionState = true;
+        this.$store
+          .dispatch("uplaodEducationalAttachement", {
+            files: this.files,
+            qualification_id: this.qualification_id
+          })
+          .then(res => {
+            this.connectionState = false;
+            this.files = [];
+            if (res == "uploaded") {
+              this.$root.$emit("show-alert", {
+                status: "success",
+                title: "تم الرفع",
+                body: "تم رفع مرفقاتك بنجاح"
+              });
+            }
+          });
       }
     }
-  },
-  mounted() {
-    alert(this.qualification_id);
   }
 };
 </script>
@@ -78,6 +84,5 @@ form
   > div.v-messages
   > div {
   font-size: 1rem;
-  color: rgba(0, 0, 0, 0.8);
 }
 </style>

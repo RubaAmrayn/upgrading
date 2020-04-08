@@ -11,7 +11,7 @@ module.exports = {
   experDateTwoError: "يجب اختيار سنة نهاية الخبرة",
   experDateError: "يجب اختيار سنة بداية ونهاية الخبرة",
   experNo: "لا يوجد لديك خبرات",
-  experience: "الخبرة",
+  experience_name: "الخبرة",
   experStart: "بداية الخبرة",
   experEnd: "نهاية الخبرة",
   experType: "نوع الخبرة"

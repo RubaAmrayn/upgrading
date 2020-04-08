@@ -33,6 +33,22 @@ module.exports = [
     preHandler: profileUploader.eduUpload.array("eduAttachement"),
     handler: profileController.uplaodEducationalAttachement
   },
+  {
+    method: "GET",
+    url: "/api/profile/getAllEducationalAttchements/:qualification_id",
+    handler: profileController.getAllEducationalAttchements
+  },
+  {
+    method: "DELETE",
+    url:
+      "/api/profile/deleteOneEducaionalAttachements/:educational_attachement_id",
+    handler: profileController.deleteOneEducaionalAttachements
+  },
+  // {
+  //   method: "GET",
+  //   url: "/public/:path",
+  //   handler: profileController.serveEducationalAttchements
+  // },
   /**
    * Experiences routers
    */

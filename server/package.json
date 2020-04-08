@@ -13,7 +13,9 @@
     "cryptr": "^6.0.2",
     "fastify": "^2.13.0",
     "fastify-multer": "^1.5.2",
-    "mysql2": "^2.1.0"
+    "fastify-static": "^2.6.0",
+    "mysql2": "^2.1.0",
+    "node-static": "^0.7.11"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"

@@ -4,6 +4,7 @@ export default {
   state: {
     educational_titles: [],
     qualifications: [],
+    qualification_attachements: [],
     experiences: [],
     experince_types: [],
     experince_levels: []
@@ -17,6 +18,9 @@ export default {
     },
     PUSH_EXPERIENCES(state, payload) {
       state.experiences = payload;
+    },
+    PUSH_QUALIFICATION_ATTACHEMENTS(state, payload) {
+      state.qualification_attachements = payload;
     },
     SET_EXP_TYPES(state, payload) {
       state.experince_types = payload;
@@ -78,17 +82,14 @@ export default {
           });
       });
     },
-    uplaodEducationalAttachement({ state }, data) {
+    uplaodEducationalAttachement({ dispatch }, payload) {
       let formData = new FormData();
-      data.files.forEach(file => formData.append("eduAttachement", file));
-      console.log(state);
-      console.log(data.qualification_id);
-
+      payload.files.forEach(file => formData.append("eduAttachement", file));
       return new Promise((resolve, reject) => {
         axios
           .post(
             "/api/profile/uplaodEducationalAttachement/" +
-              data.qualification_id,
+              payload.qualification_id,
             formData,
             {
               headers: {
@@ -97,10 +98,44 @@ export default {
             }
           )
           .then(({ data }) => {
-            console.log(data);
-            resolve();
+            if (data) {
+              dispatch(
+                "getOneEducationalAttachements",
+                payload.qualification_id
+              );
+              resolve("uploaded");
+            }
           })
           .catch(err => reject(err));
+      });
+    },
+    getOneEducationalAttachements({ commit }, qualification_id) {
+      axios
+        .get("/api/profile/getAllEducationalAttchements/" + qualification_id)
+        .then(({ data }) => {
+          if (data) {
+            commit("PUSH_QUALIFICATION_ATTACHEMENTS", data);
+          }
+        });
+    },
+    deleteOneEducationalAttachements({ dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(
+            "/api/profile/deleteOneEducaionalAttachements/" +
+              payload.attachement_id
+          )
+          .then(({ data }) => {
+            if (data.affectedRows > 0) {
+              dispatch(
+                "getOneEducationalAttachements",
+                payload.qualification_id
+              );
+              resolve("deleted");
+            } else {
+              reject("not deleted");
+            }
+          });
       });
     },
     getExpTypes({ commit }) {
@@ -163,6 +198,7 @@ export default {
   getters: {
     Educational_titles: state => state.educational_titles,
     getQualifications: state => state.qualifications,
+    getQualification_attachements: state => state.qualification_attachements,
     getExperinces: state => state.experiences,
     getExpTypes: state => state.experince_types,
     getExpLevels: state => state.experince_levels
