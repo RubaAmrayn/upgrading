@@ -8,6 +8,7 @@
         <v-card-text class="pb-2">
           <v-form lazy-validation ref="eduForm">
             <v-autocomplete
+              prepend-inner-icon="mdi-playlist-edit"
               return-object
               :items="Educational_titles"
               :item-text="`${$vuetify.lang.current}_title`"

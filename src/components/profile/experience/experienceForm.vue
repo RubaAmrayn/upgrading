@@ -8,6 +8,7 @@
         <v-card-text class="pb-2">
           <v-form lazy-validation ref="experForm">
             <v-autocomplete
+              prepend-inner-icon="mdi-playlist-edit"
               return-object
               :items="getExpTypes"
               :item-text="`${$vuetify.lang.current}_experince_type`"
@@ -18,6 +19,7 @@
               v-model="experience.experience_type"
             ></v-autocomplete>
             <v-autocomplete
+              prepend-inner-icon="mdi-star"
               return-object
               :items="getExpLevels"
               :item-text="`${$vuetify.lang.current}_exp_level`"
@@ -28,7 +30,7 @@
               v-model="experience.experience_level"
             ></v-autocomplete>
             <v-text-field
-              prepend-inner-icon="mdi-account"
+              prepend-inner-icon="mdi-rename-box"
               :label="experName"
               outlined
               hint=""
@@ -48,7 +50,10 @@
                   v-model="dateRangeText"
                   prepend-inner-icon="mdi-school"
                   :label="experDate"
-                  :rules="[v => !!v || experDateError]"
+                  :rules="[
+                    v => !!v || experDateError,
+                    v => v.length[2] || experDateTwoError
+                  ]"
                   outlined
                   v-on="on"
                   readonly
@@ -176,10 +181,20 @@ export default {
     experience_form() {
       if (this.$refs.experForm.validate()) {
         this.connectionState = true;
-        //استدعاء ال action من ال vuex
-        this.$store.dispatch("insert", this.experience).then(() => {
-          this.connectionState = false;
-        });
+        this.$store
+          .dispatch("insertExperience", this.experience)
+          .then(res => {
+            this.connectionState = false;
+            if (res == "inserted") {
+              this.$root.$emit("show-alert", {
+                status: "success",
+                title: "تمت الإضافة",
+                body: "تمت إضافة الخبرة بنجاح"
+              });
+              this.$refs.experForm.reset();
+            }
+          })
+          .catch(() => {});
       }
     }
   },
