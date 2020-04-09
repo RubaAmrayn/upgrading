@@ -50,9 +50,21 @@
               {{ qualificationEvents }}
             </div>
             <div class="subtitle-1 justify-center">
-              <v-btn icon>
-                <v-icon>mdi-pencil-circle-outline</v-icon>
-              </v-btn>
+              <v-dialog
+                max-width="650"
+                transition="slide-y-transition"
+                origin="top bottom"
+              >
+                <template #activator="{ on }">
+                  <v-btn icon v-on="on">
+                    <v-icon>mdi-pencil-circle-outline</v-icon>
+                  </v-btn>
+                </template>
+                <educational-form
+                  method="Update"
+                  :qualification_id="qualification.qualification_id"
+                ></educational-form>
+              </v-dialog>
               <v-btn
                 icon
                 @click="deleteQualification(qualification.qualification_id)"
@@ -76,10 +88,13 @@ import { mapGetters } from "vuex";
 export default {
   name: "educational-list",
   components: {
-    "edu-attachement-container": () => import("./eduAttachementContainer")
+    "edu-attachement-container": () => import("./eduAttachementContainer"),
+    "educational-form": () => import("./educationalForm")
   },
   data() {
-    return {};
+    return {
+      showDialog: false
+    };
   },
   computed: {
     qualificationNo() {
@@ -127,6 +142,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch("getEducationalOneQualifications");
+    // this.$root.$on("close-educational-form", () => (this.showDialog = false));
+  },
+  destroyed() {
+    this.$root.$off("close-educational-form");
   }
 };
 </script>

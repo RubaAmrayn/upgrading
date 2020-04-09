@@ -66,15 +66,28 @@
               {{ qualificationEvents }}
             </div>
             <div class="subtitle-1 justify-center">
-              <v-btn icon>
-                <v-icon>mdi-pencil-circle-outline</v-icon>
-              </v-btn>
-              <v-btn icon @click="deleteQualification(experience.experince_id)">
+              <v-dialog
+                max-width="650"
+                transition="slide-y-transition"
+                origin="top bottom"
+              >
+                <template #activator="{ on }">
+                  <v-btn icon v-on="on">
+                    <v-icon>mdi-pencil-circle-outline</v-icon>
+                  </v-btn>
+                </template>
+                <experience-form
+                  method="Update"
+                  :experience_id="experience.experince_id"
+                ></experience-form>
+              </v-dialog>
+
+              <v-btn icon @click="deleteExperince(experience.experince_id)">
                 <v-icon>mdi-delete-circle-outline</v-icon>
               </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-folder-outline</v-icon>
-              </v-btn>
+              <exp-attachement-container
+                :experience_id="experience.experince_id"
+              ></exp-attachement-container>
             </div>
           </v-col>
         </v-row>
@@ -87,8 +100,14 @@
 import { mapGetters } from "vuex";
 export default {
   name: "experience-list",
+  components: {
+    "exp-attachement-container": () => import("./expAttachementContainer"),
+    "experience-form": () => import("./experienceForm")
+  },
   data() {
-    return {};
+    return {
+      showDialog: false
+    };
   },
   computed: {
     experNo() {
@@ -115,12 +134,32 @@ export default {
     ...mapGetters(["getExperinces"])
   },
   methods: {
-    deleteExperince() {
-      return;
+    deleteExperince(experince_id) {
+      let self = this;
+      this.$root.$emit("show-alert", {
+        status: "confirm",
+        title: "هل انت متأكد؟",
+        body: "هل أنت متأكد من حذف الخبرة؟",
+        action: "deleteOneExperience",
+        data: experince_id,
+        onSuccess(res) {
+          if (res == "deleted") {
+            self.$root.$emit("show-alert", {
+              status: "success",
+              title: "تم الحذف",
+              body: "تم حذف الخبرة و مرفقاتها"
+            });
+          }
+        }
+      });
     }
   },
   mounted() {
     this.$store.dispatch("getOneUserExperience");
+    // this.$root.$on("close-experince-form", () => (this.showDialog = false));
+  },
+  destroyed() {
+    // this.$root.$off("close-experince-form");
   }
 };
 </script>

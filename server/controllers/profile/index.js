@@ -1,4 +1,18 @@
 const mysql = require("../../connection");
+const fs = require("fs"),
+  path = require("path");
+
+let deleteFiles = (dir, Files = []) => {
+  let promises = Files.map(filename => {
+    return new Promise((resolve, reject) => {
+      fs.unlink(path.join(dir, filename.attachement_path), err => {
+        err ? reject(err) : resolve();
+      });
+    });
+  });
+  return Promise.all(promises);
+};
+
 exports.getEducationalTitles = async (req, reply) => {
   mysql.query(
     `
@@ -42,6 +56,32 @@ VALUES
     }
   );
 };
+exports.updateQualification = async (req, reply) => {
+  mysql.query(
+    `
+  UPDATE upgrading.educational_qualifications
+  SET
+  universty_name = ?,
+  graduation_year = ?,
+  qualification_title_id = ?
+  WHERE qualification_id = ?
+  `,
+    [
+      req.body.universty_name,
+      req.body.graduation_year,
+      req.body.qualification_title.title_id,
+      req.body.qualification_id
+    ],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
 exports.getOneEducationalQualifications = async (req, reply) => {
   mysql.query(
     `
@@ -76,6 +116,7 @@ exports.deleteOneEducaionalQualifications = async (req, reply) => {
   mysql.query(
     `
     START TRANSACTION;
+    SELECT attachement_path FROM upgrading.educational_attachements where educational_qualifications_id = ?;
     DELETE FROM upgrading.educational_attachements
     WHERE
       educational_qualifications_id = ?;
@@ -84,11 +125,16 @@ exports.deleteOneEducaionalQualifications = async (req, reply) => {
         qualification_id = ?;
     COMMIT;
   `,
-    [req.params.qualification_id, req.params.qualification_id],
+    [
+      req.params.qualification_id,
+      req.params.qualification_id,
+      req.params.qualification_id
+    ],
     (err, result) => {
       if (err) {
         reply.send(err);
       } else {
+        deleteFiles("./", result[1]);
         reply.send(result);
       }
     }
@@ -283,6 +329,110 @@ FROM
     where e.users_user_id = ?
   `,
     [req.params.user_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.deleteOneExperience = async (req, reply) => {
+  mysql.query(
+    `
+  START TRANSACTION;
+  SELECT attachement_path FROM upgrading.experinces_attachements where Experinces_experince_id = ?;
+  DELETE FROM upgrading.experinces_attachements
+  WHERE
+   Experinces_experince_id = ?;
+  DELETE FROM upgrading.experinces 
+  WHERE
+    experince_id = ?;
+  COMMIT;
+  `,
+    [req.params.experince_id, req.params.experince_id, req.params.experince_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        deleteFiles("./", result[1]);
+        reply.send(result);
+      }
+    }
+  );
+};
+exports.updateExperince = async (req, reply) => {
+  mysql.query(
+    `
+  UPDATE upgrading.experinces
+SET
+experince_name = ?,
+start_date = ?,
+end_date = ?,
+Experince_types_id = ?,
+experince_level = ?
+WHERE experince_id = ?;
+  `,
+    [
+      req.body.experience_name,
+      req.body.start_date,
+      req.body.end_date,
+      req.body.Experince_types_id,
+      req.body.experince_level,
+      req.body.experince_id
+    ],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.uplaodEexperienceAttachement = async (req, reply) => {
+  let experience_id = req.params.experience_id;
+  let files = req.files.map(file => {
+    let newPath = file.path.replace(/\\/g, "/");
+    return [
+      file.originalname,
+      file.filename,
+      file.mimetype,
+      newPath,
+      experience_id
+    ];
+  });
+  mysql.query(
+    `
+    INSERT INTO upgrading.experinces_attachements
+    (
+    original_attachement_name,
+    attachement_name,
+    mime_type,
+    attachement_path,
+    Experinces_experince_id)
+    VALUES ?;
+  `,
+    [files],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.getOneEexperienceAttachement = async (req, reply) => {
+  mysql.query(
+    `
+  SELECT * FROM upgrading.experinces_attachements where Experinces_experince_id = ?;
+  `,
+    [req.params.experience_id],
     (err, result) => {
       if (err) {
         reply.send(err);

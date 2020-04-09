@@ -13,6 +13,11 @@ module.exports = [
     handler: profileController.insertQualification
   },
   {
+    method: "PATCH",
+    url: "/api/profile/updateQualification",
+    handler: profileController.updateQualification
+  },
+  {
     method: "GET",
     url: "/api/profile/getOneEducationalQualifications/:user_id",
     handler: profileController.getOneEducationalQualifications
@@ -68,8 +73,29 @@ module.exports = [
     handler: profileController.insertExperience
   },
   {
+    method: "PATCH",
+    url: "/api/profile/updateExperince",
+    handler: profileController.updateExperince
+  },
+  {
     method: "GET",
     url: "/api/profile/getOneUserExperience/:user_id",
     handler: profileController.getOneUserExperience
+  },
+  {
+    method: "DELETE",
+    url: "/api/profile/deleteOneExperience/:experince_id",
+    handler: profileController.deleteOneExperience
+  },
+  {
+    method: "POST",
+    url: "/api/profile/uplaodEexperienceAttachement/:experience_id",
+    preHandler: profileUploader.expUpload.array("expAttachement"),
+    handler: profileController.uplaodEexperienceAttachement
+  },
+  {
+    method: "GET",
+    url: "/api/profile/getOneEexperienceAttachement/:experience_id",
+    handler: profileController.getOneEexperienceAttachement
   }
 ];

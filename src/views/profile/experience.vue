@@ -10,7 +10,7 @@
           <template #activator="{ on }">
             <v-btn color="info" depressed v-on="on">{{ experienceAdd }}</v-btn>
           </template>
-          <experience-form></experience-form>
+          <experience-form method="Add"></experience-form>
         </v-dialog>
       </v-card-title>
       <v-card-text>

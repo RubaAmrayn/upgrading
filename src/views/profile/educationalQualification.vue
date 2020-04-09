@@ -10,7 +10,7 @@
           <template #activator="{ on }">
             <v-btn color="info" depressed v-on="on">{{ addButton }}</v-btn>
           </template>
-          <educational-form></educational-form>
+          <educational-form method="Add"></educational-form>
         </v-dialog>
       </v-card-title>
       <v-card-text>

@@ -2,8 +2,17 @@
   <v-row justify="center" class="ma-0">
     <v-col cols="12" sm="12" md="12" lg="12" xl="12" class="pa-0">
       <v-card>
-        <v-card-title class="primary-title justify-center">
+        <v-card-title
+          class="primary-title justify-center"
+          v-if="method == 'Add'"
+        >
           {{ experAdd }}
+        </v-card-title>
+        <v-card-title
+          class="primary-title justify-center"
+          v-else-if="method == 'Update'"
+        >
+          {{ experUpdate }}
         </v-card-title>
         <v-card-text class="pb-2">
           <v-form lazy-validation ref="experForm">
@@ -48,16 +57,18 @@
               <template v-slot:activator="{ on }">
                 <v-text-field
                   v-model="dateRangeText"
-                  prepend-inner-icon="mdi-school"
+                  prepend-inner-icon="mdi-calendar-range"
                   :label="experDate"
+                  required
                   :rules="[
                     v => !!v || experDateError,
-                    v => v.length[2] || experDateTwoError
+                    v =>
+                      (!!v && v.split(' ~ ').length === 2) || experDateTwoError
                   ]"
                   outlined
                   v-on="on"
                   readonly
-                  :messages="checkForDate"
+                  clearable
                 ></v-text-field>
               </template>
               <v-date-picker
@@ -77,9 +88,25 @@
           <v-container class="pa-1">
             <v-row justify="center">
               <v-col cols="6" class="py-1">
-                <v-btn color="success" depressed block @click="experience_form">
+                <v-btn
+                  color="success"
+                  depressed
+                  block
+                  @click="experience_add_form"
+                  v-if="method == 'Add'"
+                >
                   {{ eduAdd }}
                   <v-icon>mdi-pencil-plus-outline</v-icon>
+                </v-btn>
+                <v-btn
+                  color="success"
+                  depressed
+                  block
+                  @click="experience_update_form"
+                  v-else-if="method == 'Update'"
+                >
+                  {{ eduUpdate }}
+                  <v-icon>mdi-pencil-outline</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -95,6 +122,16 @@ import { mapGetters } from "vuex";
 export default {
   name: "experience-form",
   mixins: [nameValidations],
+  props: {
+    method: {
+      type: String,
+      required: true
+    },
+    experience_id: {
+      type: Number,
+      required: false
+    }
+  },
   data() {
     return {
       showDialog: true,
@@ -111,6 +148,9 @@ export default {
     experAdd() {
       return this.$vuetify.lang.t("$vuetify.Experience.experAdd");
     },
+    experUpdate() {
+      return this.$vuetify.lang.t("$vuetify.Experience.experUpdate");
+    },
     experSelect() {
       return this.$vuetify.lang.t("$vuetify.Experience.experSelect");
     },
@@ -125,6 +165,9 @@ export default {
     },
     eduAdd() {
       return this.$vuetify.lang.t("$vuetify.Educational.eduAdd");
+    },
+    eduUpdate() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduUpdate");
     },
     experSelectError() {
       return this.$vuetify.lang.t("$vuetify.Experience.experSelectError");
@@ -144,57 +187,84 @@ export default {
     dateRangeText() {
       return this.experience.experience_dates.join(" ~ ");
     },
-    // checkForDate() {
-    //   let dates = this.experience.experience_dates;
-    //   if (dates.lenght == 0) {
-    //     return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
-    //   } else if (dates.length == 1) {
-    //     return "تم اختيار تاريخ البداية اللآن اختر تاريخ النهاية";
-    //   } else if (dates.length == 2) {
-    //     return "تم اختيار التاريخين";
-    //   } else {
-    //     return "* قم باختيار تاريخ البداية و بعدها تاريخ النهاية";
-    //   }
-    // },
-
     ...mapGetters(["getExpTypes", "getExpLevels"])
   },
   watch: {
+    experience_id: {
+      immediate: true,
+      handler(newValue) {
+        if (newValue) {
+          this.fillForm();
+        }
+      }
+    },
     menu(newValue) {
       newValue && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
     }
   },
   methods: {
-    insert() {
-      console.log(this.experience);
-      this.$store.dispatch("insertExperience", this.experience).then(res => {
-        if (res == "inserted") {
-          this.$root.$emit("show-alert", {
-            status: "success",
-            title: "تمت الاضافة ",
-            body: "تمت إضافة الخبرة، تابع الإضافة  اذا كان لديك مزيد!"
-          });
-        }
-      });
-      this.$refs.form.reset();
+    fillForm() {
+      if (this.method == "Update") {
+        this.$store.dispatch("FillExpForm", this.experience_id).then(res => {
+          this.experience = res[0];
+        });
+      }
     },
-    experience_form() {
+    experience_add_form() {
       if (this.$refs.experForm.validate()) {
         this.connectionState = true;
+        this.$store.dispatch("insertExperience", this.experience).then(res => {
+          this.connectionState = false;
+          if (res == "inserted") {
+            this.$root.$emit("show-alert", {
+              status: "success",
+              title: "تمت الاضافة ",
+              body: "تمت إضافة الخبرة، تابع الإضافة  اذا كان لديك مزيد!"
+            });
+          }
+        });
+
+        this.$refs.experForm.reset();
+      }
+    },
+    experience_update_form() {
+      if (this.$refs.experForm.validate()) {
+        let experience = {
+          experience_name: this.experience.experience_name,
+          start_date: this.experience.experience_dates[0],
+          end_date: this.experience.experience_dates[1],
+          Experince_types_id: this.experience.experience_type.type_id,
+          experince_level: this.experience.experience_level.exp_level_id,
+          experince_id: this.experience_id
+        };
         this.$store
-          .dispatch("insertExperience", this.experience)
+          .dispatch("updateExperince", experience)
           .then(res => {
-            this.connectionState = false;
-            if (res == "inserted") {
+            if (res == "Updated") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تمت الإضافة",
-                body: "تمت إضافة الخبرة بنجاح"
+                title: "تم التحديث",
+                body: "تم تحديث الخبرة بنجاح"
               });
               this.$refs.experForm.reset();
+              // this.$root.$emit("close-experince-form");
+            } else if (res == "nothing_new") {
+              this.$root.$emit("show-alert", {
+                status: "info",
+                title: "تم التنفيذ",
+                body: "تم تنفيذ العملية لكن لايوجد قيم جديدة"
+              });
             }
           })
-          .catch(() => {});
+          .catch(err => {
+            if (err == "not updted") {
+              this.$root.$emit("show-alert", {
+                status: "error",
+                title: "حصل خطأ",
+                body: "حصل خطأ اثناء عملية الإضافة اعد المحاولة"
+              });
+            }
+          });
       }
     }
   },

@@ -1,9 +1,15 @@
+let url = "http://localhost:3000";
 module.exports = {
   transpileDependencies: ["vuetify"],
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: url,
+        ws: true,
+        changeOrigin: true
+      },
+      "/public": {
+        target: url,
         ws: true,
         changeOrigin: true
       }

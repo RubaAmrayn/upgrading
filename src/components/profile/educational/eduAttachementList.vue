@@ -24,7 +24,7 @@
         </v-list-item-content>
 
         <v-list-item-action>
-          <v-btn icon>
+          <v-btn icon @click="openAttchement(file.attachement_path)">
             <v-icon>mdi-open-in-new</v-icon>
           </v-btn>
         </v-list-item-action>
@@ -92,6 +92,12 @@ export default {
           }
         }
       });
+    },
+    openAttchement(path) {
+      let anchorElement = document.createElement("a");
+      anchorElement.href = "/public/" + path;
+      anchorElement.target = "_blank";
+      anchorElement.click();
     }
   },
   mounted() {

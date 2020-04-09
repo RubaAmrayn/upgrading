@@ -5,7 +5,7 @@
         v-model="files"
         color="deep-purple accent-4"
         counter
-        label="File input"
+        label="مرفقات المؤهل"
         multiple
         placeholder=""
         outlined

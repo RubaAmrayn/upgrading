@@ -1,5 +1,12 @@
 import axios from "axios";
-
+let Formater = date => {
+  let dt = new Date(date);
+  return [
+    dt.getFullYear(),
+    ("0" + (dt.getMonth() + 1)).slice(-2),
+    ("0" + dt.getDate()).slice(-2)
+  ].join("-");
+};
 export default {
   state: {
     educational_titles: [],
@@ -7,7 +14,8 @@ export default {
     qualification_attachements: [],
     experiences: [],
     experince_types: [],
-    experince_levels: []
+    experince_levels: [],
+    experiences_attachements: []
   },
   mutations: {
     SET_EDU_TITLES(state, payload) {
@@ -27,6 +35,9 @@ export default {
     },
     SET_EXP_LEVELS(state, payload) {
       state.experince_levels = payload;
+    },
+    PUSH_EXPERIENCE_ATTACHEMENTS(state, payload) {
+      state.experiences_attachements = payload;
     }
   },
   actions: {
@@ -56,6 +67,64 @@ export default {
           });
       });
     },
+    FillEduForm({ getters }, qualification_id) {
+      let qualification = getters.getQualifications
+        .filter(qualification => {
+          return qualification.qualification_id == qualification_id;
+        })
+        .map(filteredQualification => {
+          return {
+            universty_name: filteredQualification.universty_name,
+            graduation_year: filteredQualification.graduation_year,
+            qualification_title: {
+              title_id: filteredQualification.title_id,
+              ar_title: filteredQualification.ar_title,
+              en_title: filteredQualification.en_title
+            }
+          };
+        });
+      return qualification[0];
+    },
+    FillExpForm({ getters }, experience_id) {
+      let experience = getters.getExperinces
+        .filter(experience => experience.experince_id == experience_id)
+        .map(experince => {
+          return {
+            experience_name: experince.experince_name,
+            experience_dates: [
+              Formater(experince.start_date),
+              Formater(experince.end_date)
+            ],
+            experience_type: {
+              type_id: experince.type_id,
+              ar_experince_type: experince.ar_experince_type,
+              en_experince_type: experince.en_experince_type
+            },
+            experience_level: {
+              exp_level_id: experince.exp_level_id,
+              ar_exp_level: experince.ar_exp_level,
+              en_exp_level: experince.en_exp_level
+            }
+          };
+        });
+      return experience;
+    },
+    updateQualification({ dispatch, rootState }, qualification) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+        axios
+          .patch("/api/profile/updateQualification", qualification)
+          .then(({ data }) => {
+            if (data.changedRows == 0 && data.affectedRows > 0) {
+              resolve("nothing_new");
+            } else if (data.changedRows > 0) {
+              dispatch("getEducationalOneQualifications", user_id);
+              resolve("Updated");
+            }
+          })
+          .catch(error => reject(error));
+      });
+    },
     getEducationalOneQualifications({ commit, rootState }) {
       let user_id = rootState.users.user.user_id;
       axios
@@ -73,7 +142,7 @@ export default {
             "/api/profile/deleteOneEducaionalQualifications/" + qualification_id
           )
           .then(response => {
-            if (response.data[2].affectedRows > 0) {
+            if (response.data[3].affectedRows > 0) {
               dispatch("getEducationalOneQualifications");
               resolve("deleted");
             } else {
@@ -138,6 +207,21 @@ export default {
           });
       });
     },
+    deleteOneExperience({ dispatch, rootState }, experience_id) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+        axios
+          .delete("/api/profile/deleteOneExperience/" + experience_id)
+          .then(({ data }) => {
+            if (data[3].affectedRows > 0) {
+              dispatch("getOneUserExperience", user_id);
+              resolve("deleted");
+            } else {
+              reject("not deleted");
+            }
+          });
+      });
+    },
     getExpTypes({ commit }) {
       axios.get("/api/profile/getExperienceTypes").then(({ data }) => {
         if (data.length > 0) {
@@ -180,6 +264,47 @@ export default {
           .catch(err => reject(err));
       });
     },
+    updateExperince({ dispatch, rootState }, experience) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+        axios
+          .patch("/api/profile/updateExperince", experience)
+          .then(({ data }) => {
+            if (data.changedRows == 0 && data.affectedRows > 0) {
+              resolve("nothing_new");
+            } else if (data.changedRows > 0) {
+              dispatch("getOneUserExperience", user_id);
+              resolve("Updated");
+            } else {
+              reject("not updted");
+            }
+          })
+          .catch(err => reject(err));
+      });
+    },
+    uplaodExperienceAttachement({ dispatch }, payload) {
+      let formData = new FormData();
+      payload.files.forEach(file => formData.append("expAttachement", file));
+      return new Promise((resolve, reject) => {
+        axios
+          .post(
+            `/api/profile/uplaodEexperienceAttachement/${payload.experience_id}`,
+            formData,
+            {
+              headers: {
+                "content-type": "multipart/form-data"
+              }
+            }
+          )
+          .then(({ data }) => {
+            if (data) {
+              dispatch("getOneExperienceAttachements", payload.experience_id);
+              resolve("uploaded");
+            }
+          })
+          .catch(err => reject(err));
+      });
+    },
     getOneUserExperience({ commit, rootState }) {
       return new Promise((resolve, reject) => {
         let user_id = rootState.users.user.user_id;
@@ -193,6 +318,15 @@ export default {
           })
           .catch(err => reject(err));
       });
+    },
+    getOneExperienceAttachements({ commit }, experience_id) {
+      axios
+        .get(`/api/profile/getOneEexperienceAttachement/${experience_id}`)
+        .then(({ data }) => {
+          if (data) {
+            commit("PUSH_EXPERIENCE_ATTACHEMENTS", data);
+          }
+        });
     }
   },
   getters: {
@@ -201,6 +335,7 @@ export default {
     getQualification_attachements: state => state.qualification_attachements,
     getExperinces: state => state.experiences,
     getExpTypes: state => state.experince_types,
-    getExpLevels: state => state.experince_levels
+    getExpLevels: state => state.experince_levels,
+    getEexperience_attachement: state => state.experiences_attachements
   }
 };

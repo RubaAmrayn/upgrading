@@ -1,6 +1,7 @@
 module.exports = {
   experienceAdd: "اضافة خبرة؟",
   experAdd: "اضافة خبرة",
+  experUpdate: "تعديل الخبرة",
   experSelect: "اختر نوع الخبرة",
   experSelectError: "يجب اختيار نوع الخبرة",
   experLevel: "مستوى الخبرة",

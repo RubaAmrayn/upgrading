@@ -2,8 +2,17 @@
   <v-row justify="center" class="ma-0">
     <v-col cols="12" sm="12" md="12" lg="12" xl="12" class="pa-0">
       <v-card>
-        <v-card-title class="primary-title justify-center">
-          {{ cardTitle }}
+        <v-card-title
+          class="primary-title justify-center"
+          v-if="method == 'Add'"
+        >
+          {{ cardAddTitle }}
+        </v-card-title>
+        <v-card-title
+          class="primary-title justify-center"
+          v-else-if="method == 'Update'"
+        >
+          {{ cardUpdateTitle }}
         </v-card-title>
         <v-card-text class="pb-2">
           <v-form lazy-validation ref="eduForm">
@@ -67,10 +76,21 @@
                   color="success"
                   depressed
                   block
-                  @click="educational_form"
+                  @click="educational_Add_form"
+                  v-if="method == 'Add'"
                 >
                   {{ eduAdd }}
                   <v-icon>mdi-pencil-plus-outline</v-icon>
+                </v-btn>
+                <v-btn
+                  color="success"
+                  depressed
+                  block
+                  @click="educational_Update_form"
+                  v-else-if="method == 'Update'"
+                >
+                  {{ eduUpdate }}
+                  <v-icon>mdi-pencil-circle-outline</v-icon>
                 </v-btn>
               </v-col>
             </v-row>
@@ -87,6 +107,16 @@ import { mapGetters } from "vuex";
 export default {
   name: "educational-form",
   mixins: [nameValidations],
+  props: {
+    method: {
+      type: String,
+      required: true
+    },
+    qualification_id: {
+      type: Number,
+      required: false
+    }
+  },
   data() {
     return {
       showDialog: true,
@@ -99,8 +129,11 @@ export default {
     };
   },
   computed: {
-    cardTitle() {
-      return this.$vuetify.lang.t("$vuetify.Educational.cardTitle");
+    cardAddTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.cardAddTitle");
+    },
+    cardUpdateTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.cardUpdateTitle");
     },
     selectQualification() {
       return this.$vuetify.lang.t("$vuetify.Educational.selectQualification");
@@ -114,6 +147,9 @@ export default {
     eduAdd() {
       return this.$vuetify.lang.t("$vuetify.Educational.eduAdd");
     },
+    eduUpdate() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduUpdate");
+    },
     dateError() {
       return this.$vuetify.lang.t("$vuetify.Educational.dateError");
     },
@@ -126,27 +162,27 @@ export default {
     ...mapGetters(["Educational_titles"])
   },
   watch: {
+    method: {
+      immediate: true,
+      handler(newValue) {
+        if (newValue == "Update") {
+          this.fillForm();
+        }
+      }
+    },
     menu(newValue) {
       newValue && setTimeout(() => (this.$refs.picker.activePicker = "YEAR"));
     }
   },
   methods: {
-    insert() {
-      this.$store
-        .dispatch("insertQualification", this.qualification)
-        .then(res => {
-          if (res == "inserted") {
-            this.$root.$emit("show-alert", {
-              status: "success",
-              title: "تمت الإضافة",
-              body:
-                "تمت إضافة المؤهل بنجاح يمكنك متابعة الإضافة او الخروج من النموذج"
-            });
-            this.$refs.form.reset();
-          }
+    fillForm() {
+      if (this.method == "Update") {
+        this.$store.dispatch("FillEduForm", this.qualification_id).then(res => {
+          this.qualification = res;
         });
+      }
     },
-    educational_form() {
+    educational_Add_form() {
       if (this.$refs.eduForm.validate()) {
         this.connectionState = true;
         this.$store
@@ -157,12 +193,42 @@ export default {
               this.$root.$emit("show-alert", {
                 status: "success",
                 title: "تمت الإضافة",
-                body: "تمت إضافة المؤهل بنجاح"
+                body:
+                  "تمت إضافة المؤهل بنجاح يمكنك متابعة الإضافة او الخروج من النموذج"
               });
               this.$refs.eduForm.reset();
             }
           })
           .catch(() => {});
+      }
+    },
+    educational_Update_form() {
+      if (this.$refs.eduForm.validate()) {
+        this.connectionState = true;
+        let qualification_id = this.qualification_id;
+        this.$store
+          .dispatch(
+            "updateQualification",
+            Object.assign({}, this.qualification, { qualification_id })
+          )
+          .then(res => {
+            this.connectionState = false;
+            if (res == "Updated") {
+              this.$root.$emit("show-alert", {
+                status: "success",
+                title: "تمت التحديث",
+                body: "تمت تحديث المؤهل بنجاح"
+              });
+              this.$refs.eduForm.reset();
+              // this.$root.$emit("close-educational-form");
+            } else if (res == "nothing_new") {
+              this.$root.$emit("show-alert", {
+                status: "info",
+                title: "تم التنفيذ",
+                body: "تم تنفيذ العملية لكن لايوجد قيم جديدة"
+              });
+            }
+          });
       }
     }
   },
