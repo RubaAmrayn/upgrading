@@ -130,11 +130,11 @@ exports.deleteOneEducaionalQualifications = async (req, reply) => {
       req.params.qualification_id,
       req.params.qualification_id
     ],
-    (err, result) => {
+    async (err, result) => {
       if (err) {
         reply.send(err);
       } else {
-        deleteFiles("./", result[1]);
+        await deleteFiles("./", result[1]);
         reply.send(result);
       }
     }
@@ -206,30 +206,47 @@ exports.uplaodEducationalAttachement = async (req, reply) => {
 };
 
 exports.getAllEducationalAttchements = async (req, reply) => {
-  mysql.query(
-    `
+  let sql = ``;
+  let values = [];
+  if (req.params.qualification_id == "undefined") {
+    sql = `
+    SELECT ea.* FROM upgrading.educational_attachements ea
+    LEFT JOIN educational_qualifications eq
+    ON eq.qualification_id = ea.educational_qualifications_id
+     where eq.users_user_id = ?;
+    `;
+    values = [req.params.user_id];
+  } else {
+    sql = `
     SELECT * FROM upgrading.educational_attachements where educational_qualifications_id = ?;  
-  `,
-    [req.params.qualification_id],
-    (err, result) => {
-      if (err) {
-        reply.send(err);
-      } else {
-        reply.send(result);
-      }
+  `;
+    values = [req.params.qualification_id];
+  }
+  mysql.query(sql, values, (err, result) => {
+    if (err) {
+      reply.send(err);
+    } else {
+      reply.send(result);
     }
-  );
+  });
 };
 
 exports.deleteOneEducaionalAttachements = async (req, reply) => {
   mysql.query(
-    `DELETE FROM upgrading.educational_attachements where educational_attachement_id = ?;`,
-    [req.params.educational_attachement_id],
-    (err, result) => {
+    `
+    SELECT attachement_path FROM upgrading.educational_attachements where educational_attachement_id = ?; 
+    DELETE FROM upgrading.educational_attachements where educational_attachement_id = ?;
+    `,
+    [
+      req.params.educational_attachement_id,
+      req.params.educational_attachement_id
+    ],
+    async (err, result) => {
       if (err) {
         reply.send(err);
       } else {
-        reply.send(result);
+        await deleteFiles("./", result[0]);
+        reply.send(result[1]);
       }
     }
   );
@@ -353,11 +370,11 @@ exports.deleteOneExperience = async (req, reply) => {
   COMMIT;
   `,
     [req.params.experince_id, req.params.experince_id, req.params.experince_id],
-    (err, result) => {
+    async (err, result) => {
       if (err) {
         reply.send(err);
       } else {
-        deleteFiles("./", result[1]);
+        await deleteFiles("./", result[1]);
         reply.send(result);
       }
     }
@@ -438,6 +455,27 @@ exports.getOneEexperienceAttachement = async (req, reply) => {
         reply.send(err);
       } else {
         reply.send(result);
+      }
+    }
+  );
+};
+
+exports.deleteOneExperienceAttachements = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT attachement_path FROM upgrading.experinces_attachements where experinces_attachement_id = ?;
+    DELETE FROM upgrading.experinces_attachements where experinces_attachement_id = ?;
+    `,
+    [
+      req.params.experinces_attachement_id,
+      req.params.experinces_attachement_id
+    ],
+    async (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        await deleteFiles("./", result[0]);
+        reply.send(result[1]);
       }
     }
   );

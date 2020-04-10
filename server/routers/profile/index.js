@@ -40,7 +40,7 @@ module.exports = [
   },
   {
     method: "GET",
-    url: "/api/profile/getAllEducationalAttchements/:qualification_id",
+    url: "/api/profile/getAllEducationalAttchements/:user_id/:qualification_id",
     handler: profileController.getAllEducationalAttchements
   },
   {
@@ -97,5 +97,11 @@ module.exports = [
     method: "GET",
     url: "/api/profile/getOneEexperienceAttachement/:experience_id",
     handler: profileController.getOneEexperienceAttachement
+  },
+  {
+    method: "DELETE",
+    url:
+      "/api/profile/deleteOneExperienceAttachements/:experinces_attachement_id",
+    handler: profileController.deleteOneExperienceAttachements
   }
 ];

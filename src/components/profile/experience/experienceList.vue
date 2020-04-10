@@ -22,50 +22,50 @@
       <template>
         <v-row justify="center" class="px-2">
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="title justify-center">
+            <div class="subtitle-1 justify-center">
               {{ experience_name }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ experience.experince_name }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="title center-text">
+            <div class="subtitle-1 center-text">
               {{ experStart }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ new Date(experience.start_date).toLocaleDateString("en-sa") }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="title center-text">
+            <div class="subtitle-1 center-text">
               {{ experEnd }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ new Date(experience.end_date).toLocaleDateString("en-sa") }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="title justify-center">
+            <div class="subtitle-1 justify-center">
               {{ experType }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ experience.ar_experince_type }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="title justify-center">
+            <div class="subtitle-1 justify-center">
               {{ experLevel }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ experience.ar_exp_level }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="title justify-center">
+            <div class="subtitle-1 justify-center">
               {{ qualificationEvents }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               <v-dialog
                 max-width="650"
                 transition="slide-y-transition"

@@ -70,18 +70,18 @@ export default {
         return "mdi-file";
       }
     },
-    delete_attachement(attachement_id) {
+    delete_attachement(experinces_attachement_id) {
       let self = this;
       let data = {
-        attachement_id,
-        qualification_id: this.experience_id
+        experinces_attachement_id,
+        experience_id: this.experience_id
       };
       this.$root.$emit("show-alert", {
         status: "confirm",
         title: "هل أنت متأكد؟",
         body: "هل تريد حذف المرفق؟",
         data: data,
-        action: "deleteOneEducationalAttachements",
+        action: "deleteOneExperienceAttachements",
         onSuccess(res) {
           if (res == "deleted") {
             self.$root.$emit("show-alert", {

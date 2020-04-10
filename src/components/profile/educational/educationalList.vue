@@ -22,34 +22,34 @@
       <template>
         <v-row justify="center" class="px-2">
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="title justify-center">
+            <div class="subtitle-1 justify-center">
               {{ qualifTitle }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ qualification.ar_title }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="title center-text">
+            <div class="subtitle-1 center-text">
               {{ gradYear }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ qualification.graduation_year }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="title justify-center">
+            <div class="subtitle-1 justify-center">
               {{ eduPlace }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               {{ qualification.universty_name }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="title justify-center">
+            <div class="subtitle-1 justify-center">
               {{ qualificationEvents }}
             </div>
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-2 justify-center">
               <v-dialog
                 max-width="650"
                 transition="slide-y-transition"

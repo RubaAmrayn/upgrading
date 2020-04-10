@@ -3,7 +3,14 @@
     <v-row justify="start">
       <v-col cols="12" sm="12" md="12" lg="12">
         <v-alert type="info" border="top" colored-border>
-          {{ addAlert }}
+          <v-row justify="space-between">
+            <v-col cols="10">
+              {{ addAlert }}
+            </v-col>
+            <v-col cols="2">
+              <request-btn></request-btn>
+            </v-col>
+          </v-row>
         </v-alert>
       </v-col>
     </v-row>
@@ -57,9 +64,11 @@
 </template>
 
 <script>
+import requestBtn from "./requestBtn";
 export default {
   name: "profile-view",
   components: {
+    "request-btn": requestBtn,
     "info-person": () => import("./infoPerson"),
     "educational-qualification": () => import("./educationalQualification"),
     experience: () => import("./experience")

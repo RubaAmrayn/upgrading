@@ -178,9 +178,12 @@ export default {
           .catch(err => reject(err));
       });
     },
-    getOneEducationalAttachements({ commit }, qualification_id) {
+    getOneEducationalAttachements({ commit, rootState }, qualification_id) {
+      let user_id = rootState.users.user.user_id;
       axios
-        .get("/api/profile/getAllEducationalAttchements/" + qualification_id)
+        .get(
+          `/api/profile/getAllEducationalAttchements/${user_id}/${qualification_id}`
+        )
         .then(({ data }) => {
           if (data) {
             commit("PUSH_QUALIFICATION_ATTACHEMENTS", data);
@@ -327,6 +330,22 @@ export default {
             commit("PUSH_EXPERIENCE_ATTACHEMENTS", data);
           }
         });
+    },
+    deleteOneExperienceAttachements({ dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(
+            `/api/profile/deleteOneExperienceAttachements/${payload.experinces_attachement_id}`
+          )
+          .then(({ data }) => {
+            if (data.affectedRows > 0) {
+              dispatch("getOneExperienceAttachements", payload.experience_id);
+              resolve("deleted");
+            } else {
+              reject("not deleted");
+            }
+          });
+      });
     }
   },
   getters: {
