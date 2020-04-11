@@ -15,5 +15,15 @@ module.exports = {
   experience_name: "الخبرة",
   experStart: "بداية الخبرة",
   experEnd: "نهاية الخبرة",
-  experType: "نوع الخبرة"
+  experType: "نوع الخبرة",
+  updateTitle: "تم التحديث",
+  updateBody: "تم تحديث الخبرة بنجاح",
+  updateElseTitle: "تم التنفيذ",
+  updateElseBody: "تم تنفيذ العملية لكن لايوجد قيم جديدة",
+  updateErrorTitle: "حصل خطأ",
+  updateErrorBody: "حصل خطأ اثناء عملية الاضافة اعد المحاولة",
+  addBody: "تم إضافة الخبرة، تابع الإضافةاذا كان لديك مزيد!",
+  deleteBody: "هل انت متأكد من حذف الخبرة و مرفقاتها؟",
+  deleteSuccessBody: "تم حذف الخبرة مع المرفقات التابعة لها",
+  expAttach: "مرفقات الخبرة"
 };

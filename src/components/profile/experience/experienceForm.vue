@@ -184,6 +184,30 @@ export default {
     experDateTwoError() {
       return this.$vuetify.lang.t("$vuetify.Experience.experDateTwoError");
     },
+    addTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.addTitle");
+    },
+    addBody() {
+      return this.$vuetify.lang.t("$vuetify.Experience.addBody");
+    },
+    updateTitle() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateTitle");
+    },
+    updateBody() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateBody");
+    },
+    updateElseTitle() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateElseTitle");
+    },
+    updateElseBody() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateElseBody");
+    },
+    updateErrorTitle() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateErrorTitle");
+    },
+    updateErrorBody() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateErrorBody");
+    },
     dateRangeText() {
       return this.experience.experience_dates.join(" ~ ");
     },
@@ -218,8 +242,8 @@ export default {
           if (res == "inserted") {
             this.$root.$emit("show-alert", {
               status: "success",
-              title: "تمت الاضافة ",
-              body: "تمت إضافة الخبرة، تابع الإضافة  اذا كان لديك مزيد!"
+              title: this.addTitle,
+              body: this.addBody
             });
           }
         });
@@ -243,16 +267,16 @@ export default {
             if (res == "Updated") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم التحديث",
-                body: "تم تحديث الخبرة بنجاح"
+                title: this.updateTitle,
+                body: this.updateBody
               });
               this.$refs.experForm.reset();
               // this.$root.$emit("close-experince-form");
             } else if (res == "nothing_new") {
               this.$root.$emit("show-alert", {
                 status: "info",
-                title: "تم التنفيذ",
-                body: "تم تنفيذ العملية لكن لايوجد قيم جديدة"
+                title: this.updateElseTitle,
+                body: this.updateElseBody
               });
             }
           })
@@ -260,8 +284,8 @@ export default {
             if (err == "not updted") {
               this.$root.$emit("show-alert", {
                 status: "error",
-                title: "حصل خطأ",
-                body: "حصل خطأ اثناء عملية الإضافة اعد المحاولة"
+                title: this.updateErrorTitle,
+                body: this.updateElseBody
               });
             }
           });

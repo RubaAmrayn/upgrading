@@ -12,7 +12,7 @@
     </template>
     <v-card>
       <v-card-title class="primary-title justify-center">
-        مرفقات الخبرة
+        {{ expAttach }}
       </v-card-title>
       <v-card-text>
         <!-- exp attach form -->
@@ -43,6 +43,11 @@ export default {
     return {
       dialog: false
     };
+  },
+  computed: {
+    expAttach() {
+      return this.$vuetify.lang.t("$vuetify.Experience.expAttach");
+    }
   },
   components: {
     "exp-attachement-form": () => import("./expAttachementForm"),

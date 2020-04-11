@@ -12,7 +12,7 @@
     </template>
     <v-card>
       <v-card-title class="primary-title justify-center">
-        مرفقات المؤهل
+        {{ eduAttach }}
       </v-card-title>
       <v-card-text>
         <!-- edu attach form -->
@@ -43,6 +43,11 @@ export default {
     return {
       dialog: false
     };
+  },
+  computed: {
+    eduAttach() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduAttach");
+    }
   },
   components: {
     "edu-attachement-form": () => import("./eduAttachementForm"),

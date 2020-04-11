@@ -195,6 +195,18 @@ export default {
     },
     PhoneRequired() {
       return this.$vuetify.lang.t("$vuetify.Sign.phoneRequired");
+    },
+    updateTitle() {
+      return this.$vuetify.lang.t("$vuetify.Info.updateTitle");
+    },
+    updateBody() {
+      return this.$vuetify.lang.t("$vuetify.Info.updateBody");
+    },
+    updateElseTitle() {
+      return this.$vuetify.lang.t("$vuetify.Info.updateElseTitle");
+    },
+    updateElseBody() {
+      return this.$vuetify.lang.t("$vuetify.Info.updateElseBody");
     }
   },
   methods: {
@@ -207,14 +219,14 @@ export default {
         if (res == "Updated") {
           this.$root.$emit("show-alert", {
             status: "success",
-            title: "تم التحديث",
-            body: "تم تحديث بياناتك الشخصية"
+            title: this.updateTitle,
+            body: this.updateBody
           });
         } else if (res == "nothing_new") {
           this.$root.$emit("show-alert", {
             status: "info",
-            title: "تم ارسال الطلب",
-            body: "لم يتم تغيير شيء لانه لايوجد قيمة تختلف عن الموجودة"
+            title: this.updateElseTitle,
+            body: this.updateElseBody
           });
         }
       });

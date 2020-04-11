@@ -5,14 +5,14 @@
         v-model="files"
         color="deep-purple accent-4"
         counter
-        label="مرفقات الخبرة"
+        :label="expAttach"
         multiple
         placeholder=""
         outlined
         :show-size="1000"
         :loading="connectionState"
         :disabled="connectionState"
-        :messages="[() => (connectionState ? 'جاري الرفع...' : '')]"
+        :messages="[() => (connectionState ? 'eduUpload' : '')]"
         @change="upload"
       >
         <template v-slot:selection="{ index, text, file }">
@@ -41,6 +41,20 @@ export default {
       connectionState: false
     };
   },
+  computed: {
+    expAttach() {
+      return this.$vuetify.lang.t("$vuetify.Experience.expAttach");
+    },
+    eduUpload() {
+      return this.$vuetify.lang.t("$vuetify.Educational.eduUpload");
+    },
+    uploadTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.uploadTitle");
+    },
+    uploadBody() {
+      return this.$vuetify.lang.t("$vuetify.Educational.uploadBody");
+    }
+  },
   methods: {
     getIconType(f) {
       if (f.type.split("/").includes("image")) {
@@ -65,8 +79,8 @@ export default {
             if (res == "uploaded") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم الرفع",
-                body: "تم رفع مرفقاتك بنجاح"
+                title: this.uploadTitle,
+                body: this.uploadBody
               });
             }
           });

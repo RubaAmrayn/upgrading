@@ -159,6 +159,24 @@ export default {
     eduPlaceError() {
       return this.$vuetify.lang.t("$vuetify.Educational.eduPlaceError");
     },
+    addTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.addTitle");
+    },
+    addBody() {
+      return this.$vuetify.lang.t("$vuetify.Educational.addBody");
+    },
+    updateTitle() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateTitle");
+    },
+    updateBody() {
+      return this.$vuetify.lang.t("$vuetify.Educational.updateBody");
+    },
+    updateElseTitle() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateElseTitle");
+    },
+    updateElseBody() {
+      return this.$vuetify.lang.t("$vuetify.Experience.updateElseBody");
+    },
     ...mapGetters(["Educational_titles"])
   },
   watch: {
@@ -192,9 +210,8 @@ export default {
             if (res == "inserted") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تمت الإضافة",
-                body:
-                  "تمت إضافة المؤهل بنجاح يمكنك متابعة الإضافة او الخروج من النموذج"
+                title: this.addTitle,
+                body: this.addBody
               });
               this.$refs.eduForm.reset();
             }
@@ -216,16 +233,16 @@ export default {
             if (res == "Updated") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تمت التحديث",
-                body: "تمت تحديث المؤهل بنجاح"
+                title: this.updateTitle,
+                body: this.updateBody
               });
               this.$refs.eduForm.reset();
               // this.$root.$emit("close-educational-form");
             } else if (res == "nothing_new") {
               this.$root.$emit("show-alert", {
                 status: "info",
-                title: "تم التنفيذ",
-                body: "تم تنفيذ العملية لكن لايوجد قيم جديدة"
+                title: this.updateElseTitle,
+                body: this.updateElseBody
               });
             }
           });

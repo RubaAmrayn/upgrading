@@ -1,6 +1,6 @@
 <template>
   <v-list two-line flat>
-    <v-subheader inset>المرفقات</v-subheader>
+    <v-subheader inset>{{ attach }}</v-subheader>
     <v-list-item-group
       color="primary"
       append-icon="mdi-folder"
@@ -41,7 +41,7 @@
     <v-card flat v-else>
       <v-card-text>
         <h3 class="text-center">
-          لا يوجد لديك مرفقات
+          {{ attachNo }}
         </h3>
       </v-card-text>
     </v-card>
@@ -57,6 +57,26 @@ export default {
     return {};
   },
   computed: {
+    attach() {
+      return this.$vuetify.lang.t("$vuetify.Educational.attach");
+    },
+    attachNo() {
+      return this.$vuetify.lang.t("$vuetify.Educational.attachNo");
+    },
+    deleteTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteTitle");
+    },
+    uploadDeleteBody() {
+      return this.$vuetify.lang.t("$vuetify.Educational.uploadDeleteBody");
+    },
+    deleteSuccessTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteSuccessTitle");
+    },
+    uploadDeleteSuccessBody() {
+      return this.$vuetify.lang.t(
+        "$vuetify.Educational.uploadDeleteSuccessBody"
+      );
+    },
     ...mapGetters(["getEexperience_attachement"])
   },
   methods: {
@@ -78,16 +98,16 @@ export default {
       };
       this.$root.$emit("show-alert", {
         status: "confirm",
-        title: "هل أنت متأكد؟",
-        body: "هل تريد حذف المرفق؟",
+        title: this.deleteTitle,
+        body: this.uploadDeleteBody,
         data: data,
         action: "deleteOneExperienceAttachements",
         onSuccess(res) {
           if (res == "deleted") {
             self.$root.$emit("show-alert", {
               status: "success",
-              title: "تم الحذف",
-              body: "تم حذف المرفق بنجاح"
+              title: this.deleteSuccessTitle,
+              body: this.uploadDeleteSuccessBody
             });
           }
         }

@@ -131,6 +131,19 @@ export default {
     qualificationEvents() {
       return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
     },
+    deleteTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteTitle");
+    },
+    deleteBody() {
+      return this.$vuetify.lang.t("$vuetify.Experience.deleteBody");
+    },
+    deleteSuccessTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteSuccessTitle");
+    },
+    deleteSuccessBody() {
+      return this.$vuetify.lang.t("$vuetify.Experience.deleteSuccessBody");
+    },
+
     ...mapGetters(["getExperinces"])
   },
   methods: {
@@ -138,16 +151,16 @@ export default {
       let self = this;
       this.$root.$emit("show-alert", {
         status: "confirm",
-        title: "هل انت متأكد؟",
-        body: "هل أنت متأكد من حذف الخبرة؟",
+        title: this.deleteTitle,
+        body: this.deleteBody,
         action: "deleteOneExperience",
         data: experince_id,
         onSuccess(res) {
           if (res == "deleted") {
             self.$root.$emit("show-alert", {
               status: "success",
-              title: "تم الحذف",
-              body: "تم حذف الخبرة و مرفقاتها"
+              title: this.deleteSuccessTitle,
+              body: this.deleteSuccessBody
             });
           }
         }

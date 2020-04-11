@@ -112,6 +112,21 @@ export default {
     qualificationEvents() {
       return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
     },
+    deleteTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteTitle");
+    },
+    deleteBody() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteBody");
+    },
+    deleteSuccessTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteSuccessTitle");
+    },
+    deleteSuccessBody() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteSuccessBody");
+    },
+    deleteErrorTitle() {
+      return this.$vuetify.lang.t("$vuetify.Educational.deleteErrorTitle");
+    },
     ...mapGetters(["getQualifications"])
   },
   methods: {
@@ -119,21 +134,21 @@ export default {
       let self = this;
       self.$root.$emit("show-alert", {
         status: "confirm",
-        title: "تأكيد الحذف!",
-        body: "هل انت متأكد من حذف المؤهل و مرفقاته؟",
+        title: this.deleteTitle,
+        body: this.deleteBody,
         action: "deletEducationalOneQualifications",
         data: qualification_id,
         onSuccess() {
           self.$root.$emit("show-alert", {
             status: "success",
-            title: "تم الحذف",
-            body: "تم حذف المؤهل مع المرفقات التابعة له"
+            title: this.deleteSuccessTitle,
+            body: this.deleteSuccessBody
           });
         },
         onError(err) {
           self.$root.$emit("show-alert", {
             status: "error",
-            title: "حصل خطأ اثناء الحذف",
+            title: this.deleteErrorTitle,
             body: err
           });
         }
