@@ -9,5 +9,10 @@ module.exports = [
     method: "GET",
     url: "/api/requestTrainee/getOneTraineeRequest/:user_id",
     handler: requestTrainee.getOneTraineeRequest
+  },
+  {
+    method: "GET",
+    url: "/api/requestTrainee/getAllActiveTraineeRequest",
+    handler: requestTrainee.getAllActiveTraineeRequest
   }
 ];

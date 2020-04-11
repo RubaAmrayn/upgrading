@@ -12,7 +12,7 @@
         :show-size="1000"
         :loading="connectionState"
         :disabled="connectionState"
-        :messages="[() => (connectionState ? 'eduUpload' : '')]"
+        :messages="[() => (connectionState ? eduUpload : '')]"
         @change="upload"
       >
         <template v-slot:selection="{ index, text, file }">

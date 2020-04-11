@@ -6,7 +6,7 @@
     v-model="dialog"
   >
     <template #activator="{ on }">
-      <v-btn icon v-on="on">
+      <v-btn icon v-on="on" class="text-center">
         <v-icon>mdi-folder-outline</v-icon>
       </v-btn>
     </template>
@@ -18,11 +18,12 @@
         <!-- exp attach form -->
         <exp-attachement-form
           :experience_id="experience_id"
-          v-if="dialog"
+          v-if="dialog && !isReadOnly"
         ></exp-attachement-form>
         <!-- exp attach list -->
         <exp-attachement-list
           :experience_id="experience_id"
+          :isReadOnly="isReadOnly"
           v-if="dialog"
         ></exp-attachement-list>
       </v-card-text>
@@ -37,6 +38,11 @@ export default {
     experience_id: {
       type: Number,
       required: true
+    },
+    isReadOnly: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
   data() {

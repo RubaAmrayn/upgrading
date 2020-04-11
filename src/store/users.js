@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/plugins/initialAxios.js";
 export default {
   state: {
     user: {}

@@ -12,6 +12,7 @@ module.exports = {
   qualifTitle: "المؤهل",
   qualificationNo: "لا يوجد لديك مؤهلات",
   qualificationEvents: "الاحداث",
+  folderAttachements: "مجلد المرفقات",
   dateError: "يجب اختيار تاريخ سنة التخرج",
   qualificationsError: "يجب اختيار المؤهل التعليمي",
   eduPlaceError: "يجب كتابة الجهة التعليمية",

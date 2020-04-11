@@ -1,5 +1,6 @@
 <template>
   <v-btn
+    :style="makeStyle"
     :color="makeColor"
     :disabled="makeDisabled"
     depressed
@@ -10,6 +11,7 @@
 </template>
 
 <script>
+// import requestTrainee from "@/store/requestTrainee";
 import { mapGetters } from "vuex";
 export default {
   name: "request-btn",
@@ -22,6 +24,13 @@ export default {
       "getQualification_attachements",
       "getLastStatus"
     ]),
+    makeStyle() {
+      if (this.getLastStatus == 6) {
+        return "pointer-events: none;";
+      } else {
+        return "";
+      }
+    },
     buttonText() {
       if (this.getLastStatus == 0) {
         return "طلب إلتحاق";
@@ -77,8 +86,14 @@ export default {
   mounted() {
     this.$store.dispatch("getOneTraineeRequest").then(() => {
       this.$store.dispatch("getOneEducationalAttachements");
-      this.$store.dispatch("getEducationalOneQualifications");
+      this.$store.dispatch("getEducationalOneQualifications", 0);
     });
   }
+  //   created() {
+  //     this.$store.registerModule("requests", requestTrainee);
+  //   },
+  //   beforeDestroy() {
+  //     this.$store.unregisterModule("requests");
+  //   }
 };
 </script>

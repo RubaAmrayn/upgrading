@@ -15,45 +15,49 @@
       v-for="(qualification, i) in getQualifications"
       :key="i"
       flat
-      shaped
+      :shaped="!isReadOnly"
       class="pa-2 mb-1"
       style="border-right: 3px solid var(--v-primary-base)"
     >
       <template>
         <v-row justify="center" class="px-2">
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-1 text-center">
               {{ qualifTitle }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ qualification.ar_title }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="subtitle-1 center-text">
+            <div class="subtitle-1 text-center">
               {{ gradYear }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ qualification.graduation_year }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-1 text-center">
               {{ eduPlace }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ qualification.universty_name }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="3" xl="3">
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-1 text-center" v-if="isReadOnly">
+              {{ FolderAttachements }}
+            </div>
+            <div class="subtitle-1 text-center" v-else>
               {{ qualificationEvents }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               <v-dialog
                 max-width="650"
                 transition="slide-y-transition"
                 origin="top bottom"
+                v-if="!isReadOnly"
               >
                 <template #activator="{ on }">
                   <v-btn icon v-on="on">
@@ -68,12 +72,14 @@
               <v-btn
                 icon
                 @click="deleteQualification(qualification.qualification_id)"
+                v-if="!isReadOnly"
               >
                 <v-icon>mdi-delete-circle-outline</v-icon>
               </v-btn>
               <!-- attachement container -->
               <edu-attachement-container
                 :qualification_id="qualification.qualification_id"
+                :isReadOnly="isReadOnly"
               ></edu-attachement-container>
             </div>
           </v-col>
@@ -87,6 +93,18 @@
 import { mapGetters } from "vuex";
 export default {
   name: "educational-list",
+  props: {
+    choosenUserId: {
+      type: Number,
+      default: 0,
+      required: false
+    },
+    isReadOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
+  },
   components: {
     "edu-attachement-container": () => import("./eduAttachementContainer"),
     "educational-form": () => import("./educationalForm")
@@ -111,6 +129,9 @@ export default {
     },
     qualificationEvents() {
       return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
+    },
+    FolderAttachements() {
+      return this.$vuetify.lang.t("$vuetify.Educational.folderAttachements");
     },
     deleteTitle() {
       return this.$vuetify.lang.t("$vuetify.Educational.deleteTitle");
@@ -156,7 +177,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getEducationalOneQualifications");
+    this.$store.dispatch("getEducationalOneQualifications", this.choosenUserId);
     // this.$root.$on("close-educational-form", () => (this.showDialog = false));
   },
   destroyed() {

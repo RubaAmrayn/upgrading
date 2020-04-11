@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/plugins/initialAxios.js";
 let Formater = date => {
   let dt = new Date(date);
   return [
@@ -125,8 +125,13 @@ export default {
           .catch(error => reject(error));
       });
     },
-    getEducationalOneQualifications({ commit, rootState }) {
-      let user_id = rootState.users.user.user_id;
+    getEducationalOneQualifications({ commit, rootState }, choosenUserId) {
+      let user_id;
+      if (choosenUserId == 0) {
+        user_id = rootState.users.user.user_id;
+      } else {
+        user_id = choosenUserId;
+      }
       axios
         .get("/api/profile/getOneEducationalQualifications/" + user_id)
         .then(response => {
@@ -308,9 +313,14 @@ export default {
           .catch(err => reject(err));
       });
     },
-    getOneUserExperience({ commit, rootState }) {
+    getOneUserExperience({ commit, rootState }, choosenUserId) {
       return new Promise((resolve, reject) => {
-        let user_id = rootState.users.user.user_id;
+        let user_id;
+        if (choosenUserId == 0) {
+          user_id = rootState.users.user.user_id;
+        } else {
+          user_id = choosenUserId;
+        }
         axios
           .get("/api/profile/getOneUserExperience/" + user_id)
           .then(({ data }) => {

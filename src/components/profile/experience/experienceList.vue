@@ -15,61 +15,62 @@
       v-for="(experience, i) in getExperinces"
       :key="i"
       flat
-      shaped
+      :shaped="!isReadOnly"
       class="pa-2 mb-1"
       style="border-right: 3px solid var(--v-primary-base)"
     >
       <template>
         <v-row justify="center" class="px-2">
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-1 text-center">
               {{ experience_name }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ experience.experince_name }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="subtitle-1 center-text">
+            <div class="subtitle-1 text-center">
               {{ experStart }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ new Date(experience.start_date).toLocaleDateString("en-sa") }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="subtitle-1 center-text">
+            <div class="subtitle-1 text-center">
               {{ experEnd }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ new Date(experience.end_date).toLocaleDateString("en-sa") }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-1 text-center">
               {{ experType }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ experience.ar_experince_type }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="subtitle-1 justify-center">
+            <div class="subtitle-1 text-center">
               {{ experLevel }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               {{ experience.ar_exp_level }}
             </div>
           </v-col>
           <v-col cols="6" sm="4" md="3" lg="2" xl="2">
-            <div class="subtitle-1 justify-center">
-              {{ qualificationEvents }}
+            <div class="subtitle-1 text-center">
+              {{ FolderAttachements }}
             </div>
-            <div class="subtitle-2 justify-center">
+            <div class="subtitle-2 text-center">
               <v-dialog
                 max-width="650"
                 transition="slide-y-transition"
                 origin="top bottom"
+                v-if="!isReadOnly"
               >
                 <template #activator="{ on }">
                   <v-btn icon v-on="on">
@@ -82,11 +83,16 @@
                 ></experience-form>
               </v-dialog>
 
-              <v-btn icon @click="deleteExperince(experience.experince_id)">
+              <v-btn
+                icon
+                @click="deleteExperince(experience.experince_id)"
+                v-if="!isReadOnly"
+              >
                 <v-icon>mdi-delete-circle-outline</v-icon>
               </v-btn>
               <exp-attachement-container
                 :experience_id="experience.experince_id"
+                :isReadOnly="isReadOnly"
               ></exp-attachement-container>
             </div>
           </v-col>
@@ -100,6 +106,18 @@
 import { mapGetters } from "vuex";
 export default {
   name: "experience-list",
+  props: {
+    choosenUserId: {
+      type: Number,
+      default: 0,
+      required: false
+    },
+    isReadOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
+  },
   components: {
     "exp-attachement-container": () => import("./expAttachementContainer"),
     "experience-form": () => import("./experienceForm")
@@ -130,6 +148,9 @@ export default {
     },
     qualificationEvents() {
       return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
+    },
+    FolderAttachements() {
+      return this.$vuetify.lang.t("$vuetify.Educational.folderAttachements");
     },
     deleteTitle() {
       return this.$vuetify.lang.t("$vuetify.Educational.deleteTitle");
@@ -168,7 +189,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getOneUserExperience");
+    this.$store.dispatch("getOneUserExperience", this.choosenUserId);
     // this.$root.$on("close-experince-form", () => (this.showDialog = false));
   },
   destroyed() {

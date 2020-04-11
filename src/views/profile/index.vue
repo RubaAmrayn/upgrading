@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row justify="start">
+    <v-row justify="start" v-if="isTrainer">
       <v-col cols="12" sm="12" md="12" lg="12">
         <v-alert type="info" border="top" colored-border>
           <v-row justify="space-between">
@@ -64,7 +64,9 @@
 </template>
 
 <script>
+// import profile from "@/store/profile";
 import requestBtn from "./requestBtn";
+import { mapGetters } from "vuex";
 export default {
   name: "profile-view",
   components: {
@@ -74,6 +76,7 @@ export default {
     experience: () => import("./experience")
   },
   computed: {
+    ...mapGetters(["isTrainer"]),
     addAlert() {
       return this.$vuetify.lang.t("$vuetify.Educational.addAlert");
     },
@@ -90,5 +93,11 @@ export default {
       return this.$vuetify.lang.t("$vuetify.Info.experiencePersonal");
     }
   }
+  // created() {
+  //   this.$store.registerModule("profile", profile);
+  // },
+  // destroyed() {
+  //   this.$store.unregisterModule("profile");
+  // }
 };
 </script>

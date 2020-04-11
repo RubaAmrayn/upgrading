@@ -28,7 +28,7 @@
             <v-icon>mdi-open-in-new</v-icon>
           </v-btn>
         </v-list-item-action>
-        <v-list-item-action>
+        <v-list-item-action v-if="!isReadOnly">
           <v-btn
             icon
             @click="delete_attachement(file.educational_attachement_id)"
@@ -52,7 +52,17 @@
 import { mapGetters } from "vuex";
 export default {
   name: "edu-attachement-list",
-  props: ["qualification_id"],
+  props: {
+    qualification_id: {
+      type: Number,
+      required: true
+    },
+    isReadOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
+  },
   data() {
     return {};
   },

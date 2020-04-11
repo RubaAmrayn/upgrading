@@ -52,7 +52,17 @@
 import { mapGetters } from "vuex";
 export default {
   name: "exp-attachement-list",
-  props: ["experience_id"],
+  props: {
+    experience_id: {
+      type: Number,
+      required: true
+    },
+    isReadOnly: {
+      type: Boolean,
+      default: false,
+      required: false
+    }
+  },
   data() {
     return {};
   },

@@ -7,7 +7,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/Home.vue"),
+    component: () => import("@/views/Home.vue"),
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.Home")
     }
@@ -19,7 +19,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "about" */ "@/views/About.vue"),
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.About")
     }
@@ -27,7 +27,7 @@ const routes = [
   {
     path: "/Login",
     name: "login",
-    component: () => import("../views/login"),
+    component: () => import("@/views/auth/login"),
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.login")
     }
@@ -35,7 +35,7 @@ const routes = [
   {
     path: "/Sign",
     name: "sign",
-    component: () => import("../views/sign"),
+    component: () => import("@/views/auth/sign"),
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.sign")
     }
@@ -43,9 +43,33 @@ const routes = [
   {
     path: "/profile",
     name: "profile",
-    component: () => import("../views/profile"),
+    component: () => import("@/views/profile"),
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.profile")
+    }
+  },
+  // {
+  //   path: "/traineeRequests",
+  //   name: "traineeRequests",
+  //   component: () => import("@/views/traineeRequests"),
+  //   meta: {
+  //     title: vuetify.framework.lang.t("$vuetify.Pages.traineeRequests")
+  //   }
+  // },
+  {
+    path: "/traineeRequests/active",
+    name: "active-trainee-requests",
+    component: () => import("@/views/traineeRequests/activeRequests"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.traineeRequestsActive")
+    }
+  },
+  {
+    path: "/traineeRequests/archive",
+    name: "archive-trainee-requests",
+    component: () => import("@/views/traineeRequests/archiveRequests"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.traineeRequestsArchive")
     }
   }
 ];
