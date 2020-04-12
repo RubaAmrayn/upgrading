@@ -8,7 +8,7 @@
         <v-card-text>
           <v-data-table
             :headers="headers"
-            :items="getAllTraineeRequests"
+            :items="getAllActiveTraineeRequests"
             show-expand
             single-expand
             :expanded.sync="expanded"
@@ -22,20 +22,48 @@
                 {{ StatusName(value) }}
               </v-chip>
             </template>
+            <template v-slot:item.actions="{ item }">
+              <v-btn
+                icon
+                color="success"
+                @click="
+                  AcceptTrainee(item.request_id, item.user_id, item.first_name)
+                "
+                class="text-start"
+              >
+                <v-icon>mdi-check</v-icon>
+              </v-btn>
+              <reject-trainee
+                :request_id="item.request_id"
+                :first_name="item.first_name"
+              ></reject-trainee>
+            </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" class="px-1">
-                <v-subheader>المؤهلات</v-subheader>
-                <v-divider></v-divider>
-                <educational-list
-                  :choosenUserId="item.user_id"
-                  :isReadOnly="true"
-                ></educational-list>
-                <v-subheader>الخبرات</v-subheader>
-                <v-divider></v-divider>
-                <experience-list
-                  :choosenUserId="item.user_id"
-                  :isReadOnly="true"
-                ></experience-list>
+                <v-expansion-panels accordion focusable hover>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      المؤهلات
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content style="padding: 0 !important;">
+                      <educational-list
+                        :choosenUserId="item.user_id"
+                        :isReadOnly="true"
+                      ></educational-list>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header>
+                      الخبرات
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="pa-0">
+                      <experience-list
+                        :choosenUserId="item.user_id"
+                        :isReadOnly="true"
+                      ></experience-list>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </td>
             </template>
           </v-data-table>
@@ -48,10 +76,13 @@
 
 <script>
 // import requestTrainee from "@/store/requestTrainee";
+// import icon from "./icon.svg";
 import { mapGetters } from "vuex";
 export default {
   name: "active-trainee-requests",
   components: {
+    "reject-trainee": () =>
+      import("@/components/traineeRequests/rejectTrainee"),
     "educational-list": () =>
       import("@/components/profile/educational/educationalList"),
     "experience-list": () =>
@@ -102,7 +133,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAllTraineeRequests"])
+    ...mapGetters(["getAllActiveTraineeRequests"])
   },
   mounted() {
     this.$nextTick(() => {
@@ -123,6 +154,18 @@ export default {
       } else if (id == 2) {
         return "معلق";
       }
+    },
+    AcceptTrainee(request_id, user_id, first_name) {
+      let data = { request_id, user_id };
+      this.$store.dispatch("AcceptTrainee", data).then(res => {
+        if (res == "Upgraded") {
+          this.$root.$emit("show-alert", {
+            status: "success",
+            title: "تم القبول",
+            body: ` تم قبول ${first_name} ك مدرب`
+          });
+        }
+      });
     }
   }
   //   created() {
@@ -134,4 +177,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.v-expansion-panel-content__wrap {
+  padding: 0 !important;
+}
+</style>

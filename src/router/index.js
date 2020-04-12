@@ -48,14 +48,6 @@ const routes = [
       title: vuetify.framework.lang.t("$vuetify.Pages.profile")
     }
   },
-  // {
-  //   path: "/traineeRequests",
-  //   name: "traineeRequests",
-  //   component: () => import("@/views/traineeRequests"),
-  //   meta: {
-  //     title: vuetify.framework.lang.t("$vuetify.Pages.traineeRequests")
-  //   }
-  // },
   {
     path: "/traineeRequests/active",
     name: "active-trainee-requests",
@@ -71,6 +63,28 @@ const routes = [
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.traineeRequestsArchive")
     }
+  },
+  {
+    path: "/courses/newCourse",
+    name: "new-courses",
+    component: () => import("@/views/courses/newCourse"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.AddNewCourse")
+    },
+    children: [
+      {
+        path: "add",
+        name: "add-new-course-form",
+        component: () =>
+          import("@/components/courses/newCourse/addNewCourseForm"),
+        meta: {
+          title: "Form"
+        }
+      },
+      {
+        path: "list"
+      }
+    ]
   }
 ];
 
@@ -78,6 +92,8 @@ const router = new VueRouter({
   routes
 });
 router.afterEach(to => {
+  console.log(to);
+
   Vue.nextTick(() => {
     document.title =
       to.meta.title +

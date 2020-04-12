@@ -34,19 +34,26 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "navigation-drawer",
   data() {
     return {
       drawer: true,
-      items: [
-        { title: "Dashboard", icon: "mdi-view-dashboard" },
-        { title: "Photos", icon: "mdi-image" },
-        { title: "About", icon: "mdi-help-box" }
-      ]
+      items: []
     };
   },
-  mounted() {
+  computed: {
+    ...mapGetters(["getUser"])
+  },
+  async mounted() {
+    let links = [];
+    if (this.getUser.role_id == 2) {
+      links = await import("@/links/trainee");
+      this.items = links.default;
+    } else {
+      links;
+    }
     this.$root.$on("navigationDrawer", () => (this.drawer = !this.drawer));
   }
 };

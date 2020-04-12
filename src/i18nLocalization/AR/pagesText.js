@@ -7,5 +7,8 @@ module.exports = {
   profile: "الملف الشخصي",
   traineeRequests: "طلبات الإنضمام",
   traineeRequestsActive: "طلبات الإنضمام الفعالة",
-  traineeRequestsArchive: "طلبات الإنضمام المؤرشفة"
+  traineeRequestsArchive: "طلبات الإنضمام المؤرشفة",
+  AddNewCourse: "رفع دورة",
+  MyCourses: "دوراتي",
+  MyArchiveCourses: "دوراتي السابقة"
 };

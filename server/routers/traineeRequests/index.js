@@ -14,5 +14,20 @@ module.exports = [
     method: "GET",
     url: "/api/requestTrainee/getAllActiveTraineeRequest",
     handler: requestTrainee.getAllActiveTraineeRequest
+  },
+  {
+    method: "GET",
+    url: "/api/requestTrainee/getAllAechiveTraineeRequest",
+    handler: requestTrainee.getAllArchiveTraineeRequest
+  },
+  {
+    method: "POST",
+    url: "/api/requestTrainee/AcceptOneTrainee",
+    handler: requestTrainee.AcceptOneTrainee
+  },
+  {
+    method: "POST",
+    url: "/api/requestTrainee/RejectOneTrainee",
+    handler: requestTrainee.RejectOneTrainee
   }
 ];

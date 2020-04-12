@@ -9,9 +9,9 @@
     }}</v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <v-tooltip bottom>
+    <v-tooltip bottom v-if="getUser.role_id == 1">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
+        <v-btn icon v-on="on" @click="$router.push('/profile')">
           <v-icon>mdi-teach</v-icon>
         </v-btn>
       </template>
@@ -19,9 +19,9 @@
         إلتحاق كمدرب
       </span>
     </v-tooltip>
-    <v-tooltip bottom>
+    <v-tooltip bottom v-if="getUser.role_id != 1">
       <template v-slot:activator="{ on }">
-        <v-btn icon v-on="on">
+        <v-btn icon v-on="on" @click="$router.push('/profile')">
           <v-icon>mdi-account-circle-outline</v-icon>
         </v-btn>
       </template>
@@ -60,6 +60,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "app-bar",
   data() {
@@ -68,6 +69,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["getUser"]),
     PageTitle() {
       return this.$route.meta.title;
     }

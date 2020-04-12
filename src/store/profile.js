@@ -56,7 +56,7 @@ export default {
           .post("/api/profile/insertQualification", data)
           .then(response => {
             if (response.data.insertId > 0) {
-              dispatch("getEducationalOneQualifications");
+              dispatch("getEducationalOneQualifications", 0);
               resolve("inserted");
             } else {
               reject();
@@ -148,7 +148,7 @@ export default {
           )
           .then(response => {
             if (response.data[3].affectedRows > 0) {
-              dispatch("getEducationalOneQualifications");
+              dispatch("getEducationalOneQualifications", 0);
               resolve("deleted");
             } else {
               reject();
@@ -263,7 +263,7 @@ export default {
           .post("/api/profile/insertExperince", data)
           .then(({ data }) => {
             if (data.insertId > 0) {
-              dispatch("getOneUserExperience");
+              dispatch("getOneUserExperience", 0);
               resolve("inserted");
             } else {
               reject("failed");

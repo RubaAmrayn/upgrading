@@ -48,7 +48,14 @@ export default {
           .catch(error => reject(error));
       });
     },
-    logOut({ commit }) {
+    logOut({ commit, rootState }) {
+      rootState.profile.qualifications = [];
+      rootState.profile.qualification_attachements = [];
+      rootState.profile.experiences = [];
+      rootState.profile.experiences_attachements = [];
+      rootState.requestTrainee.status = [];
+      rootState.requestTrainee.active_requests = [];
+      rootState.requestTrainee.archive_requests = [];
       commit("LOG_OUT");
     },
     updateUser({ commit, state }, user) {

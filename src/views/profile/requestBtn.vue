@@ -25,7 +25,7 @@ export default {
       "getLastStatus"
     ]),
     makeStyle() {
-      if (this.getLastStatus == 6) {
+      if (this.getLastStatus == 6 || this.getLastStatus == 3) {
         return "pointer-events: none;";
       } else {
         return "";
@@ -36,6 +36,8 @@ export default {
         return "طلب إلتحاق";
       } else if (this.getLastStatus == 6) {
         return "طلبك قيد المراجعة";
+      } else if (this.getLastStatus == 3) {
+        return "تم رفض طلبك";
       } else {
         return "طلب إلتحاق";
       }
@@ -45,6 +47,8 @@ export default {
         return "primary";
       } else if (this.getLastStatus == 6) {
         return "secondary";
+      } else if (this.getLastStatus == 3) {
+        return "error";
       } else {
         return "primary";
       }

@@ -2,7 +2,37 @@
   <div>
     <v-row justify="start" v-if="isTrainer">
       <v-col cols="12" sm="12" md="12" lg="12">
-        <v-alert type="info" border="top" colored-border>
+        <v-alert
+          type="error"
+          border="top"
+          colored-border
+          v-if="getLastStatus == 3"
+        >
+          <v-row justify="space-between">
+            <v-col cols="10">
+              {{ getStatus[0].notes }}
+            </v-col>
+            <v-col cols="2">
+              <request-btn></request-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+        <v-alert
+          type="secondary"
+          border="top"
+          colored-border
+          v-else-if="getLastStatus == 2"
+        >
+          <v-row justify="space-between">
+            <v-col cols="10">
+              {{ getStatus[0].notes }}
+            </v-col>
+            <v-col cols="2">
+              <request-btn></request-btn>
+            </v-col>
+          </v-row>
+        </v-alert>
+        <v-alert type="info" border="top" colored-border v-else>
           <v-row justify="space-between">
             <v-col cols="10">
               {{ addAlert }}
@@ -76,7 +106,7 @@ export default {
     experience: () => import("./experience")
   },
   computed: {
-    ...mapGetters(["isTrainer"]),
+    ...mapGetters(["isTrainer", "getStatus", "getLastStatus"]),
     addAlert() {
       return this.$vuetify.lang.t("$vuetify.Educational.addAlert");
     },
