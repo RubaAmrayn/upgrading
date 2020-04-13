@@ -6,6 +6,7 @@ const Educational = require("./profile/educationalText");
 const Info = require("./profile/infoText");
 const Personal = require("./profile/personalText");
 const Experience = require("./profile/experienceText");
+const newCourseForm = require("./courses/newCourseForm");
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -60,5 +61,6 @@ export default {
   Educational,
   Info,
   Personal,
-  Experience
+  Experience,
+  newCourseForm
 };

@@ -65,26 +65,28 @@ const routes = [
     }
   },
   {
-    path: "/courses/newCourse",
+    path: "/courses/newCourses",
     name: "new-courses",
-    component: () => import("@/views/courses/newCourse"),
+    component: () => import("@/views/courses/newCourses"),
     meta: {
-      title: vuetify.framework.lang.t("$vuetify.Pages.AddNewCourse")
-    },
-    children: [
-      {
-        path: "add",
-        name: "add-new-course-form",
-        component: () =>
-          import("@/components/courses/newCourse/addNewCourseForm"),
-        meta: {
-          title: "Form"
-        }
-      },
-      {
-        path: "list"
-      }
-    ]
+      title: vuetify.framework.lang.t("$vuetify.Pages.newCourses")
+    }
+  },
+  {
+    path: "/courses/newCourses/add",
+    name: "new-course-form",
+    component: () => import("@/views/courses/newCourses/NewCourseForm.vue"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.newCourseForm")
+    }
+  },
+  {
+    path: "/courses/newCourses/pinding",
+    name: "pinding-course",
+    component: () => import("@/views/courses/newCourses/PendingCourses.vue"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.pindingCourseRequests")
+    }
   }
 ];
 

@@ -8,7 +8,10 @@ module.exports = {
   traineeRequests: "طلبات الإنضمام",
   trainerRequestsActive: "طلبات الإنضمام الفعالة",
   trainerRequestsArchive: "طلبات الإنضمام المؤرشفة",
-  AddNewCourse: "رفع دورة",
-  MyCourses: "دوراتي",
-  MyArchiveCourses: "دوراتي السابقة"
+  newCourses: "الدورات الجديدة",
+  newCourseForm: "نموذج دورة جديدة",
+  pindingCourseRequests: "طلبات تحت الإجراء",
+  addNewCourse: "رفع دورة",
+  myCourses: "دوراتي",
+  myArchiveCourses: "دوراتي السابقة"
 };

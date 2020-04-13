@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import users from "./users";
 import profile from "./profile";
 import requestTrainer from "./requestTrainer";
+import newCourses from "./newCourses";
 import VuexPersist from "vuex-persist";
 
 const VuexPersistStorage = new VuexPersist({
@@ -40,6 +41,7 @@ export default new Vuex.Store({
   modules: {
     users,
     profile,
-    requestTrainer
+    requestTrainer,
+    newCourses
   }
 });
