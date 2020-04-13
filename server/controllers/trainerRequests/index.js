@@ -1,8 +1,8 @@
 const mysql = require("../../connection");
-exports.requestNewTrainee = async (req, reply) => {
+exports.requestNewTrainer = async (req, reply) => {
   mysql.query(
     `
-    INSERT INTO upgrading.trainee_requests
+    INSERT INTO upgrading.trainer_requests
     (
     users_user_id,
     status_status_id)
@@ -20,7 +20,7 @@ exports.requestNewTrainee = async (req, reply) => {
   );
 };
 
-exports.getOneTraineeRequest = async (req, reply) => {
+exports.getOneTrainerRequest = async (req, reply) => {
   mysql.query(
     `
     SELECT 
@@ -35,7 +35,7 @@ exports.getOneTraineeRequest = async (req, reply) => {
     s.ar_status_name,
     s.en_status_name
 FROM
-    upgrading.trainee_requests r 
+    upgrading.trainer_requests r 
     left join users u on u.user_id = r.users_user_id
     left join status s on s.status_id = r.status_status_id
     where u.user_id = ?
@@ -51,7 +51,7 @@ FROM
   );
 };
 
-exports.getAllActiveTraineeRequest = async (req, reply) => {
+exports.getAllActiveTrainerRequest = async (req, reply) => {
   mysql.query(
     `
     SELECT 
@@ -66,7 +66,7 @@ exports.getAllActiveTraineeRequest = async (req, reply) => {
     s.ar_status_name,
     s.en_status_name
 FROM
-    upgrading.trainee_requests r
+    upgrading.trainer_requests r
         LEFT JOIN
     users u ON u.user_id = r.users_user_id
         LEFT JOIN
@@ -85,7 +85,7 @@ ORDER BY 1;
     }
   );
 };
-exports.getAllArchiveTraineeRequest = async (req, reply) => {
+exports.getAllArchiveTrainerRequest = async (req, reply) => {
   mysql.query(
     `
     SELECT 
@@ -100,7 +100,7 @@ exports.getAllArchiveTraineeRequest = async (req, reply) => {
     s.ar_status_name,
     s.en_status_name
 FROM
-    upgrading.trainee_requests r
+    upgrading.trainer_requests r
         LEFT JOIN
     users u ON u.user_id = r.users_user_id
         LEFT JOIN
@@ -119,14 +119,14 @@ ORDER BY 1;
     }
   );
 };
-exports.AcceptOneTrainee = async (req, reply) => {
+exports.AcceptOneTrainer = async (req, reply) => {
   mysql.query(
     `
   START TRANSACTION;
     UPDATE upgrading.roles_has_users 
     SET roles_role_id = 2 
     WHERE users_user_id = ?;
-    UPDATE upgrading.trainee_requests 
+    UPDATE upgrading.trainer_requests 
     SET 
         status_status_id = 4
     WHERE
@@ -144,10 +144,10 @@ exports.AcceptOneTrainee = async (req, reply) => {
   );
 };
 
-exports.RejectOneTrainee = async (req, reply) => {
+exports.RejectOneTrainer = async (req, reply) => {
   mysql.query(
     `  
-    UPDATE upgrading.trainee_requests 
+    UPDATE upgrading.trainer_requests 
     SET 
         status_status_id = 3,
         notes=?

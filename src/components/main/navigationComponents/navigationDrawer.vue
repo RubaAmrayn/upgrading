@@ -49,7 +49,7 @@ export default {
   async mounted() {
     let links = [];
     if (this.getUser.role_id == 2) {
-      links = await import("@/links/trainee");
+      links = await import("@/links/trainer");
       this.items = links.default;
     } else {
       links;

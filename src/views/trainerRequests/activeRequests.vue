@@ -8,7 +8,7 @@
         <v-card-text>
           <v-data-table
             :headers="headers"
-            :items="getAllActiveTraineeRequests"
+            :items="getAllActiveTrainerRequests"
             show-expand
             single-expand
             :expanded.sync="expanded"
@@ -27,7 +27,7 @@
                 icon
                 color="success"
                 @click="
-                  AcceptTrainee(item.request_id, item.user_id, item.first_name)
+                  AcceptTrainer(item.request_id, item.user_id, item.first_name)
                 "
                 class="text-start"
               >
@@ -79,10 +79,10 @@
 // import icon from "./icon.svg";
 import { mapGetters } from "vuex";
 export default {
-  name: "active-trainee-requests",
+  name: "active-trainer-requests",
   components: {
     "reject-trainee": () =>
-      import("@/components/traineeRequests/rejectTrainee"),
+      import("@/components/trainerRequests/rejectTrainer"),
     "educational-list": () =>
       import("@/components/profile/educational/educationalList"),
     "experience-list": () =>
@@ -133,11 +133,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAllActiveTraineeRequests"])
+    ...mapGetters(["getAllActiveTrainerRequests"])
   },
   mounted() {
     this.$nextTick(() => {
-      this.$store.dispatch("getAllActiveTraineeRequest");
+      this.$store.dispatch("getAllActiveTrainerRequest");
     });
   },
   methods: {
@@ -155,9 +155,9 @@ export default {
         return "معلق";
       }
     },
-    AcceptTrainee(request_id, user_id, first_name) {
+    AcceptTrainer(request_id, user_id, first_name) {
       let data = { request_id, user_id };
-      this.$store.dispatch("AcceptTrainee", data).then(res => {
+      this.$store.dispatch("AcceptTrainer", data).then(res => {
         if (res == "Upgraded") {
           this.$root.$emit("show-alert", {
             status: "success",

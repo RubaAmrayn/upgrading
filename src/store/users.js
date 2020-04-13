@@ -82,8 +82,8 @@ export default {
   getters: {
     getUser: state => state.user,
     isLoggedIn: state => !!Object.keys(state.user).includes("role_id"),
-    isTrainer: state => state.user.role_id == 1,
-    isTrainee: state => state.user.role_id == 2,
+    isTrainee: state => state.user.role_id == 1,
+    isTrainer: state => state.user.role_id == 2,
     isManager: state => state.user.role_id == 3
   }
 };

@@ -49,19 +49,19 @@ const routes = [
     }
   },
   {
-    path: "/traineeRequests/active",
-    name: "active-trainee-requests",
-    component: () => import("@/views/traineeRequests/activeRequests"),
+    path: "/trainerRequests/active",
+    name: "active-trainer-requests",
+    component: () => import("@/views/trainerRequests/activeRequests"),
     meta: {
-      title: vuetify.framework.lang.t("$vuetify.Pages.traineeRequestsActive")
+      title: vuetify.framework.lang.t("$vuetify.Pages.trainerRequestsActive")
     }
   },
   {
-    path: "/traineeRequests/archive",
-    name: "archive-trainee-requests",
-    component: () => import("@/views/traineeRequests/archiveRequests"),
+    path: "/trainerRequests/archive",
+    name: "archive-trainer-requests",
+    component: () => import("@/views/trainerRequests/archiveRequests"),
     meta: {
-      title: vuetify.framework.lang.t("$vuetify.Pages.traineeRequestsArchive")
+      title: vuetify.framework.lang.t("$vuetify.Pages.trainerRequestsArchive")
     }
   },
   {

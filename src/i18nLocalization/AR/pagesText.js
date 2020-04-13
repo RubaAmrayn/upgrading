@@ -6,8 +6,8 @@ module.exports = {
   sign: "انشاء حساب",
   profile: "الملف الشخصي",
   traineeRequests: "طلبات الإنضمام",
-  traineeRequestsActive: "طلبات الإنضمام الفعالة",
-  traineeRequestsArchive: "طلبات الإنضمام المؤرشفة",
+  trainerRequestsActive: "طلبات الإنضمام الفعالة",
+  trainerRequestsArchive: "طلبات الإنضمام المؤرشفة",
   AddNewCourse: "رفع دورة",
   MyCourses: "دوراتي",
   MyArchiveCourses: "دوراتي السابقة"

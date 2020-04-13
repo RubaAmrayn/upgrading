@@ -75,7 +75,7 @@ export default {
   methods: {
     request() {
       if (this.getLastStatus == 0) {
-        this.$store.dispatch("requestTrainee").then(res => {
+        this.$store.dispatch("requestTrainer").then(res => {
           if (res == "requested") {
             this.$root.$emit("show-alert", {
               status: "success",
@@ -88,7 +88,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getOneTraineeRequest").then(() => {
+    this.$store.dispatch("getOneTrainerRequest").then(() => {
       this.$store.dispatch("getOneEducationalAttachements");
       this.$store.dispatch("getEducationalOneQualifications", 0);
     });

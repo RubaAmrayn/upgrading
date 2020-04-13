@@ -1,4 +1,4 @@
 const authRouter = require("../auth/");
 const profileRouter = require("../profile");
-const requestTraineeRouter = require("../traineeRequests");
-module.exports = [...authRouter, ...profileRouter, ...requestTraineeRouter];
+const requestTrainerRouter = require("../trainerRequests");
+module.exports = [...authRouter, ...profileRouter, ...requestTrainerRouter];

@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name: "reject-trainee",
+  name: "reject-trainer",
   props: {
     request_id: {
       type: Number,
@@ -64,10 +64,10 @@ export default {
     };
   },
   methods: {
-    RejectTrainee() {
+    RejectTrainer() {
       if (this.$refs.form.validate()) {
         let data = { request_id: this.request_id, notes: this.notes };
-        this.$store.dispatch("RejectTrainee", data).then(res => {
+        this.$store.dispatch("RejectTrainer", data).then(res => {
           if (res == "Rejected") {
             this.$root.$emit("show-alert", {
               status: "success",

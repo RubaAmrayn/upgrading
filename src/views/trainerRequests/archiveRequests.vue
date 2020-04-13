@@ -8,7 +8,7 @@
         <v-card-text>
           <v-data-table
             :headers="headers"
-            :items="getAllArchiveTraineeRequests"
+            :items="getAllArchiveTrainerRequests"
             show-expand
             single-expand
             :expanded.sync="expanded"
@@ -74,7 +74,7 @@
 // import icon from "./icon.svg";
 import { mapGetters } from "vuex";
 export default {
-  name: "archive-trainee-requests",
+  name: "archive-trainer-requests",
   components: {
     "educational-list": () =>
       import("@/components/profile/educational/educationalList"),
@@ -126,11 +126,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAllArchiveTraineeRequests"])
+    ...mapGetters(["getAllArchiveTrainerRequests"])
   },
   mounted() {
     this.$nextTick(() => {
-      this.$store.dispatch("getAllArchiveTraineeRequest");
+      this.$store.dispatch("getAllArchiveTrainerRequest");
     });
   },
   methods: {
