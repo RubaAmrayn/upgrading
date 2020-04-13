@@ -91,7 +91,6 @@ export default {
   },
   methods: {
     getIcon(mime_type) {
-      console.log(mime_type);
       if (mime_type.startsWith("image")) {
         return "mdi-file-image-outline";
       } else if (mime_type == "application/pdf") {

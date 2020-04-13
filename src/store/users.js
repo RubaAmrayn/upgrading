@@ -7,9 +7,9 @@ export default {
     SET_USER(state, payload) {
       state.user = payload;
     },
-    LOG_OUT(state) {
-      state.user = {};
-    },
+    // LOG_OUT(state) {
+    //   state.user = {};
+    // },
     UPDATE_USER(state, payload) {
       state.user.first_name = payload.first_name;
       state.user.middle_name = payload.middle_name;
@@ -48,15 +48,8 @@ export default {
           .catch(error => reject(error));
       });
     },
-    logOut({ commit, rootState }) {
-      rootState.profile.qualifications = [];
-      rootState.profile.qualification_attachements = [];
-      rootState.profile.experiences = [];
-      rootState.profile.experiences_attachements = [];
-      rootState.requestTrainee.status = [];
-      rootState.requestTrainee.active_requests = [];
-      rootState.requestTrainee.archive_requests = [];
-      commit("LOG_OUT");
+    logOut({ commit }) {
+      commit("LOG_OUT", null, { root: true });
     },
     updateUser({ commit, state }, user) {
       let user_id = state.user.user_id;

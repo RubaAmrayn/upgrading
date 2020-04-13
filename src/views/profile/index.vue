@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row justify="start" v-if="isTrainer">
+    <v-row justify="start" v-if="isTrainee">
       <v-col cols="12" sm="12" md="12" lg="12">
         <v-alert
           type="error"
@@ -95,6 +95,8 @@
 
 <script>
 // import profile from "@/store/profile";
+// import requestTrainer from "@/store/requestTrainer";
+// import { registerModule, unRegisterModule } from "@/mixins/vuexDynamicModules";
 import requestBtn from "./requestBtn";
 import { mapGetters } from "vuex";
 export default {
@@ -105,8 +107,9 @@ export default {
     "educational-qualification": () => import("./educationalQualification"),
     experience: () => import("./experience")
   },
+  // mixins: [registerModule, unRegisterModule],
   computed: {
-    ...mapGetters(["isTrainer", "getStatus", "getLastStatus"]),
+    ...mapGetters(["isTrainee", "getStatus", "getLastStatus"]),
     addAlert() {
       return this.$vuetify.lang.t("$vuetify.Educational.addAlert");
     },
@@ -124,10 +127,12 @@ export default {
     }
   }
   // created() {
-  //   this.$store.registerModule("profile", profile);
-  // },
-  // destroyed() {
-  //   this.$store.unregisterModule("profile");
+  //   this.registerStoreModule("profile", profile);
+  //   this.registerStoreModule("requestTrainer", requestTrainer);
+  // }
+  // beforeDestroy() {
+  //   this.unRegisterStoreModule("profile");
+  //   this.unRegisterStoreModule("requestTrainer");
   // }
 };
 </script>

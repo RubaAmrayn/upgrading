@@ -92,8 +92,6 @@ const router = new VueRouter({
   routes
 });
 router.afterEach(to => {
-  console.log(to);
-
   Vue.nextTick(() => {
     document.title =
       to.meta.title +

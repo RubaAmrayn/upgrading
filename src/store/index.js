@@ -13,10 +13,30 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   plugins: [VuexPersistStorage.plugin],
-  state: {}, //تعريف البيانات
-  mutations: {}, // اسناد القيم على البيانات [state]
-  actions: {}, // اضافة دوال لاستخدامها على مستوى ال vuex
-  getters: {}, // computed vuex => استرجاع قيم ال state
+  state: {},
+  mutations: {
+    LOG_OUT(state) {
+      if (state.users) {
+        state.users.user = {};
+      }
+      if (state.profile) {
+        state.profile.qualifications = [];
+        state.profile.qualification_attachements = [];
+        state.profile.experiences = [];
+        state.profile.experiences_attachements = [];
+        // delete state.profile;
+      }
+      if (state.requestTrainer) {
+        state.requestTrainer.status = [];
+        state.requestTrainer.active_requests = [];
+        state.requestTrainer.archive_requests = [];
+        // delete state.requestTrainer;
+      }
+      window.sessionStorage.clear();
+    }
+  },
+  actions: {},
+  getters: {},
   modules: {
     users,
     profile,

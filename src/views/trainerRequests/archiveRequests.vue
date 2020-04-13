@@ -70,8 +70,8 @@
 </template>
 
 <script>
-// import requestTrainee from "@/store/requestTrainee";
-// import icon from "./icon.svg";
+// import requestTrainer from "@/store/requestTrainer";
+// import { registerModule, unRegisterModule } from "@/mixins/vuexDynamicModules";
 import { mapGetters } from "vuex";
 export default {
   name: "archive-trainer-requests",
@@ -81,6 +81,7 @@ export default {
     "experience-list": () =>
       import("@/components/profile/experience/experienceList")
   },
+  // mixins: [registerModule, unRegisterModule],
   data() {
     return {
       expanded: [],
@@ -152,12 +153,13 @@ export default {
       }
     }
   }
-  //   created() {
-  //     this.$store.registerModule("requests", requestTrainee);
-  //   },
-  //   beforeDestroy() {
-  //     this.$store.unregisterModule("requests");
-  //   }
+  // created() {
+  //   this.registerStoreModule("requestTrainer", requestTrainer);
+  // }
+  // ,
+  // beforeDestroy() {
+  //   this.unRegisterStoreModule("requestTrainer");
+  // }
 };
 </script>
 

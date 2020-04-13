@@ -11,10 +11,12 @@
 </template>
 
 <script>
-// import requestTrainee from "@/store/requestTrainee";
+// import requestTrainer from "@/store/requestTrainer";
+// import { registerModule, unRegisterModule } from "@/mixins/vuexDynamicModules";
 import { mapGetters } from "vuex";
 export default {
   name: "request-btn",
+  // mixins: [registerModule, unRegisterModule],
   data() {
     return {};
   },
@@ -93,11 +95,11 @@ export default {
       this.$store.dispatch("getEducationalOneQualifications", 0);
     });
   }
-  //   created() {
-  //     this.$store.registerModule("requests", requestTrainee);
-  //   },
-  //   beforeDestroy() {
-  //     this.$store.unregisterModule("requests");
-  //   }
+  // created() {
+  //   this.registerStoreModule("requestTrainer", requestTrainer);
+  // },
+  // beforeDestroy() {
+  //   this.unRegisterStoreModule("requestTrainer");
+  // }
 };
 </script>
