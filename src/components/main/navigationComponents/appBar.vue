@@ -1,15 +1,18 @@
 <template>
-  <v-app-bar app elevate-on-scroll>
+  <v-app-bar app elevate-on-scroll dark>
     <v-app-bar-nav-icon
+      style="color:aliceblue"
       @click="$root.$emit('navigationDrawer')"
     ></v-app-bar-nav-icon>
 
-    <v-toolbar-title class="title d-none d-sm-flex and-down">{{
-      PageTitle
-    }}</v-toolbar-title>
+    <v-toolbar-title
+      class="title d-none d-sm-flex and-down"
+      style="color:white"
+      >{{ PageTitle }}</v-toolbar-title
+    >
 
     <v-spacer></v-spacer>
-    <v-tooltip bottom v-if="getUser.role_id == 1">
+    <v-tooltip bottom v-if="getUser.role_id == 1" class="white">
       <template v-slot:activator="{ on }">
         <v-btn icon v-on="on" @click="$router.push('/profile')">
           <v-icon>mdi-teach</v-icon>

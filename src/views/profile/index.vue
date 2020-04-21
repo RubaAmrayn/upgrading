@@ -62,7 +62,7 @@
           </span>
         </v-tab>
         <v-tab>
-          <v-icon class="text-start">mdi-card-account-details</v-icon>
+          <v-icon class="text-start">mdi-access-point</v-icon>
           <span class="text-end">
             {{ experiencePersonal }}
           </span>

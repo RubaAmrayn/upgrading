@@ -1,14 +1,12 @@
 <template>
   <v-footer dark padless>
     <v-card class="flex" flat tile>
-      <v-card-title class="teal">
+      <v-card-title class="pramiry">
         <v-spacer></v-spacer>
-        <strong class="subheading mx-auto"
-          >للاستفسار الرجاء التواصل عبر الايميل</strong
-        >
+        <strong class="subheading">للاستفسار الرجاء التواصل عبر </strong>
         <v-spacer></v-spacer>
-        <v-btn v-for="icon in icons" :key="icon" class="mx-4" dark icon>
-          <v-icon size="24px">{{ icon }}</v-icon>
+        <v-btn v-for="icon in icons" :key="icon" class="mx-6" dark icon>
+          <v-icon size="28px">{{ icon }}</v-icon>
         </v-btn>
       </v-card-title>
 
@@ -21,13 +19,7 @@
 <script>
 export default {
   data: () => ({
-    icons: [
-      "mdi-facebook",
-      "mdi-twitter",
-      "mdi-google-plus",
-      "mdi-linkedin",
-      "mdi-instagram"
-    ]
+    icons: ["mdi-email", "mdi-twitter"]
   })
 };
 </script>

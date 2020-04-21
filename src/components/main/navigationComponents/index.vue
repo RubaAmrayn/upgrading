@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-bar></app-bar>
+    <app-bar class="pramiry"></app-bar>
     <navigation-drawer></navigation-drawer>
   </div>
 </template>

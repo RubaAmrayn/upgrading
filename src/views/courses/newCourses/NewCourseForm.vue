@@ -84,6 +84,7 @@
             <v-text-field
               v-model="requirement_name"
               label="ماهي متطلبات الدورة؟"
+              :rules="[v => !!v || 'يجب كتابة متطلبات الدورة']"
               outlined
               @keydown.enter="append"
             >
@@ -177,13 +178,16 @@ export default {
       );
     },
     addNewCourse() {
-      this.$store.dispatch("addNewCourse", this.newCourse).then(() => {
-        this.$root.$emit("show-alert", {
-          status: "success",
-          title: "تمت الإضافة",
-          body: "تمت إضافة الدورة بنجاح وفي انتظار اجراء المسؤول فيها"
+      if (this.$refs.AddCourseForm.validate()) {
+        this.$store.dispatch("addNewCourse", this.newCourse).then(() => {
+          this.$root.$emit("show-alert", {
+            status: "success",
+            title: "تمت الإضافة",
+            body: "تمت إضافة الدورة بنجاح وفي انتظار اجراء المسؤول فيها"
+          });
         });
-      });
+      }
+      this.$refs.experForm.reset();
     }
   }
 };
