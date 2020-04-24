@@ -172,16 +172,16 @@ export default {
       let self = this;
       this.$root.$emit("show-alert", {
         status: "confirm",
-        title: this.deleteTitle,
-        body: this.deleteBody,
+        title: self.deleteTitle,
+        body: self.deleteBody,
         action: "deleteOneExperience",
         data: experince_id,
         onSuccess(res) {
           if (res == "deleted") {
             self.$root.$emit("show-alert", {
               status: "success",
-              title: this.deleteSuccessTitle,
-              body: this.deleteSuccessBody
+              title: self.deleteSuccessTitle,
+              body: self.deleteSuccessBody
             });
           }
         }

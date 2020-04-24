@@ -155,21 +155,21 @@ export default {
       let self = this;
       self.$root.$emit("show-alert", {
         status: "confirm",
-        title: this.deleteTitle,
-        body: this.deleteBody,
+        title: self.deleteTitle,
+        body: self.deleteBody,
         action: "deletEducationalOneQualifications",
         data: qualification_id,
         onSuccess() {
           self.$root.$emit("show-alert", {
             status: "success",
-            title: this.deleteSuccessTitle,
-            body: this.deleteSuccessBody
+            title: self.deleteSuccessTitle,
+            body: self.deleteSuccessBody
           });
         },
         onError(err) {
           self.$root.$emit("show-alert", {
             status: "error",
-            title: this.deleteErrorTitle,
+            title: self.deleteErrorTitle,
             body: err
           });
         }

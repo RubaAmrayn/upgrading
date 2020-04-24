@@ -1,5 +1,20 @@
 module.exports = {
+  uplodedCourse: "رفع دورة جديدة",
+  nameCourse: "اسم الدورة",
+  nameCourseError: "يجب كتابة اسم الدورة",
+  describeCourse: "وصف الدورة",
+  describeCourseError: "يجب كتابة وصف للدورة",
   courseDate: "اختر بداية و نهاية تاريخ الدورة",
   courseDateError: "يجب اختيار بداية و نهاية الدورة",
-  courseDateTowError: "يجب اختيار تاريخ نهاية الدورة"
+  courseDateTowError: "يجب اختيار تاريخ نهاية الدورة",
+  priceCourse: "سعر الدورة",
+  priceCourseError: "يجب كتابة سعر الدورة",
+  numberOfHours: "عدد ساعات الدورة",
+  numberOfHoursError: "يجب كتابة عدد الساعات اليومية للدورة",
+  numberOfSeats: "عدد المقاعد",
+  numberOfSeatError: "يجب كتابة عدد المقاعد المتوفرة للدورة",
+  listOfCourseRequirements: "ماهي متطلبات الدورة؟",
+  courseRequirementError: "يجب كتابة متطلبات الدورة",
+  listOfCourseRequirement: "قائمة متطلبات الدورة",
+  uplodeCourse: "رفع الطلب"
 };

@@ -15,21 +15,26 @@
               </div>
             </v-col>
           </v-row>
-          <div v-if="slide.images && slide.images.length">
+          <div
+            v-if="slide.images && slide.images.length"
+            class="d-flex align-content-end flex-wrap"
+          >
             <v-row justify="end">
               <v-col cols="3">
                 <v-img
                   :src="slide.images[0]"
                   alt="image 1"
                   contain
-                  aspect-ratio="7.28"
+                  height="200px"
                   class="text-start"
                 ></v-img>
+              </v-col>
+              <v-col cols="3">
                 <v-img
                   :src="slide.images[1]"
-                  alt="image 3"
+                  alt="image 2"
                   contain
-                  aspect-ratio="7.28"
+                  height="200px"
                   class="text-end"
                 ></v-img>
               </v-col>

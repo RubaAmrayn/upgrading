@@ -3,7 +3,7 @@
     <v-col cols="12" sm="12" md="10" lg="10" xl="10">
       <v-card>
         <v-card-title primary-title>
-          جدول الطلبات المؤرشفة
+          {{ archiveOrder }}
         </v-card-title>
         <v-card-text>
           <v-data-table
@@ -38,7 +38,7 @@
                 <v-expansion-panels accordion focusable hover>
                   <v-expansion-panel>
                     <v-expansion-panel-header>
-                      المؤهلات
+                      {{ qualification }}
                     </v-expansion-panel-header>
                     <v-expansion-panel-content style="padding: 0 !important;">
                       <educational-list
@@ -49,7 +49,7 @@
                   </v-expansion-panel>
                   <v-expansion-panel>
                     <v-expansion-panel-header>
-                      الخبرات
+                      {{ experience }}
                     </v-expansion-panel-header>
                     <v-expansion-panel-content class="pa-0">
                       <experience-list
@@ -82,51 +82,89 @@ export default {
       import("@/components/profile/experience/experienceList")
   },
   // mixins: [registerModule, unRegisterModule],
-  data() {
-    return {
-      expanded: [],
-      selectedUser_id: 0,
-      headers: [
+  data(vm) {
+    vm.$nextTick(() => {
+      vm.headers = [
         {
-          text: "الإسم الأول",
+          text: vm.FirstNameLabel,
           value: "first_name",
           align: "center",
           sortable: true
         },
         {
-          text: "الاسم الثاني",
+          text: vm.MiddleNameLabel,
           value: "middle_name",
           align: "center",
           sortable: true
         },
         {
-          text: "الاسم الاخير",
+          text: vm.LastNameLabel,
           value: "last_name",
           align: "center",
           sortable: true
         },
         {
-          text: "تاريخ الطلب",
+          text: vm.dateOrder,
           value: "date_reqeust",
           align: "center",
           sortable: true
         },
         {
-          text: "التعليق",
+          text: vm.comments,
           value: "notes",
           align: "center",
           sortable: false
         },
         {
-          text: "حالة الطلب",
+          text: vm.orderStatus,
           value: `status_id`,
           align: "center",
           sortable: true
         }
-      ]
+      ];
+    });
+    return {
+      expanded: [],
+      selectedUser_id: 0
     };
   },
   computed: {
+    archiveOrder() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.archiveOrder");
+    },
+    experience() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.experience");
+    },
+    qualification() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.qualification");
+    },
+    orderStatus() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.orderStatus");
+    },
+    dateOrder() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.dateOrder");
+    },
+    FirstNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.firstNameLabel");
+    },
+    MiddleNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.middleNameLabel");
+    },
+    LastNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.lastNameLabel");
+    },
+    qualificationEvents() {
+      return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
+    },
+    comments() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.comments");
+    },
+    okOrderTitle() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.okOrderTitle");
+    },
+    reject() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.reject");
+    },
     ...mapGetters(["getAllArchiveTrainerRequests"])
   },
   mounted() {
@@ -147,9 +185,9 @@ export default {
     },
     StatusName(id) {
       if (id == 3) {
-        return "مرفوض";
+        return this.reject;
       } else if (id == 4) {
-        return "تم القبول";
+        return this.okOrderTitle;
       }
     }
   }

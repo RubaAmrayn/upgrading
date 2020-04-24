@@ -107,16 +107,16 @@ export default {
       };
       this.$root.$emit("show-alert", {
         status: "confirm",
-        title: this.deleteTitle,
-        body: this.uploadDeleteBody,
+        title: self.deleteTitle,
+        body: self.uploadDeleteBody,
         data: data,
         action: "deleteOneExperienceAttachements",
         onSuccess(res) {
           if (res == "deleted") {
             self.$root.$emit("show-alert", {
               status: "success",
-              title: this.deleteSuccessTitle,
-              body: this.uploadDeleteSuccessBody
+              title: self.deleteSuccessTitle,
+              body: self.uploadDeleteSuccessBody
             });
           }
         }

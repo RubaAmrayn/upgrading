@@ -26,8 +26,14 @@ export default {
       "getQualification_attachements",
       "getLastStatus"
     ]),
+    requestTitle() {
+      return this.$vuetify.lang.t("$vuetify.RequestBtn.requestTitle");
+    },
+    requestBody() {
+      return this.$vuetify.lang.t("$vuetify.RequestBtn.requestBody");
+    },
     makeStyle() {
-      if (this.getLastStatus == 6 || this.getLastStatus == 3) {
+      if ([3, 4, 6].includes(this.getLastStatus)) {
         return "pointer-events: none;";
       } else {
         return "";
@@ -35,13 +41,13 @@ export default {
     },
     buttonText() {
       if (this.getLastStatus == 0) {
-        return "طلب إلتحاق";
+        return this.$vuetify.lang.t("$vuetify.RequestBtn.enrollmentOrder");
       } else if (this.getLastStatus == 6) {
-        return "طلبك قيد المراجعة";
+        return this.$vuetify.lang.t("$vuetify.RequestBtn.underRviewOrder");
       } else if (this.getLastStatus == 3) {
-        return "تم رفض طلبك";
+        return this.$vuetify.lang.t("$vuetify.RequestBtn.rejectOrder");
       } else {
-        return "طلب إلتحاق";
+        return this.$vuetify.lang.t("$vuetify.RequestBtn.enrollmentOrder");
       }
     },
     makeColor() {
@@ -81,8 +87,8 @@ export default {
           if (res == "requested") {
             this.$root.$emit("show-alert", {
               status: "success",
-              title: "تم رفع الطلب",
-              body: "تم رفع طلبك وقيد مراجعة المسؤول"
+              title: this.requestTitle,
+              body: this.requestBody
             });
           }
         });

@@ -3,24 +3,24 @@
     <v-col cols="12" sm="10" md="6" lg="6" xl="5">
       <v-card>
         <v-card-title class="primary-title justify-center">
-          رفع دورة جديدة
+          {{ uplodedCourse }}
         </v-card-title>
         <v-card-text>
           <v-form ref="AddCourseForm">
             <v-text-field
-              label="اسم الدورة"
+              :label="nameCourse"
               outlined
               required
-              :rules="[v => !!v || 'يجب كتابة عنوان الدورة']"
+              :rules="[v => !!v || nameCourseError]"
               v-model.trim="newCourse.course_name"
             ></v-text-field>
             <v-textarea
-              label="وصف الدورة"
+              :label="describeCourse"
               outlined
               rows="3"
               auto-grow
               required
-              :rules="[v => !!v || 'يحب كتابة وصف الدورة']"
+              :rules="[v => !!v || describeCourseError]"
               v-model="newCourse.course_description"
             >
             </v-textarea>
@@ -60,31 +60,31 @@
               ></v-date-picker>
             </v-menu>
             <v-text-field
-              label="سعر الدورة"
+              :label="priceCourse"
               outlined
               required
-              :rules="[v => !!v || 'يجب تحديد سعر الدورة']"
+              :rules="[v => !!v || priceCourseError]"
               v-model="newCourse.course_price"
               type="number"
             ></v-text-field>
             <v-text-field
-              label="عدد الساعات اليومية"
+              :label="numberOfHours"
               outlined
               required
-              :rules="[v => !!v || 'يجب كتابة عدد الساعات اليومية']"
+              :rules="[v => !!v || numberOfHoursError]"
               v-model.trim="newCourse.daily_hours"
             ></v-text-field>
             <v-text-field
-              label="عدد المقاعد"
+              :label="numberOfSeats"
               outlined
               required
-              :rules="[v => !!v || 'يجب كتابة عدد المقاعد']"
+              :rules="[v => !!v || numberOfSeatError]"
               v-model.trim="newCourse.seats_number"
             ></v-text-field>
             <v-text-field
               v-model="requirement_name"
-              label="ماهي متطلبات الدورة؟"
-              :rules="[v => !!v || 'يجب كتابة متطلبات الدورة']"
+              :label="listOfCourseRequirements"
+              :rules="[v => !!v || courseRequirementError]"
               outlined
               @keydown.enter="append"
             >
@@ -92,7 +92,7 @@
             <v-divider class="mb-4"></v-divider>
             <v-card v-if="newCourse.course_requirements.length > 0">
               <v-card-title class="primary-title justify-center">
-                قائمة متطلبات الدورة
+                {{ listOfCourseRequirement }}
               </v-card-title>
               <v-list>
                 <v-list-item-group color="primary">
@@ -120,7 +120,7 @@
           <v-row justify="center">
             <v-col cols="12" sm="10" md="8" lg="6" xl="4">
               <v-btn color="primary" depressed block @click="addNewCourse">
-                رفع الطلب
+                {{ uplodeCourse }}
               </v-btn>
             </v-col>
           </v-row>
@@ -150,6 +150,21 @@ export default {
     };
   },
   computed: {
+    uplodedCourse() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.uplodedCourse");
+    },
+    nameCourse() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.nameCourse");
+    },
+    nameCourseError() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.nameCourseError");
+    },
+    describeCourse() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.describeCourse");
+    },
+    describeCourseError() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.describeCourseError");
+    },
     courseDate() {
       return this.$vuetify.lang.t("$vuetify.newCourseForm.courseDate");
     },
@@ -158,6 +173,42 @@ export default {
     },
     courseDateTowError() {
       return this.$vuetify.lang.t("$vuetify.newCourseForm.courseDateTowError");
+    },
+    priceCourse() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.priceCourse");
+    },
+    priceCourseError() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.priceCourseError");
+    },
+    numberOfHours() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.numberOfHours");
+    },
+    numberOfHoursError() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.numberOfHoursError");
+    },
+    numberOfSeats() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.numberOfSeats");
+    },
+    numberOfSeatError() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.numberOfSeatError");
+    },
+    listOfCourseRequirements() {
+      return this.$vuetify.lang.t(
+        "$vuetify.newCourseForm.listOfCourseRequirements"
+      );
+    },
+    courseRequirementError() {
+      return this.$vuetify.lang.t(
+        "$vuetify.newCourseForm.courseRequirementError"
+      );
+    },
+    listOfCourseRequirement() {
+      return this.$vuetify.lang.t(
+        "$vuetify.newCourseForm.listOfCourseRequirement"
+      );
+    },
+    uplodeCourse() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.uplodeCourse");
     },
     dateRangeText() {
       return this.newCourse.course_dates.join(" حتى ");

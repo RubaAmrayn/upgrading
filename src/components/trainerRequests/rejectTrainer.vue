@@ -13,15 +13,15 @@
 
     <v-card>
       <v-card-title class="primary-title justify-center">
-        رفض طلب مدرب
+        {{ rejectTrainer }}
       </v-card-title>
       <v-card-text>
         <v-form lazy-validation ref="form">
           <v-text-field
-            label="الأسباب"
+            :label="rejectReason"
             outlined
             required
-            :rules="[v => !!v || 'يجب كتابة اسباب الرفض']"
+            :rules="[v => !!v || rejectReasonError]"
             prepend-inner-icon="mdi-text"
             v-model="notes"
           ></v-text-field>
@@ -34,11 +34,11 @@
           @click="RejectTrainee"
           class="text-start"
         >
-          رفض
+          {{ reject }}
           <v-icon>mdi-cancel</v-icon>
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn text @click="menu = false" class="text-end">الغاء</v-btn>
+        <v-btn text @click="menu = false" class="text-end">{{ cancel }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-menu>
@@ -63,6 +63,26 @@ export default {
       notes: ""
     };
   },
+  computed: {
+    rejectTrainer() {
+      return this.$vuetify.lang.t("$vuetify.Reject.rejectTrainer");
+    },
+    rejectReason() {
+      return this.$vuetify.lang.t("$vuetify.Reject.rejectReason");
+    },
+    rejectReasonError() {
+      return this.$vuetify.lang.t("$vuetify.Reject.rejectReasonError");
+    },
+    reject() {
+      return this.$vuetify.lang.t("$vuetify.Reject.reject");
+    },
+    cancel() {
+      return this.$vuetify.lang.t("$vuetify.Reject.cancel");
+    },
+    rejectTitle() {
+      return this.$vuetify.lang.t("$vuetify.Reject.rejectTitle");
+    }
+  },
   methods: {
     RejectTrainer() {
       if (this.$refs.form.validate()) {
@@ -71,8 +91,11 @@ export default {
           if (res == "Rejected") {
             this.$root.$emit("show-alert", {
               status: "success",
-              title: "تم الرفض",
-              body: ` تم رفض طلب التحاق  ${this.first_name} ك مدرب`
+              title: this.rejectTitle,
+              body: this.$vuetify.lang.t(
+                "this.$vuetufy.Reject.rejectBody",
+                this.first_name
+              )
             });
           }
         });

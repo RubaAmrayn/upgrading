@@ -2,9 +2,7 @@
   <v-row justify="center">
     <v-col cols="12" sm="12" md="10" lg="10" xl="10">
       <v-card>
-        <v-card-title primary-title>
-          جدول الطلبات الفعالة
-        </v-card-title>
+        <v-card-title primary-title>{{ activeOrder }}</v-card-title>
         <v-card-text>
           <v-data-table
             :headers="headers"
@@ -14,13 +12,13 @@
             :expanded.sync="expanded"
             item-key="user_id"
           >
-            <template v-slot:item.date_reqeust="{ value }">
-              {{ new Date(value).toLocaleString("en-sa") }}
-            </template>
+            <template v-slot:item.date_reqeust="{ value }">{{
+              new Date(value).toLocaleString("en-sa")
+            }}</template>
             <template v-slot:item.status_id="{ value }">
-              <v-chip class="ma-2 px-3" :color="StatusColor(value)">
-                {{ StatusName(value) }}
-              </v-chip>
+              <v-chip class="ma-2 px-3" :color="StatusColor(value)">{{
+                StatusName(value)
+              }}</v-chip>
             </template>
             <template v-slot:item.actions="{ item }">
               <v-btn
@@ -42,9 +40,9 @@
               <td :colspan="headers.length" class="px-1">
                 <v-expansion-panels accordion focusable hover>
                   <v-expansion-panel>
-                    <v-expansion-panel-header>
-                      المؤهلات
-                    </v-expansion-panel-header>
+                    <v-expansion-panel-header>{{
+                      qualification
+                    }}</v-expansion-panel-header>
                     <v-expansion-panel-content style="padding: 0 !important;">
                       <educational-list
                         :choosenUserId="item.user_id"
@@ -53,9 +51,9 @@
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                   <v-expansion-panel>
-                    <v-expansion-panel-header>
-                      الخبرات
-                    </v-expansion-panel-header>
+                    <v-expansion-panel-header>{{
+                      experience
+                    }}</v-expansion-panel-header>
                     <v-expansion-panel-content class="pa-0">
                       <experience-list
                         :choosenUserId="item.user_id"
@@ -90,51 +88,90 @@ export default {
       import("@/components/profile/experience/experienceList")
   },
   //  mixins: [registerModule, unRegisterModule],
-  data() {
-    return {
-      expanded: [],
-      selectedUser_id: 0,
-      headers: [
+  data(vm) {
+    vm.$nextTick(() => {
+      vm.headers = [
         {
-          text: "الإسم الأول",
+          text: vm.FirstNameLabel,
           value: "first_name",
           align: "center",
           sortable: true
         },
         {
-          text: "الاسم الثاني",
+          text: vm.MiddleNameLabel,
           value: "middle_name",
           align: "center",
           sortable: true
         },
         {
-          text: "الاسم الاخير",
+          text: vm.LastNameLabel,
           value: "last_name",
           align: "center",
           sortable: true
         },
         {
-          text: "تاريخ الطلب",
+          text: vm.dateOrder,
           value: "date_reqeust",
           align: "center",
           sortable: true
         },
         {
-          text: "حالة الطلب",
+          text: vm.orderStatus,
           value: `status_id`,
           align: "center",
           sortable: true
         },
         {
-          text: "الاحداث",
+          text: vm.qualificationEvents,
           value: "actions",
           align: "center",
           sortable: false
         }
-      ]
+      ];
+    });
+    return {
+      headers: [],
+      expanded: [],
+      selectedUser_id: 0
     };
   },
   computed: {
+    activeOrder() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.activeOrder");
+    },
+    experience() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.experience");
+    },
+    qualification() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.qualification");
+    },
+    orderStatus() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.orderStatus");
+    },
+    dateOrder() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.dateOrder");
+    },
+    FirstNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.firstNameLabel");
+    },
+    MiddleNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.middleNameLabel");
+    },
+    LastNameLabel() {
+      return this.$vuetify.lang.t("$vuetify.Sign.lastNameLabel");
+    },
+    qualificationEvents() {
+      return this.$vuetify.lang.t("$vuetify.Educational.qualificationEvents");
+    },
+    newOrder() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.newOrder");
+    },
+    hangOrder() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.hangOrder");
+    },
+    okOrderTitle() {
+      return this.$vuetify.lang.t("$vuetify.activeRequest.okOrderTitle");
+    },
     ...mapGetters(["getAllActiveTrainerRequests"])
   },
   mounted() {
@@ -152,9 +189,9 @@ export default {
     },
     StatusName(id) {
       if (id == 6) {
-        return "جديد";
+        return this.newOrder;
       } else if (id == 2) {
-        return "معلق";
+        return this.hangOrder;
       }
     },
     AcceptTrainer(request_id, user_id, first_name) {
@@ -163,8 +200,11 @@ export default {
         if (res == "Upgraded") {
           this.$root.$emit("show-alert", {
             status: "success",
-            title: "تم القبول",
-            body: ` تم قبول ${first_name} ك مدرب`
+            title: this.okOrderTitle,
+            body: this.$vuetify.lang.t(
+              "$vuetify.activeRequest.okOrderBody",
+              first_name
+            )
           });
         }
       });

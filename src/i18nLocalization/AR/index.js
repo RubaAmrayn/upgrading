@@ -7,6 +7,9 @@ const Info = require("./profile/infoText");
 const Personal = require("./profile/personalText");
 const Experience = require("./profile/experienceText");
 const newCourseForm = require("./courses/newCourseForm");
+const Reject = require("./trainerRequests/rejectTrainer");
+const activeRequest = require("./trainerRequests/activeRequest");
+const RequestBtn = require("./profile/requestBtn");
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -62,5 +65,8 @@ export default {
   Info,
   Personal,
   Experience,
-  newCourseForm
+  newCourseForm,
+  Reject,
+  activeRequest,
+  RequestBtn
 };
