@@ -1,7 +1,7 @@
 module.exports = require("mysql2").createConnection({
   host: "localhost",
   user: "root",
-  password: "Ruba@2020",
+  password: "Aljohani@2018",
   database: "upgrading",
   multipleStatements: true
 });

@@ -12,22 +12,21 @@ export default {
     addNewCourse({ rootState }, newCourse) {
       return new Promise((resolve, reject) => {
         let user_id = rootState.users.user.user_id;
-        let data = Object.assign(
-          {},
-          {
-            course_name: newCourse.course_name,
-            daily_hours: newCourse.daily_hours,
-            start_date: newCourse.course_dates[0],
-            end_date: newCourse.course_dates[1],
-            course_description: newCourse.course_description,
-            course_price: newCourse.course_price,
-            seats_number: newCourse.seats_number,
-            course_requirements: newCourse.course_requirements,
-            user_id
-          }
-        );
+        let data = {};
+        data["course_name"] = newCourse.course_name;
+        data["daily_hours"] =
+          newCourse.daily_hours["endTime"] +
+          "-" +
+          newCourse.daily_hours["startTime"];
+        data["start_date"] = newCourse.course_dates[0];
+        data["end_date"] = newCourse.course_dates[1];
+        data["course_description"] = newCourse.course_description;
+        data["course_price"] = newCourse.course_price;
+        data["seats_number"] = newCourse.seats_number;
+        data["course_requirements"] = newCourse.course_requirements;
+        data["user_id"] = user_id;
         axios.post("/api/newCourses/AddNewCourse", data).then(({ data }) => {
-          if (data[0].insertId > 0) {
+          if (data[1].insertId > 0) {
             resolve("inserted");
           } else {
             reject();
@@ -51,5 +50,7 @@ export default {
         });
     }
   },
-  getters: {}
+  getters: {
+    getNewCourses: state => state.newCourses
+  }
 };

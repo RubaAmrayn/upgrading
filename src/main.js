@@ -9,6 +9,8 @@ import "@mdi/font/css/materialdesignicons.css";
 // import $axios from "./plugins/initialAxios";
 
 Vue.config.productionTip = false;
+Vue.config.performance = true;
+
 // store.$axios = $axios;
 new Vue({
   router,

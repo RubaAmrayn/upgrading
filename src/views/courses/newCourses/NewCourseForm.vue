@@ -1,7 +1,7 @@
 <template>
   <v-row justify="center">
     <v-col cols="12" sm="10" md="6" lg="6" xl="5">
-      <v-card>
+      <v-card :loading="connectionState" :disabled="connectionState">
         <v-card-title class="primary-title justify-center">
           {{ uplodedCourse }}
         </v-card-title>
@@ -67,13 +67,73 @@
               v-model="newCourse.course_price"
               type="number"
             ></v-text-field>
-            <v-text-field
-              :label="numberOfHours"
-              outlined
-              required
-              :rules="[v => !!v || numberOfHoursError]"
-              v-model.trim="newCourse.daily_hours"
-            ></v-text-field>
+            <!--  -->
+            <v-menu
+              ref="startTime"
+              v-model="startTimeMenu"
+              :close-on-content-click="false"
+              :return-value.sync="newCourse.daily_hours.startTime"
+              transition="scale-transition"
+              top
+              max-width="290px"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  label="وقت البدء"
+                  outlined
+                  required
+                  :rules="[v => !!v || numberOfHoursError]"
+                  v-model="newCourse.daily_hours.startTime"
+                  v-on="on"
+                  readonly
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                ampm-in-title
+                v-if="startTimeMenu"
+                v-model="newCourse.daily_hours.startTime"
+                full-width
+                :max="newCourse.daily_hours.endTime"
+                @click:minute="
+                  $refs.startTime.save(newCourse.daily_hours.startTime)
+                "
+              ></v-time-picker>
+            </v-menu>
+            <v-menu
+              ref="endTime"
+              v-model="endTimeMenu"
+              :close-on-content-click="false"
+              :return-value.sync="newCourse.daily_hours.endTime"
+              transition="scale-transition"
+              top
+              max-width="290px"
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  label="وقت الإنتهاء"
+                  outlined
+                  required
+                  :rules="[v => !!v || numberOfHoursError]"
+                  v-model="newCourse.daily_hours.endTime"
+                  v-on="on"
+                  readonly
+                ></v-text-field>
+              </template>
+              <v-time-picker
+                ampm-in-title
+                v-if="endTimeMenu"
+                v-model="newCourse.daily_hours.endTime"
+                full-width
+                :disabled="newCourse.daily_hours.startTime == undefined"
+                :min="newCourse.daily_hours.startTime"
+                @click:minute="
+                  $refs.endTime.save(newCourse.daily_hours.endTime)
+                "
+              ></v-time-picker>
+            </v-menu>
+            <!--  -->
             <v-text-field
               :label="numberOfSeats"
               outlined
@@ -84,9 +144,9 @@
             <v-text-field
               v-model="requirement_name"
               :label="listOfCourseRequirements"
-              :rules="[v => !!v || courseRequirementError]"
               outlined
               @keydown.enter="append"
+              validate-on-blur
             >
             </v-text-field>
             <v-divider class="mb-4"></v-divider>
@@ -135,12 +195,18 @@ export default {
   name: "new-course-form",
   data() {
     return {
+      connectionState: false,
       menu: false,
+      startTimeMenu: false,
+      endTimeMenu: false,
       id: 1,
       requirement_name: "",
       newCourse: {
         course_name: "",
-        daily_hours: "",
+        daily_hours: {
+          startTime: undefined,
+          endTime: undefined
+        },
         course_dates: [],
         course_description: "",
         course_price: "",
@@ -230,7 +296,9 @@ export default {
     },
     addNewCourse() {
       if (this.$refs.AddCourseForm.validate()) {
+        this.connectionState = true;
         this.$store.dispatch("addNewCourse", this.newCourse).then(() => {
+          this.connectionState = false;
           this.$root.$emit("show-alert", {
             status: "success",
             title: "تمت الإضافة",
@@ -238,7 +306,11 @@ export default {
           });
         });
       }
-      this.$refs.experForm.reset();
+      this.$refs.AddCourseForm.reset();
+      let self = this;
+      setTimeout(function() {
+        self.$router.push("/courses/newCourses/pinding");
+      }, 3000);
     }
   }
 };

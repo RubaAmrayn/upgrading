@@ -45,7 +45,7 @@
       </v-col>
     </v-row>
     <v-card>
-      <v-toolbar flat color="primary" dark>
+      <v-toolbar flat color="primary" dark v-if="isTrainee">
         <v-toolbar-title>{{ eduTitle }}</v-toolbar-title>
       </v-toolbar>
       <v-tabs vertical>

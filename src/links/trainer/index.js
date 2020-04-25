@@ -4,13 +4,13 @@ export default [
     title: vuetify.framework.lang.t("$vuetify.Pages.newCourseForm"),
     icon: "mdi-view-grid-plus",
     class: "",
-    link: ""
+    link: "/courses/newCourses/add"
   },
   {
     title: vuetify.framework.lang.t("$vuetify.Pages.pindingCourseRequests"),
     icon: "mdi-folder-clock",
     class: "",
-    link: ""
+    link: "/courses/newCourses/pinding"
   },
   {
     title: vuetify.framework.lang.t("$vuetify.Pages.myCourses"),

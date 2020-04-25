@@ -23,7 +23,7 @@ export default {
     };
   },
   components: {
-    "alert-view": () => import("@/components/main/alert"),
+    "alert-view": () => import("@/components/main/alert-view"),
     "navigation-view": () =>
       import("./components/main/navigationComponents/index"),
     "footer-view": () => import("./components/main/footerComponents/index")

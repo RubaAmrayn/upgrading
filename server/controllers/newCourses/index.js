@@ -38,7 +38,8 @@ VALUES
             requirement => [requirement.requirement_name, result.insertId]
           );
           mysql.query(
-            `
+            `   
+                START TRANSACTION;
                 INSERT INTO upgrading.courses_requirements
                     (
                     requirement_name,
@@ -51,11 +52,18 @@ VALUES
                     status_status_id,
                     courses_course_id)
                     VALUES
-                    (?,?,?);   
+                    (?,?,?);
+                COMMIT;       
                 `,
             [requirement_name, req.body.user_id, 1, course_id],
-            (err, result) => {
+            async (err, result) => {
               if (err) {
+                let [
+                  rows
+                ] = await mysql
+                  .promise()
+                  .query(`DELETE FROM upgrading.courses WHERE ?;`, [course_id]);
+                console.log(rows);
                 reply.send(err);
               } else {
                 reply.send(result);

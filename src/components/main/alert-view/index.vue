@@ -1,17 +1,21 @@
 <template>
-  <v-dialog transition="scroll-y-transition" v-model="dialog" width="350">
+  <v-dialog
+    :value="true"
+    transition="scroll-y-transition"
+    width="350"
+    :overlay-color="payload.status"
+  >
     <v-card>
-      <div class="text-center pa-3">
-        <sweetalert-icon
-          :icon="payload.status"
-          v-if="payload.status != 'confirm'"
-        ></sweetalert-icon>
-        <sweetalert-icon icon="warning" v-else></sweetalert-icon>
-      </div>
-      <v-card-title class="headline justify-center pt-2">
+      <success-icon v-if="payload.status == 'success'"></success-icon>
+      <error-icon v-else-if="payload.status == 'error'"></error-icon>
+      <warning-icon
+        v-else-if="payload.status == 'warning' || payload.status == 'confirm'"
+      ></warning-icon>
+      <info-icon v-else-if="payload.status == 'info'"></info-icon>
+      <v-card-title class="headline justify-center pt-2" v-if="payload.title">
         {{ payload.title }}
       </v-card-title>
-      <v-card-text class="pb-2 pt-2">
+      <v-card-text class="pb-2 pt-2" v-if="payload.body">
         <h3 class="text-center">
           {{ payload.body }}
         </h3>
@@ -36,10 +40,10 @@
               <v-btn
                 depressed
                 block
-                :color="payload.status"
+                :color="payload.confirmButtonClass || payload.status"
                 @click="$root.$emit('close-alert')"
               >
-                OK
+                {{ payload.confirmButtonText || "OK" }}
               </v-btn>
             </v-col>
           </v-row>
@@ -50,22 +54,19 @@
 </template>
 
 <script>
-import SweetAlertIcon from "vue-sweetalert-icons";
 export default {
   name: "alert-view",
   components: {
-    "sweetalert-icon": SweetAlertIcon
+    "success-icon": () => import("./success-icon"),
+    "error-icon": () => import("./error-icon"),
+    "warning-icon": () => import("./warning-icon"),
+    "info-icon": () => import("./info-icon")
   },
   props: {
     payload: {
       type: Object,
       required: true
     }
-  },
-  data() {
-    return {
-      dialog: true
-    };
   },
   methods: {
     doConfirm() {
@@ -88,5 +89,3 @@ export default {
   }
 };
 </script>
-
-<style></style>

@@ -11,3 +11,11 @@ export const formatDate = {
     Formater
   }
 };
+
+export const formateDate = {
+  methods: {
+    formateDate(date) {
+      return new Date(date).toLocaleDateString("en-sa");
+    }
+  }
+};
