@@ -62,7 +62,9 @@ VALUES
                   rows
                 ] = await mysql
                   .promise()
-                  .query(`DELETE FROM upgrading.courses WHERE ?;`, [course_id]);
+                  .query(`DELETE FROM upgrading.courses WHERE course_id = ?;`, [
+                    course_id
+                  ]);
                 console.log(rows);
                 reply.send(err);
               } else {
@@ -71,6 +73,26 @@ VALUES
             }
           );
         }
+      }
+    }
+  );
+};
+
+exports.deleteOneCourse = async (req, reply) => {
+  mysql.query(
+    `
+    START TRANSACTION;
+    DELETE FROM upgrading.course_events where courses_course_id = ?;
+    DELETE FROM upgrading.courses_requirements WHERE courses_course_id = ?;
+    DELETE FROM courses WHERE course_id = ?;
+    COMMIT;
+  `,
+    [req.params.course_id, req.params.course_id, req.params.course_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
       }
     }
   );

@@ -34,6 +34,20 @@ export default {
         });
       });
     },
+    deleteOneCourse({ dispatch }, course_id) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`/api/newCourses/DeleteOneCourse/${course_id}`)
+          .then(({ data }) => {
+            if (data) {
+              dispatch("getOneNewCourses");
+              resolve();
+            } else {
+              reject();
+            }
+          });
+      });
+    },
     getOneNewCourses({ commit, rootState }, choosenUserId = 0) {
       let user_id;
       if (choosenUserId == 0) {

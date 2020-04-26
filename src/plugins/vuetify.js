@@ -9,6 +9,7 @@ export default new Vuetify({
     options: {
       customProperties: true
     },
+    // dark: true,
     themes: {
       light: {
         pramiry: "#20499A",

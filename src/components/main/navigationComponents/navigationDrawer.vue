@@ -19,7 +19,7 @@
 
     <v-divider></v-divider>
 
-    <v-list dense nav>
+    <v-list dense nav color="primary--text">
       <v-list-item v-for="item in items" :key="item.title" link :to="item.link">
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>

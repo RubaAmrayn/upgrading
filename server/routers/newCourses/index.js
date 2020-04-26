@@ -6,6 +6,11 @@ module.exports = [
     handler: newCourses.AddNewCourse
   },
   {
+    method: "DELETE",
+    url: "/api/newCourses/DeleteOneCourse/:course_id",
+    handler: newCourses.deleteOneCourse
+  },
+  {
     method: "GET",
     url: "/api/newCourses/getOneNewCourses/:user_id",
     handler: newCourses.getOneNewCourses
