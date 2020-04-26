@@ -31,7 +31,7 @@
     </v-img>
     <v-card flat>
       <v-card-title class="primary-title font-weight-bold pb-2">
-        الوصف
+        {{ description }}
       </v-card-title>
       <v-card-text class="pt-2">
         <v-card
@@ -53,9 +53,7 @@
               {{ formateDate(course.start_date) }} -
               {{ formateDate(course.end_date) }}</v-list-item-title
             >
-            <v-list-item-subtitle
-              >تاريخ بداية و نهاية الدورة</v-list-item-subtitle
-            >
+            <v-list-item-subtitle>{{ courseDate }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -64,7 +62,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="course.daily_hours"> </v-list-item-title>
-            <v-list-item-subtitle>الموعد</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ appointment }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider inset></v-divider>
@@ -74,7 +72,7 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="course.course_price"></v-list-item-title>
-            <v-list-item-subtitle>سعر الدورة</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ priceCourse }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -83,14 +81,14 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="course.seats_number"></v-list-item-title>
-            <v-list-item-subtitle>عدد المقاعد</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ numberOfSeats }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <section v-if="course.course_requirements.length > 0">
           <v-divider inset></v-divider>
           <v-card flat>
             <v-card-title class="primary-title font-weight-bold pb-2">
-              متطلبات الدورة
+              {{ requstCourse }}
             </v-card-title>
             <v-list-item
               v-for="({ requirement_name }, i) in course_requirements"
@@ -110,7 +108,7 @@
         <section v-else>
           <v-card flat>
             <v-card-title class="primary-title font-weight-bold pb-2">
-              لايوجد متطلبات
+              {{ noRequst }}
             </v-card-title>
           </v-card>
         </section>
@@ -137,6 +135,27 @@ export default {
     }
   },
   computed: {
+    description() {
+      return this.$vuetify.lang.t("$vuetify.InfoCourse.description");
+    },
+    courseDate() {
+      return this.$vuetify.lang.t("$vuetify.InfoCourse.courseDate");
+    },
+    appointment() {
+      return this.$vuetify.lang.t("$vuetify.InfoCourse.appointment");
+    },
+    requstCourse() {
+      return this.$vuetify.lang.t("$vuetify.InfoCourse.requstCourse");
+    },
+    priceCourse() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.priceCourse");
+    },
+    numberOfSeats() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.numberOfSeats");
+    },
+    noRequst() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.noRequst");
+    },
     course_requirements() {
       let arr = this.course.course_requirements;
       if (arr.length <= 3) {

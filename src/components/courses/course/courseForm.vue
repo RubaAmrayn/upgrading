@@ -1,7 +1,7 @@
 <template>
   <v-card :loading="connectionState" :disabled="connectionState">
     <v-card-title class="primary-title justify-center">
-      {{ method == "add" ? uplodedCourse : "تعديل الدورة التدريبية" }}
+      {{ method == "add" ? uplodedCourse : editCourse }}
     </v-card-title>
     <v-card-text>
       <v-form ref="AddCourseForm">
@@ -77,7 +77,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-text-field
-              label="وقت البدء"
+              :label="startTime"
               outlined
               required
               :rules="[v => !!v || numberOfHoursError]"
@@ -109,7 +109,7 @@
         >
           <template v-slot:activator="{ on }">
             <v-text-field
-              label="وقت الإنتهاء"
+              :label="endTime"
               outlined
               required
               :rules="[v => !!v || numberOfHoursError]"
@@ -193,7 +193,7 @@
               :loading="connectionState"
               v-else-if="method == 'update'"
             >
-              تعديل الطلب
+              {{ editRequst }}
             </v-btn>
           </v-col>
         </v-row>
@@ -299,6 +299,18 @@ export default {
     },
     uplodeCourse() {
       return this.$vuetify.lang.t("$vuetify.newCourseForm.uplodeCourse");
+    },
+    editCourse() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.editCourse");
+    },
+    startTime() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.startTime");
+    },
+    endTime() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.endTime");
+    },
+    editRequst() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.editRequst");
     },
     dateRangeText() {
       return this.newCourse.course_dates.join(" حتى ");

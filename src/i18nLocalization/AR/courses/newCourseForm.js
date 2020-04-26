@@ -1,10 +1,13 @@
 module.exports = {
   uplodedCourse: "رفع دورة جديدة",
+  editCourse: "تعديل الدورة التدريبية",
   nameCourse: "اسم الدورة",
   nameCourseError: "يجب كتابة اسم الدورة",
   describeCourse: "وصف الدورة",
   describeCourseError: "يجب كتابة وصف للدورة",
   courseDate: "اختر بداية و نهاية تاريخ الدورة",
+  startTime: "وقت البدء",
+  endTime: "وقت الانتهاء",
   courseDateError: "يجب اختيار بداية و نهاية الدورة",
   courseDateTowError: "يجب اختيار تاريخ نهاية الدورة",
   priceCourse: "سعر الدورة",
@@ -16,5 +19,7 @@ module.exports = {
   listOfCourseRequirements: "ماهي متطلبات الدورة؟",
   courseRequirementError: "يجب كتابة متطلبات الدورة",
   listOfCourseRequirement: "قائمة متطلبات الدورة",
-  uplodeCourse: "رفع الطلب"
+  uplodeCourse: "رفع الطلب",
+  editRequst: "تعديل الطلب",
+  noRequst: "لا يوجد لديك دورات"
 };

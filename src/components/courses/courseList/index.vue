@@ -16,7 +16,7 @@
       <v-col cols="12">
         <v-card>
           <v-card-title class="primary-title justify-center">
-            لا يوجد لديك دورات
+            {{ noRequst }}
           </v-card-title>
         </v-card>
       </v-col>
@@ -32,6 +32,9 @@ export default {
     course: () => import("@/components/courses/course/")
   },
   computed: {
+    noRequst() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.noRequst");
+    },
     ...mapGetters(["getNewCourses"])
   },
   mounted() {

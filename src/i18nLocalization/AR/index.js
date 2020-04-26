@@ -10,6 +10,8 @@ const newCourseForm = require("./courses/newCourseForm");
 const Reject = require("./trainerRequests/rejectTrainer");
 const activeRequest = require("./trainerRequests/activeRequest");
 const RequestBtn = require("./profile/requestBtn");
+const InfoCourse = require("./courses/infoCourse");
+
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -68,5 +70,6 @@ export default {
   newCourseForm,
   Reject,
   activeRequest,
-  RequestBtn
+  RequestBtn,
+  InfoCourse
 };
