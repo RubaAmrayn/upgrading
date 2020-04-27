@@ -8,7 +8,8 @@ export default {
       nameRules: [
         v => vm.nameSpecialRules.test(v) || vm.SpecialsNotAllowed,
         v => vm.nameNumberRules.test(v) || vm.NumbersNotAllowed
-      ]
+      ],
+      specialRules: [v => vm.nameSpecialRules.test(v) || vm.SpecialsNotAllowed]
     };
   },
   computed: {

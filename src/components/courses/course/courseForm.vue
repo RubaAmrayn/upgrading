@@ -9,7 +9,7 @@
           :label="nameCourse"
           outlined
           required
-          :rules="[v => !!v || nameCourseError]"
+          :rules="[v => !!v || nameCourseError, ...specialRules]"
           v-model.trim="newCourse.course_name"
         ></v-text-field>
         <v-textarea
@@ -133,15 +133,15 @@
           :label="numberOfSeats"
           outlined
           required
-          :rules="[v => !!v || numberOfSeatError]"
+          :rules="[v => !!v || numberOfSeatError, ...specialRules]"
           v-model.trim="newCourse.seats_number"
         ></v-text-field>
         <v-text-field
           v-model="requirement_name"
           :label="listOfCourseRequirements"
           outlined
+          :rules="[...specialRules]"
           @keydown.enter="append"
-          validate-on-blur
         >
         </v-text-field>
         <v-divider class="mb-4"></v-divider>
@@ -203,6 +203,7 @@
 </template>
 
 <script>
+import nameValidations from "@/mixins/nameValidations";
 import { formatDate } from "@/mixins/date";
 export default {
   name: "course-form",
@@ -216,7 +217,7 @@ export default {
       required: false
     }
   },
-  mixins: [formatDate],
+  mixins: [formatDate, nameValidations],
   data() {
     return {
       connectionState: false,

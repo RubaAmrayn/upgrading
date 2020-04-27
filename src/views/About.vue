@@ -8,9 +8,14 @@
             class="px-2"
             align="center"
             justify="center"
+            style="padding-top: 7%"
           >
             <v-col cols="12">
-              <div class="text-center" style="color:black ; font-size: 50px">
+              <div
+                class="text-center"
+                style="color: black ; font-size: 50px"
+                v-if="slide.text[2]"
+              >
                 {{ slide.text }}
               </div>
             </v-col>
@@ -19,7 +24,7 @@
             v-if="slide.images && slide.images.length"
             class="d-flex align-content-end flex-wrap"
           >
-            <v-row justify="end">
+            <v-row justify="center">
               <v-col cols="3">
                 <v-img
                   :src="slide.images[0]"
