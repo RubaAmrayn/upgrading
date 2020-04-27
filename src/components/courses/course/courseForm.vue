@@ -347,9 +347,33 @@ export default {
         self.$router.push("/courses/newCourses/pinding");
       }, 3000);
     },
-    updateCourse() {
-      // if (this.$refs.AddCourseForm.validate()) {
-      // }
+    async updateCourse() {
+      if (this.$refs.AddCourseForm.validate()) {
+        this.connectionState = true;
+        this.newCourse["course_id"] = this.course["course_id"];
+        this.$store
+          .dispatch("updateOneCourse", this.newCourse)
+          .then(res => {
+            if (res == "updated") {
+              this.$root.$emit("show-alert", {
+                status: "success",
+                title: "تم التعديل",
+                body: "تم تعديل بيانات الدورة بنجاح",
+                confirmButtonText: "حسناً"
+              });
+              this.connectionState = false;
+            }
+          })
+          .catch(() => {
+            this.connectionState = false;
+            this.$root.$emit("show-alert", {
+              status: "error",
+              title: "فشل التعديل",
+              body: "حصل خطأ اثناء التعديل",
+              confirmButtonText: "حسناً"
+            });
+          });
+      }
     }
   },
   mounted() {

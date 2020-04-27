@@ -6,6 +6,11 @@ module.exports = [
     handler: newCourses.AddNewCourse
   },
   {
+    method: "PATCH",
+    url: "/api/newCourses/UpdateOneCourse",
+    handler: newCourses.updateOneCourse
+  },
+  {
     method: "DELETE",
     url: "/api/newCourses/DeleteOneCourse/:course_id",
     handler: newCourses.deleteOneCourse

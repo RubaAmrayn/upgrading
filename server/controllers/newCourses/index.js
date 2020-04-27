@@ -33,12 +33,15 @@ VALUES
         reply.send(err);
       } else {
         if (result.insertId > 0) {
-          let course_id = result.insertId;
-          let requirement_name = req.body.course_requirements.map(
-            requirement => [requirement.requirement_name, result.insertId]
-          );
-          mysql.query(
-            `   
+          var course_id = result.insertId;
+          var courseResult = result;
+          if (req.body.course_requirements.length > 0) {
+            // insert requirement and event
+            let requirement_name = req.body.course_requirements.map(
+              requirement => [requirement.requirement_name, result.insertId]
+            );
+            mysql.query(
+              `   
                 START TRANSACTION;
                 INSERT INTO upgrading.courses_requirements
                     (
@@ -55,27 +58,229 @@ VALUES
                     (?,?,?);
                 COMMIT;       
                 `,
-            [requirement_name, req.body.user_id, 1, course_id],
-            async (err, result) => {
-              if (err) {
-                let [
-                  rows
-                ] = await mysql
-                  .promise()
-                  .query(`DELETE FROM upgrading.courses WHERE course_id = ?;`, [
-                    course_id
-                  ]);
-                console.log(rows);
-                reply.send(err);
-              } else {
-                reply.send(result);
+              [requirement_name, req.body.user_id, 1, course_id],
+              async err => {
+                if (err) {
+                  let [
+                    rows
+                  ] = await mysql
+                    .promise()
+                    .query(
+                      `DELETE FROM upgrading.courses WHERE course_id = ?;`,
+                      [course_id]
+                    );
+                  console.log(rows);
+                  reply.send(err);
+                } else {
+                  reply.send(courseResult);
+                }
               }
-            }
-          );
+            );
+          } else {
+            //insert only event
+            mysql.query(
+              `
+            INSERT INTO upgrading.course_events
+            (
+            users_user_id,
+            status_status_id,
+            courses_course_id)
+            VALUES
+            (?,?,?);
+            `,
+              [req.body.user_id, 1, course_id],
+              async err => {
+                if (err) {
+                  await mysql
+                    .promise()
+                    .query(
+                      `DELETE FROM upgrading.courses WHERE course_id = ?;`,
+                      [course_id]
+                    );
+                  console.log("failing when adding events");
+
+                  reply.send(err);
+                } else {
+                  console.log("event inserted");
+                  reply.send(courseResult);
+                }
+              }
+            );
+          }
+        } else {
+          // error in inserting course
         }
       }
     }
   );
+};
+const checkForPrevuisRequirements = async course_id => {
+  let [rows] = await mysql.promise().query(
+    `
+  SELECT * FROM upgrading.courses_requirements WHERE courses_course_id = ?;
+  
+  `,
+    [course_id]
+  );
+  let length = rows.length;
+  return length > 0;
+};
+const deleteOldRequirementsAndUpdate = async payload => {
+  let requirement_name = payload.course_requirements.map(requirement => [
+    requirement.requirement_name,
+    payload.course_id
+  ]);
+  let result = await mysql.promise().query(
+    `
+   START TRANSACTION;
+  DELETE FROM upgrading.courses_requirements WHERE courses_course_id = ?;
+  INSERT INTO upgrading.courses_requirements
+  (
+  requirement_name,
+  courses_course_id)
+  VALUES 
+  ?;
+  UPDATE upgrading.courses SET
+  course_name = ?,
+  daily_hours = ?,
+  start_date = ?,
+  end_date = ?,
+  course_description = ?,
+  course_price = ?,
+  seats_number = ?
+  WHERE course_id = ?;
+  COMMIT;
+  `,
+    [
+      payload.course_id,
+      requirement_name,
+      payload.course_name,
+      payload.daily_hours,
+      payload.start_date,
+      payload.end_date,
+      payload.course_description,
+      payload.course_price,
+      payload.seats_number,
+      payload.course_id
+    ]
+  );
+  return result;
+};
+const deleteOldRequirementsAndOnlyUpdateCourse = async payload => {
+  let result = await mysql.promise().query(
+    `
+   START TRANSACTION;
+  DELETE FROM upgrading.courses_requirements WHERE courses_course_id = ?;
+  UPDATE upgrading.courses SET
+  course_name = ?,
+  daily_hours = ?,
+  start_date = ?,
+  end_date = ?,
+  course_description = ?,
+  course_price = ?,
+  seats_number = ?
+  WHERE course_id = ?;
+  COMMIT;
+  `,
+    [
+      payload.course_id,
+      payload.course_name,
+      payload.daily_hours,
+      payload.start_date,
+      payload.end_date,
+      payload.course_description,
+      payload.course_price,
+      payload.seats_number,
+      payload.course_id
+    ]
+  );
+  return result;
+};
+
+const AddNewRequirementsAndUpdateCourse = async payload => {
+  let requirement_name = payload.course_requirements.map(requirement => [
+    requirement.requirement_name,
+    payload.course_id
+  ]);
+  let result = mysql.promise().query(
+    `
+  START TRANSACTION;
+  INSERT INTO upgrading.courses_requirements
+  (
+  requirement_name,
+  courses_course_id)
+  VALUES 
+  ?;
+
+  UPDATE upgrading.courses SET
+  course_name = ?,
+  daily_hours = ?,
+  start_date = ?,
+  end_date = ?,
+  course_description = ?,
+  course_price = ?,
+  seats_number = ?
+  WHERE course_id = ?;
+  COMMIT;
+  `,
+    [
+      requirement_name,
+      payload.course_name,
+      payload.daily_hours,
+      payload.start_date,
+      payload.end_date,
+      payload.course_description,
+      payload.course_price,
+      payload.seats_number,
+      payload.course_id
+    ]
+  );
+  return result;
+};
+const UpdateOnlyCourse = async payload => {
+  let result = mysql.promise().query(
+    `
+  UPDATE upgrading.courses SET
+  course_name = ?,
+  daily_hours = ?,
+  start_date = ?,
+  end_date = ?,
+  course_description = ?,
+  course_price = ?,
+  seats_number = ?
+  WHERE course_id = ?;
+  `,
+    [
+      payload.course_name,
+      payload.daily_hours,
+      payload.start_date,
+      payload.end_date,
+      payload.course_description,
+      payload.course_price,
+      payload.seats_number,
+      payload.course_id
+    ]
+  );
+  return result;
+};
+exports.updateOneCourse = async (req, reply) => {
+  if (await checkForPrevuisRequirements(req.body.course_id)) {
+    if (req.body.course_requirements.length > 0) {
+      let [rows] = await deleteOldRequirementsAndUpdate(req.body);
+      reply.send(rows);
+    } else {
+      let [rows] = await deleteOldRequirementsAndOnlyUpdateCourse(req.body);
+      reply.send(rows);
+    }
+  } else {
+    if (req.body.course_requirements.length > 0) {
+      let [rows] = await AddNewRequirementsAndUpdateCourse(req.body);
+      reply.send(rows);
+    } else {
+      let [rows] = await UpdateOnlyCourse(req.body);
+      reply.send(rows);
+    }
+  }
 };
 
 exports.deleteOneCourse = async (req, reply) => {

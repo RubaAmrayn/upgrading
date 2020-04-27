@@ -20,6 +20,5 @@ module.exports = {
   courseRequirementError: "يجب كتابة متطلبات الدورة",
   listOfCourseRequirement: "قائمة متطلبات الدورة",
   uplodeCourse: "رفع الطلب",
-  editRequst: "تعديل الطلب",
-  noRequst: "لا يوجد لديك دورات"
+  editRequst: "تعديل الطلب"
 };

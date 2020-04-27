@@ -46,13 +46,10 @@ export default {
 </script>
 <style>
 @font-face {
-  font-family: "Tajwal";
+  font-family: "hanimation-regular";
   font-weight: 400;
   font-style: normal;
   font-display: fallback;
-  src: local("Tajwal"), url("./assets/Tajawal-Regular.ttf");
-}
-* {
-  font-family: Tajwal;
+  src: local("hanimation-regular"), url("./assets/hanimation-regular.ttf");
 }
 </style>

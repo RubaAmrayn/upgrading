@@ -26,12 +26,37 @@ export default {
         data["course_requirements"] = newCourse.course_requirements;
         data["user_id"] = user_id;
         axios.post("/api/newCourses/AddNewCourse", data).then(({ data }) => {
-          if (data[1].insertId > 0) {
+          if (data.insertId > 0) {
             resolve("inserted");
           } else {
             reject();
           }
         });
+      });
+    },
+    updateOneCourse({ dispatch }, course) {
+      let data = {};
+      data["course_name"] = course.course_name;
+      data["daily_hours"] =
+        course.daily_hours["endTime"] + "-" + course.daily_hours["startTime"];
+      data["start_date"] = course.course_dates[0];
+      data["end_date"] = course.course_dates[1];
+      data["course_description"] = course.course_description;
+      data["course_price"] = course.course_price;
+      data["seats_number"] = course.seats_number;
+      data["course_requirements"] = course.course_requirements;
+      data["course_id"] = course["course_id"];
+      return new Promise((resolve, reject) => {
+        axios
+          .patch(`/api/newCourses/UpdateOneCourse`, data)
+          .then(({ data }) => {
+            if (data) {
+              dispatch("getOneNewCourses");
+              resolve("updated");
+            } else {
+              reject();
+            }
+          });
       });
     },
     deleteOneCourse({ dispatch }, course_id) {
