@@ -1,0 +1,25 @@
+<template>
+  <div>
+    <v-toolbar flat>
+      <v-toolbar-title>
+        {{ course.course_name }}
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <!-- <v-card-title class="primary-title font-weight-bold justify-center">
+      <div></div>
+    </v-card-title> -->
+    <v-card-subtitle>
+      تاريخ الرفع {{ formateDate(course.publish_date) }}
+    </v-card-subtitle>
+  </div>
+</template>
+
+<script>
+import { formateDate } from "@/mixins/date";
+export default {
+  name: "poster-details-header",
+  props: ["course"],
+  mixins: [formateDate]
+};
+</script>

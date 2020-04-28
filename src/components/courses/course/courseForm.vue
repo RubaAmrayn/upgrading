@@ -9,7 +9,7 @@
           :label="nameCourse"
           outlined
           required
-          :rules="[v => !!v || nameCourseError, ...specialRules]"
+          :rules="[v => !!v || nameCourseError]"
           v-model.trim="newCourse.course_name"
         ></v-text-field>
         <v-textarea
@@ -140,7 +140,9 @@
           v-model="requirement_name"
           :label="listOfCourseRequirements"
           outlined
-          :rules="[...specialRules]"
+          :rules="[...startWithOutSpecials]"
+          append-icon="mdi-plus"
+          @click:append="append"
           @keydown.enter="append"
         >
         </v-text-field>
@@ -313,8 +315,13 @@ export default {
     editRequst() {
       return this.$vuetify.lang.t("$vuetify.newCourseForm.editRequst");
     },
-    dateRangeText() {
-      return this.newCourse.course_dates.join(" حتى ");
+    dateRangeText: {
+      get() {
+        return this.newCourse.course_dates.join(" حتى ");
+      },
+      set(value) {
+        this.newCourse.course_dates = value;
+      }
     }
   },
   methods: {
@@ -341,12 +348,12 @@ export default {
             body: "تمت إضافة الدورة بنجاح وفي انتظار اجراء المسؤول فيها"
           });
         });
+        this.$refs.AddCourseForm.reset();
+        let self = this;
+        setTimeout(function() {
+          self.$router.push("/courses/newCourses/pinding");
+        }, 3000);
       }
-      this.$refs.AddCourseForm.reset();
-      let self = this;
-      setTimeout(function() {
-        self.$router.push("/courses/newCourses/pinding");
-      }, 3000);
     },
     async updateCourse() {
       if (this.$refs.AddCourseForm.validate()) {
