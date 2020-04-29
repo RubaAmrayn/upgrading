@@ -14,7 +14,7 @@
               <div
                 class="text-center"
                 style="color: black ; font-size: 50px"
-                v-if="slide.text[2]"
+                :class="slide.images ? '' : 'fill-height'"
               >
                 {{ slide.text }}
               </div>

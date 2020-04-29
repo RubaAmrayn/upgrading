@@ -1,7 +1,7 @@
 <template>
   <v-footer dark padless>
     <v-card class="flex" flat tile>
-      <v-card-title class="pramiry">
+      <v-card-title class="pramiry" style="padding-left: 9%">
         <v-spacer></v-spacer>
         <strong class="subheading">للاستفسار الرجاء التواصل عبر </strong>
         <v-spacer></v-spacer>
