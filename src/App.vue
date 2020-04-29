@@ -52,4 +52,23 @@ export default {
   font-display: fallback;
   src: local("hanimation-regular"), url("./assets/hanimation-regular.ttf");
 }
+/* width */
+::-webkit-scrollbar {
+  width: 10px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888 !important;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555 !;
+}
 </style>

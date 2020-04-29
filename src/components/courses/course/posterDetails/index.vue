@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <poster-details-header :course="course"></poster-details-header>
-    <poster-details-body :course="course"></poster-details-body>
-    <poster-details-actions :course="course"></poster-details-actions>
+    <poster-details-header></poster-details-header>
+    <poster-details-body></poster-details-body>
+    <poster-details-actions></poster-details-actions>
   </v-card>
 </template>
 
@@ -13,7 +13,6 @@ export default {
     "poster-details-header": () => import("./posterDetailsHeader"),
     "poster-details-body": () => import("./posterDetailsBody"),
     "poster-details-actions": () => import("./posterDetailsActions")
-  },
-  props: ["course"]
+  }
 };
 </script>

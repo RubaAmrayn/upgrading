@@ -1,4 +1,5 @@
 const newCourses = require("../../controllers/newCourses");
+const posterUploader = require("../../controllers/newCourses/PosterUploader");
 module.exports = [
   {
     method: "POST",
@@ -19,5 +20,16 @@ module.exports = [
     method: "GET",
     url: "/api/newCourses/getOneNewCourses/:user_id",
     handler: newCourses.getOneNewCourses
+  },
+  {
+    method: "POST",
+    url: "/api/newCourses/uploadPoster/:course_id",
+    preHandler: posterUploader.PosterUpload.any("coursePoster"),
+    handler: newCourses.uploadPoster
+  },
+  {
+    method: "GET",
+    url: "/api/newCourses/getAllNewCourses/",
+    handler: newCourses.getAllNewCourses
   }
 ];

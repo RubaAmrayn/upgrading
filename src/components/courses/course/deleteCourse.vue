@@ -7,12 +7,7 @@
 <script>
 export default {
   name: "delete-course",
-  props: {
-    course_id: {
-      type: Number,
-      required: true
-    }
-  },
+  inject: ["course"],
   methods: {
     deleteCourse() {
       let self = this;
@@ -22,7 +17,7 @@ export default {
         body: "هل انت متأكد من حذف الدورة",
         confirmButtonText: "موافق",
         rejectButtonText: "الغاء",
-        data: self.course_id,
+        data: self.course.course_id,
         action: "deleteOneCourse",
         onSuccess() {
           self.$root.$emit("show-alert", {

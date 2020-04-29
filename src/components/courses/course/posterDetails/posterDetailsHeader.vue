@@ -19,7 +19,7 @@
 import { formateDate } from "@/mixins/date";
 export default {
   name: "poster-details-header",
-  props: ["course"],
+  inject: ["course"],
   mixins: [formateDate]
 };
 </script>
