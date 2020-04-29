@@ -1,5 +1,5 @@
 <template>
-  <v-img :src="img" height="180" dark>
+  <v-img :src="posterPath" aspect-ratio="2" contain dark>
     <v-overlay
       absolute
       opacity="0.4"
@@ -39,7 +39,8 @@
 <script>
 export default {
   name: "poster-title",
-  props: ["course"],
+  // props: ["course"],
+  inject: ["course"],
   components: {
     "edit-course-form": () =>
       import("@/components/courses/course/editCourseForm"),
@@ -47,8 +48,12 @@ export default {
     "poster-image": () => import("./posterImage")
   },
   computed: {
-    img() {
-      return require("@/assets/upgrad.jpg");
+    posterPath() {
+      if (this.course && this.course.poster_path) {
+        return "/public/" + this.course.poster_path;
+      } else {
+        return require("@/assets/upgrad.jpg");
+      }
     }
   }
 };

@@ -8,10 +8,10 @@
     >
       <template v-slot:activator="{ on }">
         <div v-on="on">
-          <course-poster :course="course"></course-poster>
+          <course-poster></course-poster>
         </div>
       </template>
-      <poster-details :course="course"></poster-details>
+      <poster-details></poster-details>
     </v-menu>
   </div>
 </template>
@@ -21,6 +21,12 @@ export default {
   components: {
     "course-poster": () => import("@/components/courses/course/coursePoster"),
     "poster-details": () => import("@/components/courses/course/posterDetails")
+  },
+  provide() {
+    return {
+      course: this.course,
+      poster: this.poster
+    };
   },
   data() {
     return {

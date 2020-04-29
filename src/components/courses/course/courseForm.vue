@@ -209,14 +209,11 @@ import nameValidations from "@/mixins/nameValidations";
 import { formatDate } from "@/mixins/date";
 export default {
   name: "course-form",
+  inject: ["course"],
   props: {
     method: {
       type: String,
       required: true
-    },
-    course: {
-      type: Object,
-      required: false
     }
   },
   mixins: [formatDate, nameValidations],

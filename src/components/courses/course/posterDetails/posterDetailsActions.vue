@@ -27,6 +27,7 @@
 
 <script>
 export default {
-  name: "poster-details-actions"
+  name: "poster-details-actions",
+  inject: ["course"]
 };
 </script>

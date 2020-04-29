@@ -51,7 +51,7 @@
 <script>
 export default {
   name: "poster-details-body",
-  props: ["course"]
+  inject: ["course"]
 };
 </script>
 

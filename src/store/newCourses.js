@@ -87,6 +87,38 @@ export default {
             commit("PUSH_NEW_COURSE", data);
           }
         });
+    },
+    uploadPoster({ dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        let poster = new FormData();
+        poster.append("coursePoster", payload.file);
+        axios
+          .post(
+            `/api/newCourses/uploadPoster/${payload["course_id"]}`,
+            poster,
+            {
+              headers: {
+                "content-type": "multipart/form-data"
+              }
+            }
+          )
+          .then(({ data }) => {
+            if (data.result.insertId > 0) {
+              dispatch("updatePosterImage", data.rows[0]);
+              resolve("PosterUpdated");
+            } else {
+              reject("errorWhileUploading");
+            }
+          });
+      });
+    },
+    updatePosterImage({ state }, newPoster) {
+      state.newCourses.forEach(course => {
+        if (course.course_id === newPoster.courses_course_id) {
+          course.poster_id = newPoster.poster_id;
+          course.poster_path = newPoster.poster_path;
+        }
+      });
     }
   },
   getters: {
