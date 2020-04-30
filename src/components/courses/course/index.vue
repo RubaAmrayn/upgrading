@@ -5,6 +5,7 @@
       :close-on-content-click="false"
       max-width="550"
       max-height="600"
+      transition="scroll-y-transition"
     >
       <template v-slot:activator="{ on }">
         <div v-on="on">
@@ -30,9 +31,7 @@ export default {
   },
   data() {
     return {
-      showMenu: false,
-      x: 0,
-      y: 0
+      showMenu: false
     };
   },
   methods: {

@@ -92,10 +92,13 @@ export default {
       this.$store.dispatch(action, payload).then(res => {
         this.connectionState = false;
         this.$root.$emit("close-alert");
-        // eslint-disable-next-line no-prototype-builtins
-        if (this.payload.hasOwnProperty("onSuccess")) {
-          this.payload.onSuccess(res);
-        }
+        let self = this;
+        let response = res;
+        setTimeout(function() {
+          if (self.payload["onSuccess"]) {
+            self.payload.onSuccess(response);
+          }
+        }, 50);
       });
       // .catch(err => {
       //   // eslint-disable-next-line no-prototype-builtins

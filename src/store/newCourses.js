@@ -1,11 +1,15 @@
 import axios from "../plugins/initialAxios";
 export default {
   state: {
-    newCourses: []
+    newCourses: [],
+    briefcases: []
   },
   mutations: {
     PUSH_NEW_COURSE(state, payload) {
       state.newCourses = payload;
+    },
+    PUSH_BRIEFCASE(state, payload) {
+      state.briefcases = payload;
     }
   },
   actions: {
@@ -119,9 +123,59 @@ export default {
           course.poster_path = newPoster.poster_path;
         }
       });
+    },
+    uploadOneBriefcase({ commit }, briefcase) {
+      return new Promise((resolve, reject) => {
+        let briefcaseFormData = new FormData();
+        briefcaseFormData.append("briefcaseAttachement", briefcase.file);
+        briefcaseFormData.append("briefcaseTitle", briefcase.title);
+        axios
+          .post(
+            `/api/newCourses/uploadBriefcase/${briefcase.course_id}`,
+            briefcaseFormData,
+            {
+              headers: {
+                "content-type": "multipart/form-data"
+              }
+            }
+          )
+          .then(({ data }) => {
+            if (data.result.insertId > 0) {
+              commit("PUSH_BRIEFCASE", data.rows);
+              resolve("uploaded");
+            } else {
+              reject();
+            }
+          });
+        resolve();
+      });
+    },
+    getOneCourseBriefcases({ commit }, course_id) {
+      axios
+        .get(`/api/newCourses/getOneCourseBriefcase/${course_id}`)
+        .then(({ data }) => {
+          if (data) {
+            commit("PUSH_BRIEFCASE", data);
+          }
+        });
+    },
+    deleteOneBriefcase({ dispatch }, { briefcase_id, course_id }) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`/api/newCourses/deleteOneBriefcase/${briefcase_id}`)
+          .then(({ data }) => {
+            if (data) {
+              dispatch("getOneCourseBriefcases", course_id);
+              resolve("deleted");
+            } else {
+              reject();
+            }
+          });
+      });
     }
   },
   getters: {
-    getNewCourses: state => state.newCourses
+    getNewCourses: state => state.newCourses,
+    getBriefcases: state => state.briefcases
   }
 };

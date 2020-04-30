@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card style="border-radius: 6px">
-      <poster-title></poster-title>
+      <poster-title style="height:180px;"></poster-title>
       <poster-body></poster-body>
     </v-card>
   </div>

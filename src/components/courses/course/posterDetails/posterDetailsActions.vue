@@ -3,22 +3,15 @@
     <v-container class="py-0">
       <v-row justify="space-around">
         <v-col cols="4">
-          <v-btn depressed color="primary">
-            <v-icon>mdi-history</v-icon>
-            <span>Recents</span>
-          </v-btn>
-        </v-col>
-        <v-col cols="4">
-          <v-btn depressed color="primary">
-            <v-icon>mdi-heart</v-icon>
-            <span>Favorites</span>
-          </v-btn>
-        </v-col>
-        <v-col cols="4">
-          <v-btn depressed color="primary">
-            <v-icon>mdi-map-marker</v-icon>
-            <span>Nearby</span>
-          </v-btn>
+          <v-dialog width="500" transition="scroll-y-transition">
+            <template v-slot:activator="{ on }">
+              <v-btn depressed color="primary" v-on="on">
+                <v-icon>mdi-history</v-icon>
+                <span>الحقيبة</span>
+              </v-btn>
+            </template>
+            <course-briefcase></course-briefcase>
+          </v-dialog>
         </v-col>
       </v-row>
     </v-container>
@@ -28,6 +21,10 @@
 <script>
 export default {
   name: "poster-details-actions",
+  components: {
+    "course-briefcase": () =>
+      import("@/components/courses/course/courseBriefcase")
+  },
   inject: ["course"]
 };
 </script>

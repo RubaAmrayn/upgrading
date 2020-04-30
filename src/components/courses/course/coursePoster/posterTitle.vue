@@ -1,5 +1,5 @@
 <template>
-  <v-img :src="posterPath" aspect-ratio="2" contain dark>
+  <v-img :src="posterPath" aspect-ratio="2.12" contain dark>
     <v-overlay
       absolute
       opacity="0.4"
