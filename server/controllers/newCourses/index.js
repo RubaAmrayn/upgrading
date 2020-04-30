@@ -1,5 +1,20 @@
 const mysql = require("../../connection");
-
+const fs = require("fs");
+const path = require("path");
+const deleteFiles = (Files = []) => {
+  if (Files.length > 0) {
+    let promises = Files.map(filename => {
+      return new Promise((resolve, reject) => {
+        fs.unlink(path.join("./", filename.briefcase_path), err => {
+          err ? reject(err) : resolve();
+        });
+      });
+    });
+    return Promise.all(promises);
+  } else {
+    return;
+  }
+};
 exports.AddNewCourse = async (req, reply) => {
   mysql.query(
     `
@@ -461,6 +476,107 @@ WHERE
         reply.send(err);
       } else {
         reply.send(result);
+      }
+    }
+  );
+};
+const deletePreviuesBriefcaseIfExsist = async payload => {
+  let [rows] = await mysql.promise().query(
+    `
+    SELECT * FROM upgrading.briefcases where courses_course_id = ?;
+ `,
+    [payload]
+  );
+  if (rows.length > 0) {
+    await mysql.promise().query(
+      `
+     DELETE FROM upgrading.briefcases where courses_course_id = ?;
+    `,
+      [payload]
+    );
+  } else {
+    return;
+  }
+};
+
+exports.uploadBriefcase = async (req, reply) => {
+  await deletePreviuesBriefcaseIfExsist(req.params.course_id);
+  let file = req.files[0];
+  let newPath = file.path.replace(/\\/g, "/");
+  let Briefcase = [
+    file.originalname,
+    file.filename,
+    newPath,
+    req.params.course_id
+  ];
+  mysql.query(
+    `
+    INSERT INTO upgrading.briefcases
+    (
+    briefcase_title,
+    briefcase_original_name,
+    briefcase_name,
+    briefcase_path,
+    courses_course_id
+    )
+    VALUES
+    (?,?,?,?,?);
+  `,
+    [
+      req.body.briefcaseTitle,
+      Briefcase[0],
+      Briefcase[1],
+      Briefcase[2],
+      Briefcase[3]
+    ],
+    async (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        if (result.insertId) {
+          let [rows] = await mysql.promise().query(
+            `
+            SELECT * FROM upgrading.briefcases where briefcase_id = ?;
+         `,
+            [result.insertId]
+          );
+
+          reply.send({ result, rows });
+        }
+      }
+    }
+  );
+};
+
+exports.getOneCourseBriefcase = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT * FROM upgrading.briefcases WHERE courses_course_id = ?;
+  `,
+    [req.params.course_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+exports.deleteOneBriefcase = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT briefcase_path from upgrading.briefcases WHERE briefcase_id = ?;
+    DELETE FROM upgrading.briefcases WHERE briefcase_id = ?;
+  `,
+    [req.params.briefcase_id, req.params.briefcase_id],
+    async (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        await deleteFiles(result[0]);
+        // delete attachcement from folder
+        reply.send(result[1]);
       }
     }
   );

@@ -44,7 +44,6 @@ export default {
   inject: ["course", "poster"],
   data() {
     return {
-      poster: "",
       rules: [
         value =>
           !value ||

@@ -1,5 +1,5 @@
 const newCourses = require("../../controllers/newCourses");
-const posterUploader = require("../../controllers/newCourses/PosterUploader");
+const Uploader = require("../../controllers/newCourses/Uploader");
 module.exports = [
   {
     method: "POST",
@@ -24,12 +24,28 @@ module.exports = [
   {
     method: "POST",
     url: "/api/newCourses/uploadPoster/:course_id",
-    preHandler: posterUploader.PosterUpload.any("coursePoster"),
+    preHandler: Uploader.PosterUpload.any("coursePoster"),
     handler: newCourses.uploadPoster
   },
   {
     method: "GET",
     url: "/api/newCourses/getAllNewCourses/",
     handler: newCourses.getAllNewCourses
+  },
+  {
+    method: "POST",
+    url: "/api/newCourses/uploadBriefcase/:course_id",
+    preHandler: Uploader.BriefcaseUpload.any("briefcaseAttachement"),
+    handler: newCourses.uploadBriefcase
+  },
+  {
+    method: "GET",
+    url: "/api/newCourses/getOneCourseBriefcase/:course_id",
+    handler: newCourses.getOneCourseBriefcase
+  },
+  {
+    method: "DELETE",
+    url: "/api/newCourses/deleteOneBriefcase/:briefcase_id",
+    handler: newCourses.deleteOneBriefcase
   }
 ];
