@@ -124,6 +124,7 @@ export default {
       ];
     });
     return {
+      headers: [],
       expanded: [],
       selectedUser_id: 0
     };

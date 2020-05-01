@@ -35,10 +35,19 @@ export default {
     noCourses() {
       return this.$vuetify.lang.t("$vuetify.InfoCourse.noCourses");
     },
-    ...mapGetters(["getNewCourses"])
+    ...mapGetters(["getNewCourses", "isTrainer", "isSuperVisor"])
+  },
+  methods: {
+    LoadCourses() {
+      if (this.isTrainer) {
+        this.$store.dispatch("getOneNewCourses");
+      } else if (this.isSuperVisor) {
+        this.$store.dispatch("getAllNewCourses");
+      }
+    }
   },
   mounted() {
-    this.$store.dispatch("getOneNewCourses");
+    this.LoadCourses();
   }
 };
 </script>

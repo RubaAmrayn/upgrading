@@ -18,7 +18,7 @@
 export default {
   name: "editCourse-form",
   components: {
-    "course-form": () => import("./courseForm")
+    "course-form": () => import("@/components/courses/course/courseForm")
   },
   inject: ["course"],
   props: {

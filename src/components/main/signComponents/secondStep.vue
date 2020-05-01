@@ -1,86 +1,87 @@
 <template>
-  <v-stepper-content class="pb-1" step="2">
-    <v-card flat>
-      <v-card-title>
-        <span>{{ CreateAccount }}</span>
-      </v-card-title>
-      <v-card-text class="pb-0">
-        <v-form ref="step2Form" lazy-validation>
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            :label="UsernameLabel"
-            outlined
-            :hint="UsernameHint"
-            required
-            clearable
-            :rules="[v => !!v || UsernameError]"
-            validate-on-blur
-            v-model="user.username"
-          ></v-text-field>
+  <v-card flat color="transparent">
+    <v-card-title>
+      <span>{{ CreateAccount }}</span>
+    </v-card-title>
+    <v-card-text class="pb-0">
+      <v-form ref="step2Form" lazy-validation>
+        <v-text-field
+          prepend-inner-icon="mdi-account"
+          :label="UsernameLabel"
+          outlined
+          :hint="UsernameHint"
+          required
+          clearable
+          :rules="[v => !!v || UsernameError]"
+          validate-on-blur
+          v-model="user.username"
+        ></v-text-field>
 
-          <v-text-field
-            prepend-inner-icon="mdi-lock"
-            :label="PasswordLabel"
-            outlined
-            type="password"
-            :hint="PasswordHint"
-            required
-            clearable
-            :rules="[v => !!v || PasswordError]"
-            validate-on-blur
-            v-model="user.password"
-          ></v-text-field>
-          <v-text-field
-            class="bt:1px"
-            prepend-inner-icon="mdi-at"
-            :label="EmailLabel"
-            clearable
-            :rules="[
-              v =>
-                /^([A-Za-z0-9_\.-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,3})+$/.test(
-                  v
-                ) || EmailError,
-              v => !!v || EmailRequired
-            ]"
-            validate-on-blur
-            outlined
-            type="email"
-            hint="exmple@gmail.com"
-            required
-            v-model="user.email"
-          ></v-text-field>
-          <v-text-field
-            prepend-inner-icon="mdi-phone"
-            :label="PhoneLabel"
-            outlined
-            type="text"
-            hint="9665XXXXXXXX"
-            clearable
-            :rules="[
-              v => !!v || PhoneRequired,
-              v => /^(9665)([0-9]{1})([0-9]{7})$/.test(v) || PhonError
-            ]"
-            required
-            v-model="user.phone"
-          ></v-text-field>
-        </v-form>
-      </v-card-text>
-    </v-card>
-
-    <v-row justify="end">
-      <v-col cols="3">
-        <v-btn block text @click="back">
-          <v-icon>mdi-arrow-right</v-icon>
-          {{ BtnSecondStep }}
-        </v-btn>
-      </v-col>
-      <v-col cols="4">
-        <v-btn block color="primary" @click="validateStep2">{{
-          RegsBtn
-        }}</v-btn>
-      </v-col>
-    </v-row>
-  </v-stepper-content>
+        <v-text-field
+          prepend-inner-icon="mdi-lock"
+          :label="PasswordLabel"
+          outlined
+          type="password"
+          :hint="PasswordHint"
+          required
+          clearable
+          :rules="[v => !!v || PasswordError]"
+          validate-on-blur
+          v-model="user.password"
+        ></v-text-field>
+        <v-text-field
+          class="bt:1px"
+          prepend-inner-icon="mdi-at"
+          :label="EmailLabel"
+          clearable
+          :rules="[
+            v =>
+              /^([A-Za-z0-9_\.-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,3})+$/.test(
+                v
+              ) || EmailError,
+            v => !!v || EmailRequired
+          ]"
+          validate-on-blur
+          outlined
+          type="email"
+          hint="exmple@gmail.com"
+          required
+          v-model="user.email"
+        ></v-text-field>
+        <v-text-field
+          prepend-inner-icon="mdi-phone"
+          :label="PhoneLabel"
+          outlined
+          type="text"
+          hint="9665XXXXXXXX"
+          clearable
+          :rules="[
+            v => !!v || PhoneRequired,
+            v => /^(9665)([0-9]{1})([0-9]{7})$/.test(v) || PhonError
+          ]"
+          required
+          v-model="user.phone"
+        ></v-text-field>
+      </v-form>
+    </v-card-text>
+    <v-card-actions>
+      <v-container fluid class="py-0">
+        <v-row justify="space-between">
+          <v-col cols="3">
+            <v-btn block text @click="back">
+              <v-icon>mdi-arrow-right</v-icon>
+              {{ BtnSecondStep }}
+            </v-btn>
+          </v-col>
+          <v-col cols="4">
+            <v-btn block color="primary" @click="validateStep2">{{
+              RegsBtn
+            }}</v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>

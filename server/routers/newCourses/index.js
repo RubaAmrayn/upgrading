@@ -47,5 +47,10 @@ module.exports = [
     method: "DELETE",
     url: "/api/newCourses/deleteOneBriefcase/:briefcase_id",
     handler: newCourses.deleteOneBriefcase
+  },
+  {
+    method: "GET",
+    url: "/api/newCourses/getAllNewCourses",
+    handler: newCourses.getAllNewCourses
   }
 ];

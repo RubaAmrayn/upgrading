@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <v-row justify="center" align="center" style="height:100vh">
+  <div style="height:100%; display:flex">
+    <v-row justify="center" align="center">
       <v-col cols="12" sm="10" md="5" lg="4" xl="4">
         <v-card
           loader-height="10"
@@ -47,10 +47,10 @@
             </router-link>
           </v-card-text>
           <v-card-actions class="pa-0">
-            <v-container>
+            <v-container fluid class="py-0">
               <v-row>
                 <v-col cols="12" sm="12" md="12" lg="12" xl="12">
-                  <v-btn block color="pramiry" dark @click="Login">
+                  <v-btn block color="primary" depressed dark @click="Login">
                     {{ LoginBtn }}
                     <v-icon style="transform:rotate(180deg)">mdi-login</v-icon>
                   </v-btn>

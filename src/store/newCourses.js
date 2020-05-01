@@ -172,6 +172,14 @@ export default {
             }
           });
       });
+    },
+    // for subervisor only
+    getAllNewCourses({ commit }) {
+      axios.get("/api/newCourses/getAllNewCourses").then(({ data }) => {
+        if (data) {
+          commit("PUSH_NEW_COURSE", data);
+        }
+      });
     }
   },
   getters: {

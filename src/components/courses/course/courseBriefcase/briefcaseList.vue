@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list v-if="getBriefcases.length > 0">
     <v-list-item v-for="(briefcase, i) in getBriefcases" :key="i">
       <v-list-item-icon>
         <v-icon>mdi-zip-box</v-icon>
@@ -27,13 +27,20 @@
           <v-icon>mdi-file-download-outline</v-icon>
         </v-btn>
       </v-list-item-action>
-      <v-list-item-action>
+      <v-list-item-action
+        v-if="isTrainer && getUser.user_id === course.user_id"
+      >
         <v-btn icon @click="delete_attachement(briefcase.briefcase_id)">
           <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>
       </v-list-item-action>
     </v-list-item>
   </v-list>
+  <v-card flat v-else>
+    <v-card-title class="primary-title justify-center">
+      لا يوجد حقيبة
+    </v-card-title>
+  </v-card>
 </template>
 
 <script>
@@ -42,7 +49,7 @@ export default {
   name: "briefcase-list",
   inject: ["course"],
   computed: {
-    ...mapGetters(["getBriefcases"])
+    ...mapGetters(["getBriefcases", "isTrainer", "getUser"])
   },
   methods: {
     downloadAttchement(path, name) {

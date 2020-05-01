@@ -5,6 +5,9 @@
         {{ course.course_name }}
       </v-toolbar-title>
       <v-spacer></v-spacer>
+      <v-btn icon @click="$root.$emit('close-dialog')">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
     </v-toolbar>
     <!-- <v-card-title class="primary-title font-weight-bold justify-center">
       <div></div>

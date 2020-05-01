@@ -77,6 +77,6 @@ export default {
     isLoggedIn: state => !!Object.keys(state.user).includes("role_id"),
     isTrainee: state => state.user.role_id == 1,
     isTrainer: state => state.user.role_id == 2,
-    isManager: state => state.user.role_id == 3
+    isSuperVisor: state => state.user.role_id == 3
   }
 };

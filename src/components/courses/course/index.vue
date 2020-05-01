@@ -1,11 +1,11 @@
 <template>
   <div>
-    <v-menu
-      offset-x
-      :close-on-content-click="false"
-      max-width="550"
+    <v-dialog
+      min-width="400"
+      max-width="600"
       max-height="600"
       transition="scroll-y-transition"
+      v-model="posterDialog"
     >
       <template v-slot:activator="{ on }">
         <div v-on="on">
@@ -13,7 +13,7 @@
         </div>
       </template>
       <poster-details></poster-details>
-    </v-menu>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -21,7 +21,10 @@ export default {
   name: "course",
   components: {
     "course-poster": () => import("@/components/courses/course/coursePoster"),
-    "poster-details": () => import("@/components/courses/course/posterDetails")
+    "poster-details": () => ({
+      component: import("@/components/courses/course/posterDetails"),
+      timeout: 3000
+    })
   },
   provide() {
     return {
@@ -31,19 +34,8 @@ export default {
   },
   data() {
     return {
-      showMenu: false
+      posterDialog: false
     };
-  },
-  methods: {
-    show(e) {
-      e.preventDefault();
-      this.showMenu = false;
-      this.x = e.clientX;
-      this.y = e.clientY;
-      this.$nextTick(() => {
-        this.showMenu = true;
-      });
-    }
   },
   props: {
     poster: {
@@ -54,6 +46,12 @@ export default {
       type: Object,
       required: false
     }
+  },
+  mounted() {
+    this.$root.$on("close-dialog", () => (this.posterDialog = false));
+  },
+  beforeDestroy() {
+    this.$root.$off("close-dialog");
   }
 };
 </script>

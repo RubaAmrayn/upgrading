@@ -21,7 +21,7 @@
 
     <v-list dense nav color="primary--text">
       <v-list-item v-for="item in items" :key="item.title" link :to="item.link">
-        <v-list-item-icon>
+        <v-list-item-icon class="ml-4">
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
 
@@ -51,8 +51,9 @@ export default {
     if (this.getUser.role_id == 2) {
       links = await import("@/links/trainer");
       this.items = links.default;
-    } else {
-      links;
+    } else if (this.getUser.role_id == 3) {
+      links = await import("@/links/supervisor");
+      this.items = links.default;
     }
     this.$root.$on("navigationDrawer", () => (this.drawer = !this.drawer));
   }

@@ -65,21 +65,23 @@ export default {
   },
   methods: {
     upload() {
-      this.connectionState = true;
-      let payload = {};
-      payload["course_id"] = this.course.course_id;
-      payload["file"] = this.file;
-      this.$store.dispatch("uploadPoster", payload).then(res => {
-        if (res == "PosterUpdated") {
-          this.$root.$emit("show-alert", {
-            status: "success",
-            title: "تم الرفع",
-            body: "تم رفع الصورة بنجاح",
-            confirmButtonText: "حسناً"
-          });
-        }
-        this.connectionState = false;
-      });
+      if (this.file != undefined) {
+        this.connectionState = true;
+        let payload = {};
+        payload["course_id"] = this.course.course_id;
+        payload["file"] = this.file;
+        this.$store.dispatch("uploadPoster", payload).then(res => {
+          if (res == "PosterUpdated") {
+            this.$root.$emit("show-alert", {
+              status: "success",
+              title: "تم الرفع",
+              body: "تم رفع الصورة بنجاح",
+              confirmButtonText: "حسناً"
+            });
+          }
+          this.connectionState = false;
+        });
+      }
     }
   }
 };

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-row justify="center" align="center" style="height:100vh">
-      <v-col cols="12" sm="10" md="5" lg="4" xl="4">
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="10" md="6" lg="5" xl="5">
         <v-card
           loader-height="10"
           :loading="connectionState"
@@ -22,8 +22,12 @@
             </v-stepper-header>
 
             <v-stepper-items>
-              <first-step></first-step>
-              <second-step></second-step>
+              <v-stepper-content class="py-0 px-0" step="1">
+                <first-step />
+              </v-stepper-content>
+              <v-stepper-content class="py-0 px-0" step="2">
+                <second-step />
+              </v-stepper-content>
             </v-stepper-items>
           </v-stepper>
         </v-card>
@@ -33,13 +37,11 @@
 </template>
 
 <script>
-import firstStep from "@/components/main/signComponents/firstStep";
-import secondStep from "@/components/main/signComponents/secondStep";
 export default {
   name: "Sign",
   components: {
-    "first-step": firstStep,
-    "second-step": secondStep
+    "first-step": () => import("@/components/main/signComponents/firstStep"),
+    "second-step": () => import("@/components/main/signComponents/secondStep")
   },
   data() {
     return {

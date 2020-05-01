@@ -33,6 +33,10 @@ export default new Vuex.Store({
         state.requestTrainer.archive_requests = [];
         // delete state.requestTrainer;
       }
+      if (state.newCourses) {
+        state.newCourses.newCourses = [];
+        state.newCourses.briefcases = [];
+      }
       window.sessionStorage.clear();
     }
   },
