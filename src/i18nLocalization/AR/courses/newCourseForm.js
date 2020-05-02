@@ -20,5 +20,12 @@ module.exports = {
   courseRequirementError: "يجب كتابة متطلبات الدورة",
   listOfCourseRequirement: "قائمة متطلبات الدورة",
   uplodeCourse: "رفع الطلب",
-  editRequst: "تعديل الطلب"
+  editRequst: "تعديل الطلب",
+  addTitle: "تمت الاضافة",
+  addBody: "تمت إضافة الدورة بنجاح وفي انتظار اجراء المسؤول فيها",
+  updateTitle: "تم التعديل",
+  updateBody: "تم تعديل بيانات الدورة بنجاح",
+  updateConfirm: "حسناً",
+  updateTitleCatch: "فشل التعديل",
+  updateBodyCatch: "حصل خطأ اثناء التعديل"
 };

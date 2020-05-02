@@ -312,6 +312,27 @@ export default {
     editRequst() {
       return this.$vuetify.lang.t("$vuetify.newCourseForm.editRequst");
     },
+    addTitle() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.addTitle");
+    },
+    addBody() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.addBody");
+    },
+    updateTitle() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.updateTitle");
+    },
+    updateBody() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.updateBody");
+    },
+    updateConfirm() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.updateConfirm");
+    },
+    updateTitleCatch() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.updateTitleCatch");
+    },
+    updateBodyCatch() {
+      return this.$vuetify.lang.t("$vuetify.newCourseForm.updateBodyCatch");
+    },
     dateRangeText: {
       get() {
         return this.newCourse.course_dates.join(" حتى ");
@@ -341,8 +362,8 @@ export default {
           this.connectionState = false;
           this.$root.$emit("show-alert", {
             status: "success",
-            title: "تمت الإضافة",
-            body: "تمت إضافة الدورة بنجاح وفي انتظار اجراء المسؤول فيها"
+            title: this.addTitle,
+            body: this.addBody
           });
         });
         this.$refs.AddCourseForm.reset();
@@ -362,9 +383,9 @@ export default {
             if (res == "updated") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم التعديل",
-                body: "تم تعديل بيانات الدورة بنجاح",
-                confirmButtonText: "حسناً"
+                title: this.updateTitle,
+                body: this.updateBody,
+                confirmButtonText: this.updateConfirm
               });
               this.connectionState = false;
             }
@@ -373,9 +394,9 @@ export default {
             this.connectionState = false;
             this.$root.$emit("show-alert", {
               status: "error",
-              title: "فشل التعديل",
-              body: "حصل خطأ اثناء التعديل",
-              confirmButtonText: "حسناً"
+              title: this.updateTitleCatch,
+              body: this.updateBodyCatch,
+              confirmButtonText: this.updateConfirm
             });
           });
       }

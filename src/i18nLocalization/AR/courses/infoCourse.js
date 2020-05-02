@@ -4,5 +4,6 @@ module.exports = {
   appointment: "الموعد",
   requstCourse: "متطلبات الدورة",
   noRequirement: "لا يوجد متطلبات",
-  noCourses: "لا يوجد دورات"
+  noCourses: "لا يوجد دورات",
+  details: "التفاصيل"
 };

@@ -11,7 +11,7 @@ const Reject = require("./trainerRequests/rejectTrainer");
 const activeRequest = require("./trainerRequests/activeRequest");
 const RequestBtn = require("./profile/requestBtn");
 const InfoCourse = require("./courses/infoCourse");
-
+const PosterAction = require("./courses/posterActions");
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -71,5 +71,6 @@ export default {
   Reject,
   activeRequest,
   RequestBtn,
-  InfoCourse
+  InfoCourse,
+  PosterAction
 };

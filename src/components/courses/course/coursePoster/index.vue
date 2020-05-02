@@ -9,7 +9,7 @@
             <v-overlay v-if="hover" absolute color="#036358">
               <v-row justify="center" align="center" style="height: 100%">
                 <v-col cols="6">
-                  <v-btn block>التفاصيل</v-btn>
+                  <v-btn block>{{ details }}</v-btn>
                 </v-col>
               </v-row>
             </v-overlay>
@@ -26,6 +26,11 @@ export default {
   components: {
     "poster-title": () => import("./posterTitle"),
     "poster-body": () => import("./posterBody")
+  },
+  computed: {
+    details() {
+      return this.$vuetify.lang.t("$vuetify.InfoCourse.details");
+    }
   }
   // props: ["course"]
 };
