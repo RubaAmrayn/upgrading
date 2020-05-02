@@ -22,6 +22,12 @@ export default {
     return {
       openDialog: false
     };
+  },
+  mounted() {
+    this.$root.$on("close-briefcase", () => (this.openDialog = false));
+  },
+  destroyed() {
+    this.$root.$off("close-briefcase");
   }
 };
 </script>

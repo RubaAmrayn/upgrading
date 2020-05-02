@@ -9,7 +9,7 @@
         xl="4"
         v-for="(course, i) in getNewCourses"
         :key="i"
-        ><course :course="course" />
+        ><course :course="course" :key="`course-${i}`" />
       </v-col>
     </v-row>
     <v-row v-else>
@@ -30,6 +30,11 @@ export default {
   name: "course-list",
   components: {
     course: () => import("@/components/courses/course/")
+  },
+  data() {
+    return {
+      courses: []
+    };
   },
   computed: {
     noCourses() {

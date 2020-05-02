@@ -349,7 +349,7 @@ FROM
         LEFT JOIN
     users u ON u.user_id = c.users_user_id
 WHERE
-    u.user_id = ? and c.current_status in (1,2);
+    u.user_id = ? and c.current_status in (1, 2, 7, 8, 9, 10, 11);
     `,
     [req.params.user_id],
     async (err, result) => {
@@ -438,48 +438,6 @@ exports.uploadPoster = async (req, reply) => {
   );
 };
 
-exports.getAllNewCourses = async (req, reply) => {
-  mysql.query(
-    `
-SELECT 
-c.course_id,
-c.course_name,
-c.daily_hours,
-c.publish_date,
-c.start_date,
-c.end_date,
-c.course_description,
-c.course_price,
-c.seats_number,
-c.current_status,
-p.poster_id,
-p.poster_path,
-s.ar_status_name,
-s.en_status_name,
-u.user_id,
-u.first_name,
-u.middle_name,
-u.last_name
-FROM
-courses c
-    LEFT JOIN
-upgrading.status s ON s.status_id = c.current_status
-    LEFT JOIN
-courses_poster p ON p.courses_course_id = c.course_id
-    LEFT JOIN
-users u ON u.user_id = c.users_user_id
-WHERE
- c.current_status in (1,2);
-  `,
-    (err, result) => {
-      if (err) {
-        reply.send(err);
-      } else {
-        reply.send(result);
-      }
-    }
-  );
-};
 const deletePreviuesBriefcaseIfExsist = async payload => {
   let [rows] = await mysql.promise().query(
     `
@@ -509,8 +467,15 @@ exports.uploadBriefcase = async (req, reply) => {
     newPath,
     req.params.course_id
   ];
+  var status_id;
+  if (req.body.current_status == 7 || req.body.current_status == 8) {
+    status_id = 11;
+  } else {
+    status_id = 10;
+  }
   mysql.query(
     `
+    START TRANSACTION;
     INSERT INTO upgrading.briefcases
     (
     briefcase_title,
@@ -521,19 +486,33 @@ exports.uploadBriefcase = async (req, reply) => {
     )
     VALUES
     (?,?,?,?,?);
+    INSERT INTO upgrading.course_events
+    (
+    users_user_id,
+    status_status_id,
+    courses_course_id)
+    VALUES
+    (?,?,?);
+    update courses set current_status = ? where course_id = ?;
+    COMMIT;
   `,
     [
       req.body.briefcaseTitle,
       Briefcase[0],
       Briefcase[1],
       Briefcase[2],
-      Briefcase[3]
+      Briefcase[3],
+      req.body.user_id,
+      status_id,
+      req.params.course_id,
+      status_id,
+      req.params.course_id
     ],
     async (err, result) => {
       if (err) {
         reply.send(err);
       } else {
-        if (result.insertId) {
+        if (result[1].insertId) {
           let [rows] = await mysql.promise().query(
             `
             SELECT * FROM upgrading.briefcases where briefcase_id = ?;
@@ -613,7 +592,7 @@ FROM
         LEFT JOIN
     users u ON u.user_id = c.users_user_id
 WHERE
-    c.current_status in (1,2);
+    c.current_status in (1, 2, 7, 8, 9, 10, 11);
     `,
     [],
     async (err, result) => {
@@ -637,6 +616,104 @@ WHERE
           output.push(res);
         }
         reply.send(output);
+      }
+    }
+  );
+};
+
+exports.RejectBriefcase = async (req, reply) => {
+  mysql.query(
+    `
+  INSERT INTO upgrading.course_events
+(
+event_details,
+users_user_id,
+status_status_id,
+courses_course_id)
+VALUES
+(?,?,?,?);
+UPDATE courses 
+SET 
+    current_status = ?
+WHERE
+    course_id = ?;
+
+  `,
+    [
+      req.body.reasons,
+      req.body.user_id,
+      7,
+      req.body.course_id,
+      7,
+      req.body.course_id
+    ],
+    (err, result) => {
+      if (err) reply.send(err);
+      else reply.send(result);
+    }
+  );
+};
+
+exports.getBriefcaseRejection = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 7;
+  `,
+    [req.params.course_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.HoldBriefcase = async (req, reply) => {
+  mysql.query(
+    `
+  INSERT INTO upgrading.course_events
+(
+event_details,
+users_user_id,
+status_status_id,
+courses_course_id)
+VALUES
+(?,?,?,?);
+UPDATE courses 
+SET 
+    current_status = ?
+WHERE
+    course_id = ?;
+
+  `,
+    [
+      req.body.reasons,
+      req.body.user_id,
+      8,
+      req.body.course_id,
+      8,
+      req.body.course_id
+    ],
+    (err, result) => {
+      if (err) reply.send(err);
+      else reply.send(result);
+    }
+  );
+};
+
+exports.getBriefcaseHolded = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 8;
+  `,
+    [req.params.course_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
       }
     }
   );

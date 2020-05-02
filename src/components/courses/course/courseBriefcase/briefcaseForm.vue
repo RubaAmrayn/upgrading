@@ -67,6 +67,7 @@ export default {
     Upload() {
       this.connectionState = true;
       this.briefcase["course_id"] = this.course.course_id;
+      this.briefcase["current_status"] = this.course.current_status;
       this.$store.dispatch("uploadOneBriefcase", this.briefcase).then(res => {
         if (res == "uploaded") {
           this.$root.$emit("show-alert", {

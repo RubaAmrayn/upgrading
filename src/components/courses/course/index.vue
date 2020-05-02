@@ -12,7 +12,7 @@
           <course-poster></course-poster>
         </div>
       </template>
-      <poster-details></poster-details>
+      <poster-details v-if="posterDialog"></poster-details>
     </v-dialog>
   </div>
 </template>

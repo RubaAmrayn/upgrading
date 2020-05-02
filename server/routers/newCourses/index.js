@@ -52,5 +52,25 @@ module.exports = [
     method: "GET",
     url: "/api/newCourses/getAllNewCourses",
     handler: newCourses.getAllNewCourses
+  },
+  {
+    method: "POST",
+    url: "/api/newCourses/RejectBriefcase",
+    handler: newCourses.RejectBriefcase
+  },
+  {
+    method: "GET",
+    url: "/api/newCourses/getBriefcaseRejection/:course_id",
+    handler: newCourses.getBriefcaseRejection
+  },
+  {
+    method: "POST",
+    url: "/api/newCourses/HoldBriefcase",
+    handler: newCourses.HoldBriefcase
+  },
+  {
+    method: "GET",
+    url: "/api/newCourses/getBriefcaseHolded/:course_id",
+    handler: newCourses.getBriefcaseHolded
   }
 ];

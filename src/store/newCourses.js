@@ -124,11 +124,14 @@ export default {
         }
       });
     },
-    uploadOneBriefcase({ commit }, briefcase) {
+    uploadOneBriefcase({ commit, rootState }, briefcase) {
       return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
         let briefcaseFormData = new FormData();
         briefcaseFormData.append("briefcaseAttachement", briefcase.file);
         briefcaseFormData.append("briefcaseTitle", briefcase.title);
+        briefcaseFormData.append("current_status", briefcase.current_status);
+        briefcaseFormData.append("user_id", user_id);
         axios
           .post(
             `/api/newCourses/uploadBriefcase/${briefcase.course_id}`,
@@ -140,7 +143,7 @@ export default {
             }
           )
           .then(({ data }) => {
-            if (data.result.insertId > 0) {
+            if (data.result[1].insertId > 0) {
               commit("PUSH_BRIEFCASE", data.rows);
               resolve("uploaded");
             } else {
@@ -180,6 +183,60 @@ export default {
           commit("PUSH_NEW_COURSE", data);
         }
       });
+    },
+    rejectBriefcase({ rootState }, payload) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+
+        let data = {
+          user_id,
+          course_id: payload.course_id,
+          reasons: payload.reasons
+        };
+        axios.post("/api/newCourses/RejectBriefcase", data).then(({ data }) => {
+          if (data[0].insertId > 0) {
+            resolve("rejected");
+          } else {
+            reject();
+          }
+        });
+      });
+    },
+    getBriefcaseRejection(context, course_id) {
+      return axios
+        .get("/api/newCourses/getBriefcaseRejection/" + course_id)
+        .then(({ data }) => {
+          if (data) {
+            return data[0];
+          }
+        });
+    },
+    HoldBriefcase({ rootState }, payload) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+
+        let data = {
+          user_id,
+          course_id: payload.course_id,
+          reasons: payload.reasons
+        };
+        axios.post("/api/newCourses/HoldBriefcase", data).then(({ data }) => {
+          if (data[0].insertId > 0) {
+            resolve("holded");
+          } else {
+            reject();
+          }
+        });
+      });
+    },
+    getBriefcaseHolded(context, course_id) {
+      return axios
+        .get("/api/newCourses/getBriefcaseHolded/" + course_id)
+        .then(({ data }) => {
+          if (data) {
+            return data[0];
+          }
+        });
     }
   },
   getters: {
