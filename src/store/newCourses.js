@@ -272,6 +272,7 @@ export default {
         axios.post("/api/newCourses/HoldCourse", data).then(({ data }) => {
           if (data[0].insertId > 0) {
             dispatch("getAllNewCourses");
+            dispatch("getCourseHolded", payload.course_id);
             resolve("Holded");
           } else {
             reject();
