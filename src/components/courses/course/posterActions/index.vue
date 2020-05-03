@@ -1,9 +1,9 @@
 <template>
   <div>
-    <poster-image></poster-image>
+    <poster-image :course="course"></poster-image>
     <edit-course-form method="update" :course="course"></edit-course-form>
 
-    <delete-course :course_id="course.course_id"></delete-course>
+    <delete-course :course="course"></delete-course>
   </div>
 </template>
 
@@ -18,6 +18,6 @@ export default {
     "poster-image": () =>
       import("@/components/courses/course/posterActions/posterImage")
   },
-  inject: ["course"]
+  props: ["course"]
 };
 </script>

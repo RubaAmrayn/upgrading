@@ -41,7 +41,7 @@
 <script>
 export default {
   name: "poster-image",
-  inject: ["course", "poster"],
+  props: ["course"],
   data() {
     return {
       rules: [

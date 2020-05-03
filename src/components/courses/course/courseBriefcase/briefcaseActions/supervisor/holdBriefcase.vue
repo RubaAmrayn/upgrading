@@ -63,7 +63,7 @@
 <script>
 export default {
   name: "hold-briefcase",
-  inject: ["course"],
+  props: ["course"],
   data() {
     return {
       hold: {

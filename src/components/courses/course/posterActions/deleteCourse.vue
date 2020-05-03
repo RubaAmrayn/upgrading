@@ -7,7 +7,7 @@
 <script>
 export default {
   name: "delete-course",
-  inject: ["course"],
+  props: ["course"],
   computed: {
     deleteTitle() {
       return this.$vuetify.lang.t("$vuetify.newCourseForm.deleteTitle");

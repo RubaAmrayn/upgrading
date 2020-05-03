@@ -69,8 +69,7 @@ import { formateDate } from "@/mixins/date";
 import statusColors from "@/mixins/statusColorsIcons";
 export default {
   name: "poster-body",
-  // props: ["course"],
-  inject: ["course"],
+  props: ["course"],
   mixins: [formateDate, statusColors],
   computed: {
     description() {

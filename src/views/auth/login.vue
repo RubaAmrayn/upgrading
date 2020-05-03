@@ -70,6 +70,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Login",
   data() {
@@ -82,6 +83,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(["isSuperVisor", "isTrainer"]),
     UsernameLabel() {
       return this.$vuetify.lang.t("$vuetify.Login.username");
     },
@@ -117,17 +119,13 @@ export default {
     Login() {
       if (this.$refs.LoginForm.validate()) {
         this.connectionState = true;
-        //استدعاء ال action من ال vuex
         this.$store
           .dispatch("login", this.user)
           .then(() => {
             this.connectionState = false;
-            // this.$root.$emit("show-alert", {
-            //   status: "success",
-            //   title: "تم تسجيل الدخول",
-            //   body: ""
-            // });
-            this.$router.push("/");
+            if (this.isSuperVisor || this.isTrainer) {
+              this.$router.push("/courses/newCourses/pinding");
+            }
           })
           .catch(() => {
             this.connectionState = false;

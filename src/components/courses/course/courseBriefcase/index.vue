@@ -17,18 +17,25 @@
     </v-card-title>
     <v-card-text>
       <div v-if="getUser.user_id == course.user_id && isTrainer">
-        <briefcase-form v-if="getBriefcases.length == 0"></briefcase-form>
-        <briefcase-list v-else></briefcase-list>
+        <briefcase-form
+          :course="course"
+          v-if="getBriefcases.length == 0"
+        ></briefcase-form>
+        <briefcase-list :course="course" v-else></briefcase-list>
       </div>
       <div v-else>
-        <briefcase-list></briefcase-list>
+        <briefcase-list :course="course"></briefcase-list>
       </div>
     </v-card-text>
     <div v-if="getBriefcases.length > 0">
       <trainer-actions
+        :course="course"
         v-if="getUser.user_id == course.user_id && isTrainer"
       ></trainer-actions>
-      <supervisor-actions v-else-if="isSuperVisor"></supervisor-actions>
+      <supervisor-actions
+        :course="course"
+        v-else-if="isSuperVisor"
+      ></supervisor-actions>
     </div>
   </v-card>
 </template>
@@ -37,7 +44,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "course-briefcase",
-  inject: ["course"],
+  props: ["course"],
   components: {
     "briefcase-form": () => import("./briefcaseForm"),
     "briefcase-list": () => import("./briefcaseList"),

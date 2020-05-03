@@ -9,10 +9,10 @@
     >
       <template v-slot:activator="{ on }">
         <div v-on="on">
-          <course-poster></course-poster>
+          <course-poster :course="course"></course-poster>
         </div>
       </template>
-      <poster-details v-if="posterDialog"></poster-details>
+      <poster-details :course="course" v-if="posterDialog"></poster-details>
     </v-dialog>
   </div>
 </template>
@@ -26,22 +26,13 @@ export default {
       timeout: 3000
     })
   },
-  provide() {
-    return {
-      course: this.course,
-      poster: this.poster
-    };
-  },
   data() {
     return {
+      localCourse: this.course,
       posterDialog: false
     };
   },
   props: {
-    poster: {
-      type: Object,
-      required: false
-    },
     course: {
       type: Object,
       required: false

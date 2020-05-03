@@ -28,7 +28,11 @@
         </v-btn>
       </v-list-item-action>
       <v-list-item-action
-        v-if="isTrainer && getUser.user_id === course.user_id"
+        v-if="
+          isTrainer &&
+            getUser.user_id === course.user_id &&
+            ![3, 4, 5, 9].includes(course.current_status)
+        "
       >
         <v-btn icon @click="delete_attachement(briefcase.briefcase_id)">
           <v-icon>mdi-trash-can-outline</v-icon>
@@ -47,7 +51,7 @@
 import { mapGetters } from "vuex";
 export default {
   name: "briefcase-list",
-  inject: ["course"],
+  props: ["course"],
   computed: {
     ...mapGetters(["getBriefcases", "isTrainer", "getUser"])
   },

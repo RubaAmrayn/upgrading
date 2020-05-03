@@ -10,7 +10,7 @@
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </template>
-    <course-form method="update"></course-form>
+    <course-form method="update" :course="course"></course-form>
   </v-dialog>
 </template>
 
@@ -20,10 +20,13 @@ export default {
   components: {
     "course-form": () => import("@/components/courses/course/courseForm")
   },
-  inject: ["course"],
   props: {
     method: {
       type: String,
+      required: true
+    },
+    course: {
+      type: Object,
       required: true
     }
   },

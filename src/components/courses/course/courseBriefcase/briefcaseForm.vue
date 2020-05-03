@@ -47,7 +47,7 @@
 <script>
 export default {
   name: "briefcase-form",
-  inject: ["course"],
+  props: ["course"],
   data() {
     return {
       connectionState: false,

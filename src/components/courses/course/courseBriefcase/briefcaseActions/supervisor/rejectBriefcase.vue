@@ -1,21 +1,11 @@
 <template>
-  <!-- <v-menu
-    :close-on-content-click="false"
-    :nudge-width="400"
-    offset-x
-    v-model="menu"
-    top
-  >
-    <template v-slot:activator="{ on }">
-     
-    </template> -->
   <v-card flat :loading="connectionState" :disabled="connectionState">
     <v-card-title class="primary-title justify-center">
       رفض الحقيبة
-      <!-- <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-close</v-icon>
-      </v-btn> -->
+      </v-btn>
     </v-card-title>
     <v-card-text>
       <v-form lazy-validation ref="form">
@@ -57,13 +47,12 @@
       </v-row>
     </v-card-actions>
   </v-card>
-  <!-- </v-menu> -->
 </template>
 
 <script>
 export default {
   name: "reject-briefcase",
-  inject: ["course"],
+  props: ["course"],
   data() {
     return {
       connectionState: false,
@@ -91,6 +80,7 @@ export default {
               });
             }
           });
+        this.connectionState = false;
       }
     }
   }

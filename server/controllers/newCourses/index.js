@@ -162,7 +162,8 @@ const deleteOldRequirementsAndUpdate = async payload => {
   end_date = ?,
   course_description = ?,
   course_price = ?,
-  seats_number = ?
+  seats_number = ?,
+  current_status = 1
   WHERE course_id = ?;
   COMMIT;
   `,
@@ -193,7 +194,8 @@ const deleteOldRequirementsAndOnlyUpdateCourse = async payload => {
   end_date = ?,
   course_description = ?,
   course_price = ?,
-  seats_number = ?
+  seats_number = ?,
+  current_status = 1
   WHERE course_id = ?;
   COMMIT;
   `,
@@ -234,7 +236,8 @@ const AddNewRequirementsAndUpdateCourse = async payload => {
   end_date = ?,
   course_description = ?,
   course_price = ?,
-  seats_number = ?
+  seats_number = ?,
+  current_status = 1
   WHERE course_id = ?;
   COMMIT;
   `,
@@ -262,7 +265,8 @@ const UpdateOnlyCourse = async payload => {
   end_date = ?,
   course_description = ?,
   course_price = ?,
-  seats_number = ?
+  seats_number = ?,
+  current_status = 1
   WHERE course_id = ?;
   `,
     [
@@ -349,7 +353,8 @@ FROM
         LEFT JOIN
     users u ON u.user_id = c.users_user_id
 WHERE
-    u.user_id = ? and c.current_status in (1, 2, 7, 8, 9, 10, 11);
+    u.user_id = ? and c.current_status in (1, 2, 3, 4, 7, 8, 9, 10, 11)
+ORDER BY c.course_id DESC;
     `,
     [req.params.user_id],
     async (err, result) => {
@@ -592,7 +597,8 @@ FROM
         LEFT JOIN
     users u ON u.user_id = c.users_user_id
 WHERE
-    c.current_status in (1, 2, 7, 8, 9, 10, 11);
+    c.current_status in (1, 2, 3, 4, 7, 8, 9, 10, 11)
+ORDER BY c.course_id DESC;
     `,
     [],
     async (err, result) => {
@@ -657,7 +663,7 @@ WHERE
 exports.getBriefcaseRejection = async (req, reply) => {
   mysql.query(
     `
-    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 7;
+    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 7  order by event_id desc limit 0, 1;
   `,
     [req.params.course_id],
     (err, result) => {
@@ -706,7 +712,7 @@ WHERE
 exports.getBriefcaseHolded = async (req, reply) => {
   mysql.query(
     `
-    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 8;
+    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 8  order by event_id desc limit 0, 1;
   `,
     [req.params.course_id],
     (err, result) => {
@@ -715,6 +721,152 @@ exports.getBriefcaseHolded = async (req, reply) => {
       } else {
         reply.send(result);
       }
+    }
+  );
+};
+exports.AproveBriefcase = async (req, reply) => {
+  mysql.query(
+    `
+  INSERT INTO upgrading.course_events
+(
+users_user_id,
+status_status_id,
+courses_course_id)
+VALUES
+(?,?,?);
+UPDATE courses 
+SET 
+    current_status = ?
+WHERE
+    course_id = ?;
+
+  `,
+    [req.body.user_id, 9, req.body.course_id, 9, req.body.course_id],
+    (err, result) => {
+      if (err) reply.send(err);
+      else reply.send(result);
+    }
+  );
+};
+
+exports.HoldCourse = async (req, reply) => {
+  mysql.query(
+    `
+  INSERT INTO upgrading.course_events
+(
+event_details,
+users_user_id,
+status_status_id,
+courses_course_id)
+VALUES
+(?,?,?,?);
+UPDATE courses 
+SET 
+    current_status = ?
+WHERE
+    course_id = ?;
+
+  `,
+    [
+      req.body.reasons,
+      req.body.user_id,
+      2,
+      req.body.course_id,
+      2,
+      req.body.course_id
+    ],
+    (err, result) => {
+      if (err) reply.send(err);
+      else reply.send(result);
+    }
+  );
+};
+
+exports.getCourseHolded = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 2  order by event_id desc limit 0, 1;
+  `,
+    [req.params.course_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+
+exports.RejectCourse = async (req, reply) => {
+  mysql.query(
+    `
+  INSERT INTO upgrading.course_events
+(
+event_details,
+users_user_id,
+status_status_id,
+courses_course_id)
+VALUES
+(?,?,?,?);
+UPDATE courses 
+SET 
+    current_status = ?
+WHERE
+    course_id = ?;
+
+  `,
+    [
+      req.body.reasons,
+      req.body.user_id,
+      3,
+      req.body.course_id,
+      3,
+      req.body.course_id
+    ],
+    (err, result) => {
+      if (err) reply.send(err);
+      else reply.send(result);
+    }
+  );
+};
+
+exports.getCourseRejected = async (req, reply) => {
+  mysql.query(
+    `
+    SELECT * FROM upgrading.course_events where courses_course_id = ? and status_status_id = 3  order by event_id desc limit 0, 1;
+  `,
+    [req.params.course_id],
+    (err, result) => {
+      if (err) {
+        reply.send(err);
+      } else {
+        reply.send(result);
+      }
+    }
+  );
+};
+exports.ApproveCourse = async (req, reply) => {
+  mysql.query(
+    `
+  INSERT INTO upgrading.course_events
+(
+users_user_id,
+status_status_id,
+courses_course_id)
+VALUES
+(?,?,?);
+UPDATE courses 
+SET 
+    current_status = ?
+WHERE
+    course_id = ?;
+
+  `,
+    [req.body.user_id, 4, req.body.course_id, 4, req.body.course_id],
+    (err, result) => {
+      if (err) reply.send(err);
+      else reply.send(result);
     }
   );
 };

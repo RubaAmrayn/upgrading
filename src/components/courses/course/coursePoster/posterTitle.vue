@@ -5,14 +5,12 @@
       opacity="0.4"
       :value="true"
       style="width:100%; height:100%;"
+      z-index="10"
     >
       <v-row class="fill-height">
         <v-col cols="12" class="pt-1">
           <v-card-title class="pt-0 px-1">
             <v-spacer></v-spacer>
-            <poster-actions
-              v-if="isTrainer && course.user_id == getUser.user_id"
-            ></poster-actions>
           </v-card-title>
         </v-col>
         <v-col cols="12" class="pb-0" style="align-self: flex-end;">
@@ -28,16 +26,14 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+// import { mapGetters } from "vuex";
 export default {
   name: "poster-title",
   // props: ["course"],
-  inject: ["course"],
-  components: {
-    "poster-actions": () => import("@/components/courses/course/posterActions")
-  },
+  props: ["course"],
+  components: {},
   computed: {
-    ...mapGetters(["getUser", "isTrainer"]),
+    // ...mapGetters(["getUser", "isTrainer"]),
     posterPath() {
       if (this.course && this.course.poster_path) {
         return "/public/" + this.course.poster_path;

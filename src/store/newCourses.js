@@ -6,6 +6,7 @@ export default {
   },
   mutations: {
     PUSH_NEW_COURSE(state, payload) {
+      state.newCourses = [];
       state.newCourses = payload;
     },
     PUSH_BRIEFCASE(state, payload) {
@@ -124,7 +125,7 @@ export default {
         }
       });
     },
-    uploadOneBriefcase({ commit, rootState }, briefcase) {
+    uploadOneBriefcase({ commit, dispatch, rootState }, briefcase) {
       return new Promise((resolve, reject) => {
         let user_id = rootState.users.user.user_id;
         let briefcaseFormData = new FormData();
@@ -145,12 +146,13 @@ export default {
           .then(({ data }) => {
             if (data.result[1].insertId > 0) {
               commit("PUSH_BRIEFCASE", data.rows);
+              dispatch("getOneNewCourses");
+              dispatch("getOneCourseBriefcases", briefcase.course_id);
               resolve("uploaded");
             } else {
               reject();
             }
           });
-        resolve();
       });
     },
     getOneCourseBriefcases({ commit }, course_id) {
@@ -184,7 +186,7 @@ export default {
         }
       });
     },
-    rejectBriefcase({ rootState }, payload) {
+    rejectBriefcase({ rootState, dispatch }, payload) {
       return new Promise((resolve, reject) => {
         let user_id = rootState.users.user.user_id;
 
@@ -195,6 +197,7 @@ export default {
         };
         axios.post("/api/newCourses/RejectBriefcase", data).then(({ data }) => {
           if (data[0].insertId > 0) {
+            dispatch("getAllNewCourses");
             resolve("rejected");
           } else {
             reject();
@@ -211,7 +214,7 @@ export default {
           }
         });
     },
-    HoldBriefcase({ rootState }, payload) {
+    HoldBriefcase({ rootState, dispatch }, payload) {
       return new Promise((resolve, reject) => {
         let user_id = rootState.users.user.user_id;
 
@@ -222,6 +225,7 @@ export default {
         };
         axios.post("/api/newCourses/HoldBriefcase", data).then(({ data }) => {
           if (data[0].insertId > 0) {
+            dispatch("getAllNewCourses");
             resolve("holded");
           } else {
             reject();
@@ -237,6 +241,97 @@ export default {
             return data[0];
           }
         });
+    },
+    AproveBriefcase({ rootState, dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+
+        let data = {
+          user_id,
+          course_id: payload.course_id
+        };
+        axios.post("/api/newCourses/AproveBriefcase", data).then(({ data }) => {
+          if (data[0].insertId > 0) {
+            dispatch("getAllNewCourses");
+            resolve("Approved");
+          } else {
+            reject();
+          }
+        });
+      });
+    },
+    holdCourse({ rootState, dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+
+        let data = {
+          user_id,
+          course_id: payload.course_id,
+          reasons: payload.reasons
+        };
+        axios.post("/api/newCourses/HoldCourse", data).then(({ data }) => {
+          if (data[0].insertId > 0) {
+            dispatch("getAllNewCourses");
+            resolve("Holded");
+          } else {
+            reject();
+          }
+        });
+      });
+    },
+    getCourseHolded(context, course_id) {
+      return axios
+        .get("/api/newCourses/getCourseHolded/" + course_id)
+        .then(({ data }) => {
+          if (data) {
+            return data[0];
+          }
+        });
+    },
+    RejectCourse({ rootState, dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+        let data = {
+          user_id,
+          course_id: payload.course_id,
+          reasons: payload.reasons
+        };
+        axios.post("/api/newCourses/RejectCourse", data).then(({ data }) => {
+          if (data[0].insertId > 0) {
+            dispatch("getAllNewCourses");
+            resolve("Rejected");
+          } else {
+            reject();
+          }
+        });
+      });
+    },
+    getCourseRejected(context, course_id) {
+      return axios
+        .get("/api/newCourses/getCourseRejected/" + course_id)
+        .then(({ data }) => {
+          if (data) {
+            return data[0];
+          }
+        });
+    },
+    ApproveCourse({ rootState, dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        let user_id = rootState.users.user.user_id;
+
+        let data = {
+          user_id,
+          course_id: payload.course_id
+        };
+        axios.post("/api/newCourses/ApproveCourse", data).then(({ data }) => {
+          if (data[0].insertId > 0) {
+            dispatch("getAllNewCourses");
+            resolve("Approved");
+          } else {
+            reject();
+          }
+        });
+      });
     }
   },
   getters: {

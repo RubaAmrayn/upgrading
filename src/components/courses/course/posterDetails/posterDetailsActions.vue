@@ -1,9 +1,7 @@
 <template>
-  <v-card-actions class="pa-0">
+  <v-card-actions class="">
     <v-container class="py-0">
-      <v-row justify="space-around">
-        <poster-actions></poster-actions>
-      </v-row>
+      <poster-actions :course="course"></poster-actions>
     </v-container>
   </v-card-actions>
 </template>
@@ -15,7 +13,7 @@ export default {
     "poster-actions": () =>
       import("@/components/courses/course/posterDetails/posterActions")
   },
-  inject: ["course"],
+  props: ["course"],
   data() {
     return {};
   }

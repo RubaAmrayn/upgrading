@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-col cols="3">
-      <briefcase-view></briefcase-view>
+      <briefcase-view :course="course"></briefcase-view>
     </v-col>
   </div>
 </template>
@@ -9,6 +9,7 @@
 <script>
 export default {
   name: "supervisor-actions",
+  props: ["course"],
   components: {
     "briefcase-view": () =>
       import(

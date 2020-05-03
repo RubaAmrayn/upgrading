@@ -41,7 +41,7 @@
 <script>
 export default {
   name: "trainer-actions",
-  inject: ["course"],
+  props: ["course"],
   data() {
     return {
       rejectionReasons: "",

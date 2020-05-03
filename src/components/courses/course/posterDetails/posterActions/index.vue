@@ -1,8 +1,11 @@
 <template>
   <div>
-    <supervisor-actions v-if="isSuperVisor"></supervisor-actions>
-    <trainer-actions v-else-if="isTrainer"></trainer-actions>
-    <trainee-actions v-else-if="isTrainee"></trainee-actions>
+    <supervisor-actions
+      :course="course"
+      v-if="isSuperVisor"
+    ></supervisor-actions>
+    <trainer-actions :course="course" v-else-if="isTrainer"></trainer-actions>
+    <trainee-actions :course="course" v-else-if="isTrainee"></trainee-actions>
   </div>
 </template>
 
@@ -20,6 +23,7 @@ export default {
     "trainee-actions": () =>
       import("@/components/courses/course/posterDetails/posterActions/trainer")
   },
+  props: ["course"],
   computed: {
     ...mapGetters(["isSuperVisor", "isTrainer", "isTrainee"])
   }
