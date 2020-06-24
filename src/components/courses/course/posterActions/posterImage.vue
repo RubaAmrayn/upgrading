@@ -18,9 +18,9 @@
             <v-file-input
               :rules="rules"
               accept="image/png, image/jpeg, image/jpg"
-              messages="اختر صورة لرفعها"
+              :messages="massageUplodeImage"
               prepend-icon="mdi-camera-image"
-              label="الصورة"
+              :label="labelImage"
               outlined
               :show-size="1000"
               counter-size
@@ -44,12 +44,7 @@ export default {
   props: ["course"],
   data() {
     return {
-      rules: [
-        value =>
-          !value ||
-          value.size < 2000000 ||
-          "حجم الصورة يجب ان يكون اقل من 2 ميقابايت"
-      ],
+      rules: [value => !value || value.size < 2000000 || this.vaildateImage],
       connectionState: false,
       file: undefined
     };
@@ -61,6 +56,26 @@ export default {
       } else {
         return require("@/assets/upgrad.jpg");
       }
+    },
+    massageUplodeImage() {
+      return this.$vuetify.lang.t("$vuetify.PosterAction.massageUplodeImage");
+    },
+    labelImage() {
+      return this.$vuetify.lang.t("$vuetify.PosterAction.labelImage");
+    },
+    vaildateImage() {
+      return this.$vuetify.lang.t("$vuetify.PosterAction.vaildateImage");
+    },
+    uplodeTitle() {
+      return this.$vuetify.lang.t("$vuetify.PosterAction.uplodeTitle");
+    },
+    uplodeBody() {
+      return this.$vuetify.lang.t("$vuetify.PosterAction.uplodeBody");
+    },
+    uplodeConfirmButtonText() {
+      return this.$vuetify.lang.t(
+        "$vuetify.PosterAction.uplodeConfirmButtonText"
+      );
     }
   },
   methods: {
@@ -74,9 +89,9 @@ export default {
           if (res == "PosterUpdated") {
             this.$root.$emit("show-alert", {
               status: "success",
-              title: "تم الرفع",
-              body: "تم رفع الصورة بنجاح",
-              confirmButtonText: "حسناً"
+              title: this.uplodeTitle,
+              body: this.uplodeBody,
+              confirmButtonText: this.uplodeConfirmButtonText
             });
           }
           this.connectionState = false;

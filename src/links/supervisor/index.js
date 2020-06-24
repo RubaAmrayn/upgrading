@@ -29,5 +29,11 @@ export default [
     icon: "mdi-archive",
     class: "",
     link: "/trainerRequests/archive"
+  },
+  {
+    title: vuetify.framework.lang.t("$vuetify.Pages.About"),
+    icon: "mdi-account-group",
+    class: "",
+    link: "/About"
   }
 ];

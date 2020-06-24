@@ -29,7 +29,7 @@
             v-if="course.current_status == 11"
           >
             <span>
-              تم إعادة رفع الحقيبة و في انتظار تصرف المسؤول
+              {{ HoldReasons }}
             </span>
           </v-alert>
         </v-col>
@@ -47,6 +47,11 @@ export default {
       rejectionReasons: "",
       HoldReasons: ""
     };
+  },
+  computed: {
+    holdReasons() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseTrainer.HoldReasons");
+    }
   },
   mounted() {
     if (this.course.current_status == 7) {

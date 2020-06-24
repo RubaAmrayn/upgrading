@@ -2,13 +2,13 @@
   <v-dialog width="500" transition="scroll-y-transition" v-model="openDialog">
     <template v-slot:activator="{ on }">
       <v-btn depressed block color="secodary" v-on="on">
-        <span>تعليق الدورة</span>
+        <span>{{ holdCourse }}</span>
         <v-icon small class="mx-2">mdi-pause</v-icon>
       </v-btn>
     </template>
     <v-card flat :loading="connectionState" :disabled="connectionState">
       <v-card-title class="primary-title justify-center">
-        تعليق الدورة
+        {{ holdCourse }}
         <v-spacer></v-spacer>
         <v-btn icon @click="openDialog = false">
           <v-icon>mdi-close</v-icon>
@@ -19,10 +19,10 @@
           <v-textarea
             rows="3"
             auto-grow
-            label="اسباب التعليق"
+            :label="holdReason"
             outlined
             required
-            :rules="[v => !!v || 'يجب عليك القيام بكتابة اسباب التعليق']"
+            :rules="[v => !!v || holdReasonError]"
             prepend-inner-icon="mdi-text"
             v-model="rejection.reasons"
           ></v-textarea>
@@ -39,7 +39,7 @@
                 class="text-start"
                 block
               >
-                إرسال
+                {{ send }}
                 <v-icon class="px-1">mdi-pause</v-icon>
               </v-btn>
             </v-col>
@@ -63,6 +63,26 @@ export default {
       openDialog: false
     };
   },
+  computed: {
+    holdCourse() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.holdCourse");
+    },
+    holdReason() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.holdReason");
+    },
+    holdReasonError() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.holdReasonError");
+    },
+    send() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.send");
+    },
+    holdCourseTitle() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.holdCourseTitle");
+    },
+    holdCourseBody() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.holdCourseBody");
+    }
+  },
   methods: {
     HoldCourse() {
       if (this.$refs.form.validate()) {
@@ -76,8 +96,8 @@ export default {
             if (res == "Holded") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم التعليق ",
-                body: "تم تعليق الدورة"
+                title: this.holdCourseTitle,
+                body: this.holdCourseBody
               });
             }
           });

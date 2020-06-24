@@ -4,9 +4,7 @@
       <v-row justify="center">
         <v-col cols="4"></v-col>
         <v-col cols="4" style="text-align: center">
-          <span>
-            الحقيبة
-          </span>
+          <span>{{ briefcase }}</span>
         </v-col>
         <v-col cols="4" style="text-align: end">
           <v-btn icon @click="$root.$emit('close-briefcase')">
@@ -52,7 +50,11 @@ export default {
     "supervisor-actions": () => import("./briefcaseActions/supervisor/index")
   },
   computed: {
-    ...mapGetters(["getBriefcases", "getUser", "isTrainer", "isSuperVisor"])
+    ...mapGetters(["getBriefcases", "getUser", "isTrainer", "isSuperVisor"]),
+
+    briefcase() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseTrainer.briefcase");
+    }
   },
   created() {
     this.$store.dispatch("getOneCourseBriefcases", this.course.course_id);

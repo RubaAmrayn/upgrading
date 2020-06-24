@@ -159,8 +159,7 @@ export default {
             if (res) {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم انشاء حسابك بنجاح",
-                body: "رقم المستخدم الخاص فيك  " + res.user_id
+                title: "تم انشاء حسابك بنجاح"
               });
             }
           })

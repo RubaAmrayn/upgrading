@@ -2,7 +2,7 @@
   <v-dialog width="500" transition="scroll-y-transition" v-model="openDialog">
     <template v-slot:activator="{ on }">
       <v-btn depressed color="primary" v-on="on">
-        <span>الحقيبة</span>
+        <span>{{ briefcase }}</span>
         <v-icon small class="mx-2">mdi-briefcase-outline</v-icon>
       </v-btn>
     </template>
@@ -22,6 +22,11 @@ export default {
     return {
       openDialog: false
     };
+  },
+  computed: {
+    briefcase() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseTrainer.briefcase");
+    }
   },
   mounted() {
     this.$root.$on("close-briefcase", () => (this.openDialog = false));

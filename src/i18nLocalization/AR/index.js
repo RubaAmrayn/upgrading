@@ -12,6 +12,9 @@ const activeRequest = require("./trainerRequests/activeRequest");
 const RequestBtn = require("./profile/requestBtn");
 const InfoCourse = require("./courses/infoCourse");
 const PosterAction = require("./courses/posterActions");
+const CourseSuper = require("./courses/super");
+const BriefcaseTrainer = require("./briefcse/trainer");
+const BriefcaseSuper = require("./briefcse/super");
 export default {
   badge: "شارة",
   close: "إغلاق",
@@ -72,5 +75,8 @@ export default {
   activeRequest,
   RequestBtn,
   InfoCourse,
-  PosterAction
+  PosterAction,
+  CourseSuper,
+  BriefcaseTrainer,
+  BriefcaseSuper
 };

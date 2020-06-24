@@ -28,7 +28,7 @@
             :value="true"
             v-else-if="course.current_status == 11"
           >
-            <span v-text="'تم إعادة رفع الحقيبة'"></span>
+            <span :v-text="reuplodBriefcase"></span>
           </v-alert>
         </v-col>
       </v-row>
@@ -41,7 +41,7 @@
               dark
               depressed
               @click="showControlls = 'reject'"
-              >رفض</v-btn
+              >{{ reject }}</v-btn
             >
           </v-col>
           <v-col cols="4">
@@ -51,7 +51,7 @@
               dark
               depressed
               @click="showControlls = 'hold'"
-              >تعليق</v-btn
+              >{{ hold }}</v-btn
             >
           </v-col>
           <v-col cols="4">
@@ -63,7 +63,7 @@
               @click="Approve"
               :loading="connetionState"
             >
-              موافقه
+              {{ approve }}
             </v-btn>
           </v-col>
         </v-row>
@@ -101,6 +101,30 @@ export default {
       connetionState: false
     };
   },
+  computed: {
+    reuplodBriefcase() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.reuplodBriefcase");
+    },
+    reject() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.reject");
+    },
+    hold() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.hold");
+    },
+    approve() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.approve");
+    },
+    AproveBriefcaseTitle() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseSuper.AproveBriefcaseTitle"
+      );
+    },
+    AproveBriefcaseBody() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseSuper.AproveBriefcaseBody"
+      );
+    }
+  },
   methods: {
     Approve() {
       this.connetionState = true;
@@ -111,8 +135,8 @@ export default {
         if (res == "Approved") {
           this.$root.$emit("show-alert", {
             status: "success",
-            title: "تم القبول",
-            body: "تم قبول الحقيبة بنجاح"
+            title: this.AproveBriefcaseTitle,
+            body: this.AproveBriefcaseBody
           });
         }
         this.connetionState = false;

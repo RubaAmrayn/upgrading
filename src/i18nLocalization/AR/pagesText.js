@@ -1,5 +1,5 @@
 module.exports = {
-  AppName: "إرتقاء",
+  AppName: "UPGRADING",
   Home: "الرئيسية",
   About: "من نحن",
   login: "تسجيل دخول",

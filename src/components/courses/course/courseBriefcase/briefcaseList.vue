@@ -42,7 +42,7 @@
   </v-list>
   <v-card flat v-else>
     <v-card-title class="primary-title justify-center">
-      لا يوجد حقيبة
+      {{ noBriefcase }}
     </v-card-title>
   </v-card>
 </template>
@@ -53,7 +53,39 @@ export default {
   name: "briefcase-list",
   props: ["course"],
   computed: {
-    ...mapGetters(["getBriefcases", "isTrainer", "getUser"])
+    ...mapGetters(["getBriefcases", "isTrainer", "getUser"]),
+
+    noBriefcase() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseTrainer.noBriefcase");
+    },
+    deleteBriefcaseTitle() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseTrainer.deleteBriefcaseTitle"
+      );
+    },
+    deleteBriefcaseBody() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseTrainer.deleteBriefcaseBody"
+      );
+    },
+    deleteConfirmText() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseTrainer.deleteConfirmText"
+      );
+    },
+    rejectText() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseTrainer.rejectText");
+    },
+    deleteSuccessTitle() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseTrainer.deleteSuccessTitle"
+      );
+    },
+    deleteSuccessBody() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseTrainer.deleteSuccessBody"
+      );
+    }
   },
   methods: {
     downloadAttchement(path, name) {
@@ -72,17 +104,17 @@ export default {
         let self = this;
         this.$root.$emit("show-alert", {
           status: "confirm",
-          title: "هل تريد الحذف؟",
-          body: "ترا انت الخسران",
-          confirmButtonText: "قم بالحذف",
-          rejectButtonText: "تراجع",
+          title: self.deleteBriefcaseTitle,
+          body: self.deleteBriefcaseBody,
+          confirmButtonText: self.deleteConfirmText,
+          rejectButtonText: self.rejectText,
           data: payload,
           action: "deleteOneBriefcase",
           onSuccess() {
             self.$root.$emit("show-alert", {
               status: "success",
-              title: "تم الحذف",
-              body: "صح انك خسران بس تم الحذف"
+              title: self.deleteSuccessTitle,
+              body: self.deleteSuccessBody
             });
           }
         });

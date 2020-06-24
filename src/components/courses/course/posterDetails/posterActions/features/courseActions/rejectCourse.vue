@@ -2,13 +2,13 @@
   <v-dialog width="500" transition="scroll-y-transition" v-model="openDialog">
     <template v-slot:activator="{ on }">
       <v-btn depressed block color="error" v-on="on">
-        <span>رفض الدورة</span>
+        <span>{{ rejectCourse }}</span>
         <v-icon small class="mx-2">mdi-cancel</v-icon>
       </v-btn>
     </template>
     <v-card flat :loading="connectionState" :disabled="connectionState">
       <v-card-title class="primary-title justify-center">
-        رفض الدورة
+        {{ rejectCourse }}
         <v-spacer></v-spacer>
         <v-btn icon @click="openDialog = false">
           <v-icon>mdi-close</v-icon>
@@ -19,10 +19,10 @@
           <v-textarea
             rows="3"
             auto-grow
-            label="اسباب الرفض"
+            :label="rejectReason"
             outlined
             required
-            :rules="[v => !!v || 'يجب عليك القيام بكتابة اسباب الرفض']"
+            :rules="[v => !!v || rejectReasonError]"
             prepend-inner-icon="mdi-text"
             v-model="rejection.reasons"
           ></v-textarea>
@@ -39,7 +39,7 @@
                 class="text-start"
                 block
               >
-                إرسال
+                {{ send }}
                 <v-icon class="px-1">mdi-cancel</v-icon>
               </v-btn>
             </v-col>
@@ -63,6 +63,26 @@ export default {
       openDialog: false
     };
   },
+  computed: {
+    rejectCourse() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.rejectCourse");
+    },
+    rejectReason() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.rejectReason");
+    },
+    rejectReasonError() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.rejectReasonError");
+    },
+    send() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.send");
+    },
+    rejectCourseTitle() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.rejectCourseTitle");
+    },
+    rejectCourseBody() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.rejectCourseBody");
+    }
+  },
   methods: {
     RejectCourse() {
       if (this.$refs.form.validate()) {
@@ -76,8 +96,8 @@ export default {
             if (res == "Rejected") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم الرفض ",
-                body: "تم رفض الدورة"
+                title: this.rejectCourseTitle,
+                body: this.rejectCourseBody
               });
             }
           });

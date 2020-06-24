@@ -11,7 +11,7 @@
     </template> -->
   <v-card flat>
     <v-card-title class="primary-title justify-center">
-      تعليق الحقيبة
+      {{ holdBriefcase }}
       <!-- <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-close</v-icon>
@@ -22,10 +22,10 @@
         <v-textarea
           rows="3"
           auto-grow
-          label="اسباب التعليق"
+          :label="holdReason"
           outlined
           required
-          :rules="[v => !!v || 'يجب عليك القيام بكتابة اسباب التعليق']"
+          :rules="[v => !!v || holdReasonError]"
           prepend-inner-icon="mdi-text"
           v-model="hold.reasons"
         ></v-textarea>
@@ -41,7 +41,7 @@
             class="text-start"
             block
           >
-            إرسال
+            {{ send }}
             <v-icon class="px-1">mdi-pause</v-icon>
           </v-btn>
         </v-col>
@@ -51,7 +51,7 @@
             @click="$root.$emit('show-controlls')"
             class="text-end"
             block
-            >تراجع</v-btn
+            >{{ back }}</v-btn
           >
         </v-col>
       </v-row>
@@ -72,6 +72,29 @@ export default {
       menu: false
     };
   },
+  computed: {
+    holdBriefcase() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.holdBriefcase");
+    },
+    holdReason() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.holdReason");
+    },
+    holdReasonError() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.holdReasonError");
+    },
+    send() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.send");
+    },
+    back() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.back");
+    },
+    holdBriefcaseTitle() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.holdBriefcaseTitle");
+    },
+    holdBriefcaseBody() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.holdBriefcaseBody");
+    }
+  },
   methods: {
     HoldBriefcase() {
       if (this.$refs.form.validate()) {
@@ -85,8 +108,8 @@ export default {
             if (res == "holded") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم التعليق ",
-                body: "تم تعليق الحقيبة"
+                title: this.holdBriefcaseTitle,
+                body: this.holdBriefcaseBody
               });
             }
           });

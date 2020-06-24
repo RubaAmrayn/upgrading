@@ -125,6 +125,8 @@ export default {
             this.connectionState = false;
             if (this.isSuperVisor || this.isTrainer) {
               this.$router.push("/courses/newCourses/pinding");
+            } else {
+              this.$router.push("/Home");
             }
           })
           .catch(() => {

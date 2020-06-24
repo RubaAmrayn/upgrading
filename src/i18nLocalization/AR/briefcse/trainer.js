@@ -1,0 +1,20 @@
+module.exports = {
+  briefcase: "الحقيبة",
+  uplodeBriefcase: "رفع حقيبة",
+  standardRead: "اقرأ معايير تقييم الحقيبة",
+  briefcaseTitle: "عنوان الحقيبة",
+  selectBriefcase: "اختر الحقيبة",
+  btnBriefcase: "رفع الحقيبة",
+  sizeBriefcase: "حجم الملف يجب ان يكون اقل من 20 ميقابايت",
+  uplodeTitle: "تم الرفع",
+  uplodeBody: "تم رفع الحقية بنجاح",
+  confirmText: "حسناً",
+  holdReasons: "تم إعادة رفع الحقيبة وفي انتظار تصرف المسؤول",
+  noBriefcase: "لا يوجد حقيبة",
+  deleteBriefcaseTitle: "هل تريد الحذف؟",
+  deleteBriefcaseBody: "هل أنت متأكد من حذف الحقيبة؟",
+  deleteConfirmText: "قم بالحذف",
+  rejectText: "تراجع",
+  deleteSuccessTitle: "تم الحذف",
+  deleteSuccessBody: "تم حذف الحقيبة بنجاح"
+};

@@ -1,7 +1,7 @@
 <template>
   <v-card flat :loading="connectionState" :disabled="connectionState">
     <v-card-title class="primary-title justify-center">
-      رفض الحقيبة
+      {{ rejectBriefcase }}
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-close</v-icon>
@@ -12,10 +12,10 @@
         <v-textarea
           rows="3"
           auto-grow
-          label="اسباب الرفض"
+          :label="rejectReason"
           outlined
           required
-          :rules="[v => !!v || 'يجب عليك القيام بكتابة اسباب الرفض']"
+          :rules="[v => !!v || rejectReasonError]"
           prepend-inner-icon="mdi-text"
           v-model="rejection.reasons"
         ></v-textarea>
@@ -31,7 +31,7 @@
             class="text-start"
             block
           >
-            إرسال
+            {{ send }}
             <v-icon class="px-1">mdi-cancel</v-icon>
           </v-btn>
         </v-col>
@@ -41,7 +41,7 @@
             @click="$root.$emit('show-controlls')"
             class="text-end"
             block
-            >تراجع</v-btn
+            >{{ back }}</v-btn
           >
         </v-col>
       </v-row>
@@ -62,6 +62,33 @@ export default {
       menu: false
     };
   },
+  computed: {
+    rejectBriefcase() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.rejectBriefcase");
+    },
+    rejectReason() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.rejectReason");
+    },
+    rejectReasonError() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.rejectReasonError");
+    },
+    send() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.send");
+    },
+    back() {
+      return this.$vuetify.lang.t("$vuetify.BriefcaseSuper.back");
+    },
+    rejectBriefcaseTitle() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseSuper.rejectBriefcaseTitle"
+      );
+    },
+    rejectBriefcaseBody() {
+      return this.$vuetify.lang.t(
+        "$vuetify.BriefcaseSuper.rejectBriefcaseBody"
+      );
+    }
+  },
   methods: {
     RejectBriefcase() {
       if (this.$refs.form.validate()) {
@@ -75,8 +102,8 @@ export default {
             if (res == "rejected") {
               this.$root.$emit("show-alert", {
                 status: "success",
-                title: "تم الرفض ",
-                body: "تم رفض الحقيبة"
+                title: this.rejectBriefcaseTitle,
+                body: this.rejectBriefcaseBody
               });
             }
           });

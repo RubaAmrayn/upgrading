@@ -7,7 +7,7 @@
     :loading="connectionState"
     @click="approveCourse"
   >
-    قبول الدورة
+    {{ approveCourses }}
     <v-icon class="px-1">mdi-check</v-icon>
   </v-btn>
 </template>
@@ -21,6 +21,17 @@ export default {
       connectionState: false
     };
   },
+  computed: {
+    approveCourses() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.approveCourses");
+    },
+    approveCourseTitle() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.approveCourseTitle");
+    },
+    approveCourseBody() {
+      return this.$vuetify.lang.t("$vuetify.CourseSuper.approveCourseBody");
+    }
+  },
   methods: {
     approveCourse() {
       this.connectionState = true;
@@ -31,8 +42,8 @@ export default {
         if (res == "Approved") {
           this.$root.$emit("show-alert", {
             status: "success",
-            title: "تم القبول",
-            body: "تم قبول الدورة بنجاح و في انتظار رفع الحقيبة"
+            title: this.approveCourseTitle,
+            body: this.approveCourseBody
           });
         }
       });

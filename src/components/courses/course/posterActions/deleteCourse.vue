@@ -1,6 +1,6 @@
 <template>
-  <v-btn dark icon @click="deleteCourse">
-    <v-icon>mdi-delete-outline</v-icon>
+  <v-btn icon @click="deleteCourse">
+    <v-icon>mdi-delete</v-icon>
   </v-btn>
 </template>
 
@@ -10,22 +10,22 @@ export default {
   props: ["course"],
   computed: {
     deleteTitle() {
-      return this.$vuetify.lang.t("$vuetify.newCourseForm.deleteTitle");
+      return this.$vuetify.lang.t("$vuetify.PosterAction.deleteTitle");
     },
     deleteBody() {
-      return this.$vuetify.lang.t("$vuetify.newCourseForm.deleteBody");
+      return this.$vuetify.lang.t("$vuetify.PosterAction.deleteBody");
     },
     deleteConfirm() {
-      return this.$vuetify.lang.t("$vuetify.newCourseForm.deleteConfirm");
+      return this.$vuetify.lang.t("$vuetify.PosterAction.deleteConfirm");
     },
     deleteReject() {
-      return this.$vuetify.lang.t("$vuetify.newCourseForm.deleteReject");
+      return this.$vuetify.lang.t("$vuetify.PosterAction.deleteReject");
     },
     titleSuccess() {
-      return this.$vuetify.lang.t("$vuetify.newCourseForm.titleSuccess");
+      return this.$vuetify.lang.t("$vuetify.PosterAction.titleSuccess");
     },
     bodySuccess() {
-      return this.$vuetify.lang.t("$vuetify.newCourseForm.bodySuccess");
+      return this.$vuetify.lang.t("$vuetify.PosterAction.bodySuccess");
     }
   },
   methods: {
@@ -33,17 +33,17 @@ export default {
       let self = this;
       this.$root.$emit("show-alert", {
         status: "confirm",
-        title: "تبيه",
-        body: "هل انت متأكد من حذف الدورة",
-        confirmButtonText: "موافق",
-        rejectButtonText: "الغاء",
+        title: self.deleteTitle,
+        body: self.deleteBody,
+        confirmButtonText: self.deleteConfirm,
+        rejectButtonText: self.deleteReject,
         data: self.course.course_id,
         action: "deleteOneCourse",
         onSuccess() {
           self.$root.$emit("show-alert", {
             status: "success",
-            title: "تم الحذف",
-            body: "تم حذف الدورة التدريبة بنجاح "
+            title: self.titleSuccess,
+            body: self.bodySuccess
           });
         }
       });

@@ -6,7 +6,7 @@
         class="py-0 px-3 mx-1 font-weight-bold"
       >
         <v-icon class="mx-2">mdi-card-text-outline</v-icon>
-        الوصف
+        {{ description }}
       </v-subheader>
       <v-col cols="12" class="py-0 makeScroll">
         <p
@@ -27,7 +27,7 @@
           <v-icon class="mx-2" style="transform: rotate(180deg);"
             >mdi-format-list-checkbox</v-icon
           >
-          المتطلبات
+          {{ requirement }}
         </v-subheader>
         <v-list class="pt-0 mt-0">
           <v-list-item
@@ -51,7 +51,16 @@
 <script>
 export default {
   name: "poster-details-body",
-  props: ["course"]
+  props: ["course"],
+
+  computed: {
+    description() {
+      return this.$vuetify.lang.t("$vuetify.InfoCourse.description");
+    },
+    requirement() {
+      return this.$vuetify.lang.t("$vuetify.InfoCourse.requirement");
+    }
+  }
 };
 </script>
 
