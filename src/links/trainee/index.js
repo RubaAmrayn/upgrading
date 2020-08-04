@@ -1,10 +1,16 @@
 import vuetify from "@/plugins/vuetify";
 export default [
   {
-    title: vuetify.framework.lang.t("$vuetify.Pages.newCourseForm"),
-    icon: "mdi-view-grid-plus",
+    title: vuetify.framework.lang.t("$vuetify.Pages.About"),
+    icon: "mdi-account-group",
     class: "",
-    link: "/courses/newCourses/add"
+    link: "/About"
+  },
+  {
+    title: vuetify.framework.lang.t("$vuetify.Pages.reviewCourses"),
+    icon: "mdi-view-list",
+    class: "",
+    link: "/reviewCourse"
   },
   {
     title: vuetify.framework.lang.t("$vuetify.Pages.pindingCourseRequests"),
@@ -23,11 +29,5 @@ export default [
     icon: "mdi-archive",
     class: "",
     link: "/archiveCourse"
-  },
-  {
-    title: vuetify.framework.lang.t("$vuetify.Pages.About"),
-    icon: "mdi-account-group",
-    class: "",
-    link: "/About"
   }
 ];

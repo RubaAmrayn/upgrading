@@ -5,7 +5,9 @@ import profile from "./profile";
 import requestTrainer from "./requestTrainer";
 import newCourses from "./newCourses";
 import VuexPersist from "vuex-persist";
-
+import reviewCourse from "./reviewCourse";
+import myCourse from "./myCourse";
+import myArchiveCourse from "./myArchiveCourse";
 const VuexPersistStorage = new VuexPersist({
   key: "vuex-session",
   storage: window.sessionStorage
@@ -46,6 +48,9 @@ export default new Vuex.Store({
     users,
     profile,
     requestTrainer,
-    newCourses
+    newCourses,
+    reviewCourse,
+    myCourse,
+    myArchiveCourse
   }
 });

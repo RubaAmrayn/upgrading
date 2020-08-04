@@ -2,7 +2,6 @@
   <div>
     <poster-image :course="course"></poster-image>
     <edit-course-form method="update" :course="course"></edit-course-form>
-
     <delete-course :course="course"></delete-course>
   </div>
 </template>

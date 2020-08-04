@@ -6,7 +6,6 @@ export default {
   },
   mutations: {
     PUSH_NEW_COURSE(state, payload) {
-      state.newCourses = [];
       state.newCourses = payload;
     },
     PUSH_BRIEFCASE(state, payload) {
@@ -245,7 +244,6 @@ export default {
     AproveBriefcase({ rootState, dispatch }, payload) {
       return new Promise((resolve, reject) => {
         let user_id = rootState.users.user.user_id;
-
         let data = {
           user_id,
           course_id: payload.course_id

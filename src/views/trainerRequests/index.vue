@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "request-trainee"
+  name: "request-trainer"
 };
 </script>
 

@@ -13,5 +13,6 @@ module.exports = {
   pindingCourseRequests: "طلبات تحت الإجراء",
   addNewCourse: "رفع دورة",
   myCourses: "دوراتي",
-  myArchiveCourses: "دوراتي السابقة"
+  myArchiveCourses: "دوراتي السابقة",
+  reviewCourses: "استعراض الدورات"
 };

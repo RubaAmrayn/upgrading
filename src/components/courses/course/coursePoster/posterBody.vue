@@ -8,6 +8,7 @@
       top
       right
       class="no-active"
+      v-if="course.current_status != 9"
     >
       <span>{{ course.ar_status_name }}</span>
       <v-icon small class="mx-1"

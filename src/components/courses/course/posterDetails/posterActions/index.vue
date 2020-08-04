@@ -21,7 +21,7 @@ export default {
     "trainer-actions": () =>
       import("@/components/courses/course/posterDetails/posterActions/trainer"),
     "trainee-actions": () =>
-      import("@/components/courses/course/posterDetails/posterActions/trainer")
+      import("@/components/courses/course/posterDetails/posterActions/trainee")
   },
   props: ["course"],
   computed: {

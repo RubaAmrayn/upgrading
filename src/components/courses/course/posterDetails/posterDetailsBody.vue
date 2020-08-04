@@ -20,29 +20,44 @@
     <v-divider></v-divider>
     <v-row>
       <v-col cols="12" class="py-0 px-0">
-        <v-subheader
-          style="font-size: 1.4em;"
-          class="py-0 px-3 mx-1 font-weight-bold"
-        >
-          <v-icon class="mx-2" style="transform: rotate(180deg);"
-            >mdi-format-list-checkbox</v-icon
+        <template v-if="course.course_requirements.length > 0">
+          <v-subheader
+            style="font-size: 1.4em;"
+            class="py-0 px-3 mx-1 font-weight-bold"
           >
-          {{ requirement }}
-        </v-subheader>
-        <v-list class="pt-0 mt-0">
-          <v-list-item
-            v-for="({ requirement_name }, i) in course.course_requirements"
-            :key="i"
-            class=""
+            <v-icon class="mx-2" style="transform: rotate(180deg);"
+              >mdi-format-list-checkbox</v-icon
+            >
+            {{ requirement }}
+          </v-subheader>
+          <v-list class="pt-0 mt-0">
+            <v-list-item
+              v-for="({ requirement_name }, i) in course.course_requirements"
+              :key="i"
+              class=""
+            >
+              <v-list-item-icon class="mx-2">
+                <v-icon>mdi-checkbox-marked-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title
+                  v-text="requirement_name"
+                ></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </template>
+        <template v-else>
+          <v-subheader
+            style="font-size: 1.4em;"
+            class="py-0 px-3 mx-1 font-weight-bold"
           >
-            <v-list-item-icon class="mx-2">
-              <v-icon>mdi-checkbox-marked-outline</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="requirement_name"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
+            <v-icon class="mx-2" style="transform: rotate(180deg);"
+              >mdi-format-list-checkbox</v-icon
+            >
+            لا يوجد متطلبات
+          </v-subheader>
+        </template>
       </v-col>
     </v-row>
   </v-card-text>

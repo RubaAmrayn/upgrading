@@ -353,7 +353,7 @@ FROM
         LEFT JOIN
     users u ON u.user_id = c.users_user_id
 WHERE
-    u.user_id = ? and c.current_status in (1, 2, 3, 4, 7, 8, 9, 10, 11)
+    u.user_id = ? and c.current_status in (1, 2, 4, 7, 8, 10, 11)
 ORDER BY c.course_id DESC;
     `,
     [req.params.user_id],
@@ -597,7 +597,7 @@ FROM
         LEFT JOIN
     users u ON u.user_id = c.users_user_id
 WHERE
-    c.current_status in (1, 2, 3, 4, 7, 8, 9, 10, 11)
+    c.current_status in (1, 2, 3, 4, 7, 8, 10, 11)
 ORDER BY c.course_id DESC;
     `,
     [],

@@ -87,6 +87,31 @@ const routes = [
     meta: {
       title: vuetify.framework.lang.t("$vuetify.Pages.pindingCourseRequests")
     }
+  },
+  {
+    path: "/reviewCourse",
+    name: "review-course",
+    component: () => import("@/views/reviewCourse.vue"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.reviewCourses")
+    }
+  },
+
+  {
+    path: "/myCourse",
+    name: "my-course",
+    component: () => import("@/views/myCourse.vue"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.myCourses")
+    }
+  },
+  {
+    path: "/archiveCourse",
+    name: "archive-course",
+    component: () => import("@/views/archiveCourse.vue"),
+    meta: {
+      title: vuetify.framework.lang.t("$vuetify.Pages.myArchiveCourses")
+    }
   }
 ];
 
